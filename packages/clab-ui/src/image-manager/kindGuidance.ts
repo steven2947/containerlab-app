@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import type { KindImageGuidance, KindImagePreparation } from "./types";
 
 const KINDS_DOCS_URL = "https://containerlab.dev/manual/kinds/";
@@ -69,7 +70,7 @@ const GUIDANCE_BY_KIND: Record<string, GuidanceInput> = {
     pullable: true
   },
   bridge: {
-    title: "Linux Bridge",
+    title: uiText("Linux Bridge"),
     docsSlug: "bridge",
     recommendedImages: [],
     repositoryHints: [],
@@ -78,7 +79,7 @@ const GUIDANCE_BY_KIND: Record<string, GuidanceInput> = {
     pullable: false
   },
   "ovs-bridge": {
-    title: "Open vSwitch Bridge",
+    title: uiText("Open vSwitch Bridge"),
     docsSlug: "ovs-bridge",
     recommendedImages: [],
     repositoryHints: [],
@@ -87,7 +88,7 @@ const GUIDANCE_BY_KIND: Record<string, GuidanceInput> = {
     pullable: false
   },
   "ext-container": {
-    title: "External Container",
+    title: uiText("External Container"),
     docsSlug: "ext-container",
     recommendedImages: [],
     repositoryHints: [],
@@ -96,7 +97,7 @@ const GUIDANCE_BY_KIND: Record<string, GuidanceInput> = {
     pullable: false
   },
   host: {
-    title: "Host",
+    title: uiText("Host"),
     docsSlug: "host",
     recommendedImages: [],
     repositoryHints: [],
@@ -471,7 +472,7 @@ const GUIDANCE_BY_KIND: Record<string, GuidanceInput> = {
     pullable: false
   },
   generic_vm: {
-    title: "Generic VM",
+    title: uiText("Generic VM"),
     docsSlug: "generic_vm",
     recommendedImages: ["vrnetlab/generic_vm:<version>"],
     repositoryHints: ["vrnetlab/generic_vm", "vr-generic", "generic_vm"],
@@ -523,7 +524,7 @@ function inferPreparation(guidance: GuidanceInput): KindImagePreparation {
   if (guidance.imageRequired === false) {
     return {
       mode: "none",
-      label: "No image",
+      label: uiText("No image"),
       details: "Containerlab does not pull or run a separate NOS image for this kind."
     };
   }
@@ -543,7 +544,7 @@ function inferPreparation(guidance: GuidanceInput): KindImagePreparation {
   if (guidance.pullable) {
     return {
       mode: "direct-pull",
-      label: "Registry pull",
+      label: uiText("Registry pull"),
       details: "This image can be pulled directly from a registry. Prefer a fixed tag or digest for repeatable labs."
     };
   }
@@ -551,14 +552,14 @@ function inferPreparation(guidance: GuidanceInput): KindImagePreparation {
   if (recommendedImages.length > 0) {
     return {
       mode: "vendor-import",
-      label: "Vendor image",
+      label: uiText("Vendor image"),
       details: "Download the vendor-provided image, import or load it into the runtime, then use the shown image name or your own pinned tag."
     };
   }
 
   return {
     mode: "docs",
-    label: "Check docs",
+    label: uiText("Check docs"),
     details: "Use the Containerlab kind documentation to identify the supported image source and naming pattern."
   };
 }

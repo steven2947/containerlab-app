@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Kind tab for node editor: kind-specific config keys, with fields built from the schema.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -117,8 +118,8 @@ function booleanOptions(control: Extract<KindConfigScalarControl, { type: "boole
   }
   return [
     { value: "", label: fallback },
-    { value: "true", label: "Enabled" },
-    { value: "false", label: "Disabled" }
+    { value: "true", label: uiText("Enabled") },
+    { value: "false", label: uiText("Disabled") }
   ];
 }
 
@@ -167,7 +168,7 @@ const ScalarInput: React.FC<ScalarInputProps> = ({
         value={text}
         onChange={change}
         options={withCurrentOption(
-          required === true ? options : [{ value: "", label: "Not set" }, ...options],
+          required === true ? options : [{ value: "", label: uiText("Not set") }, ...options],
           text
         )}
         helperText={helperText}
@@ -363,7 +364,7 @@ export const KindConfigTab: React.FC<TabProps> = (props) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       {scalars.length > 0 && (
-        <PanelSection title={kind !== undefined ? `${kind} Settings` : "Kind-Specific Settings"}>
+        <PanelSection title={kind !== undefined ? `${kind} Settings` : uiText("Kind-Specific Settings")}>
           {scalars.map(({ field, control }) => (
             <ScalarInput
               key={field.key}

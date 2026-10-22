@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import type { EndpointHealthMetrics } from "./types";
 export type { EndpointHealthMetrics } from "./types";
 export function formatEndpointHealthPercent(value: number | undefined): string {
@@ -34,7 +35,7 @@ export function formatEndpointHealthUsedTotal(
 
 export function formatEndpointHealthTooltip(metrics: EndpointHealthMetrics): string {
   const { cpu, mem, disk } = metrics.metrics;
-  const cpuDetail = cpu?.numCPU ? `${cpu.numCPU} cores` : "cores n/a";
+  const cpuDetail = cpu?.numCPU ? `${cpu.numCPU} cores` : uiText("cores n/a");
   const memoryDetail = formatEndpointHealthUsedTotal(mem?.usedMem, mem?.totalMem);
   const diskDetail = `${formatEndpointHealthUsedTotal(disk?.usedDisk, disk?.totalDisk)}${
     disk?.path ? ` on ${disk.path}` : ""

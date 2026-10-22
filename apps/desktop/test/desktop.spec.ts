@@ -50,6 +50,8 @@ test.beforeAll(async () => {
   origin = `http://127.0.0.1:${port}`;
   app = await launchDesktop(userData, port);
   mainWindow = await app.firstWindow();
+  await mainWindow.evaluate(() => localStorage.setItem("clab-ui-language", "en"));
+  await mainWindow.reload();
   browserErrors = watchBrowserErrors(mainWindow);
 });
 

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -32,11 +33,11 @@ export function RotationActions({
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0, gap: 0.25 }}>
-        <Tooltip title={copied ? "Rotation copied" : "Copy rotation"}>
+        <Tooltip title={copied ? uiText("Rotation copied") : uiText("Copy rotation")}>
           <span>
             <IconButton
               size="small"
-              aria-label="Copy rotation"
+              aria-label={uiText("Copy rotation")}
               disabled={angle === null}
               onClick={() => {
                 useRotationStore.getState().copyAngle(angle ?? 0);
@@ -54,14 +55,14 @@ export function RotationActions({
             <Tooltip
               title={
                 copiedAngle === null
-                  ? "Copy an object's rotation first"
-                  : `Apply copied rotation (${formatRotation(copiedAngle)}°)`
+                  ? uiText("Copy an object's rotation first")
+                  : uiText("Apply copied rotation ({0}°)", { "0": (formatRotation(copiedAngle)) })
               }
             >
               <span>
                 <IconButton
                   size="small"
-                  aria-label="Apply copied rotation"
+                  aria-label={uiText("Apply copied rotation")}
                   disabled={!editable || copiedAngle === null}
                   onClick={() => {
                     if (copiedAngle !== null) {
@@ -74,11 +75,11 @@ export function RotationActions({
               </span>
             </Tooltip>
             <Box sx={{ width: 4 }} />
-            <Tooltip title="Rotate 90° clockwise">
+            <Tooltip title={uiText("Rotate 90° clockwise")}>
               <span>
                 <IconButton
                   size="small"
-                  aria-label="Rotate 90° clockwise"
+                  aria-label={uiText("Rotate 90° clockwise")}
                   disabled={!editable}
                   onClick={() => apply((angle ?? 0) + 90)}
                 >
@@ -86,11 +87,11 @@ export function RotationActions({
                 </IconButton>
               </span>
             </Tooltip>
-            <Tooltip title="Reset rotation">
+            <Tooltip title={uiText("Reset rotation")}>
               <span>
                 <IconButton
                   size="small"
-                  aria-label="Reset rotation"
+                  aria-label={uiText("Reset rotation")}
                   disabled={!editable}
                   onClick={() => apply(0)}
                 >
@@ -111,7 +112,7 @@ export function RotationActions({
           clipPath: "inset(50%)"
         }}
       >
-        {copied ? "Rotation copied" : ""}
+        {copied ? uiText("Rotation copied") : ""}
       </Box>
     </>
   );

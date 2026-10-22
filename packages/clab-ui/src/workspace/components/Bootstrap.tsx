@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useCallback, useEffect, useState, type FormEvent } from "react";
 import { ENDPOINT_EXPORT_FILENAME, DEFAULT_ENDPOINT_SESSION_DURATION, isValidEndpointSessionDuration } from "../endpoints";
 import type { EndpointImportResult, EndpointSessionDuration } from "../types";
@@ -132,9 +133,9 @@ function downloadEndpointExport(content: string): void {
 
 function formatEndpointImportResult(result: EndpointImportResult): string {
   if (result.total === 0) {
-    return "No endpoint profiles were found in the import file.";
+    return uiText("No endpoint profiles were found in the import file.");
   }
-  return `Imported ${result.total} endpoint ${result.total === 1 ? "profile" : "profiles"}.`;
+  return uiText("Imported {0} endpoint {1}.", { "0": (result.total), "1": (result.total === 1 ? "profile" : "profiles") });
 }
 
 export function BootstrapLoginPage(props: {
@@ -240,12 +241,10 @@ export function BootstrapLoginPage(props: {
   return (
     <div className="clab-login">
       <style>{LOGIN_CSS}</style>
-      <section className="clab-login-card" aria-label="Containerlab endpoint login">
+      <section className="clab-login-card" aria-label={uiText("Containerlab endpoint login")}>
         {logoUrl !== undefined ? <img className="clab-login-logo" src={logoUrl} alt="" aria-hidden="true" /> : null}
-        <h1 className="clab-login-title">Add Endpoint</h1>
-        <p className="clab-login-copy">
-          Connect one or more `clab-api-server` endpoints to manage labs in the browser.
-        </p>
+        <h1 className="clab-login-title">{uiText("Add Endpoint")}</h1>
+        <p className="clab-login-copy">{uiText("Connect one or more `clab-api-server` endpoints to manage labs in the browser.")}</p>
 
         {visibleError ? (
           <div role="alert" className="clab-login-message">
@@ -260,9 +259,9 @@ export function BootstrapLoginPage(props: {
 
         <form className="clab-login-form" onSubmit={handleSubmit}>
           <label className="clab-login-field">
-            <span className="clab-login-label">API Endpoint</span>
+            <span className="clab-login-label">{uiText("API Endpoint")}</span>
             <input
-              aria-label="API Endpoint"
+              aria-label={uiText("API Endpoint")}
               className="clab-login-input"
               placeholder="https://localhost:8090"
               value={url}
@@ -270,29 +269,29 @@ export function BootstrapLoginPage(props: {
             />
           </label>
           <label className="clab-login-field">
-            <span className="clab-login-label">Label</span>
+            <span className="clab-login-label">{uiText("Label")}</span>
             <input
-              aria-label="Label"
+              aria-label={uiText("Label")}
               className="clab-login-input"
-              placeholder="Optional friendly name"
+              placeholder={uiText("Optional friendly name")}
               value={label}
               onChange={(event) => setLabel(event.target.value)}
             />
           </label>
           <div className="clab-login-row">
             <label className="clab-login-field">
-              <span className="clab-login-label">Username</span>
+              <span className="clab-login-label">{uiText("Username")}</span>
               <input
-                aria-label="Username"
+                aria-label={uiText("Username")}
                 className="clab-login-input"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
               />
             </label>
             <label className="clab-login-field">
-              <span className="clab-login-label">Password</span>
+              <span className="clab-login-label">{uiText("Password")}</span>
               <input
-                aria-label="Password"
+                aria-label={uiText("Password")}
                 className="clab-login-input"
                 type="password"
                 value={password}
@@ -301,9 +300,9 @@ export function BootstrapLoginPage(props: {
             </label>
           </div>
           <label className="clab-login-field">
-            <span className="clab-login-label">Keep me signed in</span>
+            <span className="clab-login-label">{uiText("Keep me signed in")}</span>
             <input
-              aria-label="Keep me signed in"
+              aria-label={uiText("Keep me signed in")}
               aria-invalid={sessionDurationInvalid}
               className="clab-login-input"
               placeholder="24h"
@@ -312,17 +311,17 @@ export function BootstrapLoginPage(props: {
             />
             <span className="clab-login-helper">
               {sessionDurationValid
-                ? "Examples: 24h, 36h, 7d, 1h30m"
-                : "Use values like 24h, 36h, 7d, or 1h30m"}
+                ? uiText("Examples: 24h, 36h, 7d, 1h30m")
+                : uiText("Use values like 24h, 36h, 7d, or 1h30m")}
             </span>
           </label>
           <button className="clab-login-button" disabled={submitDisabled} type="submit">
-            {busy ? "Adding..." : "Add Endpoint"}
+            {busy ? uiText("Adding...") : uiText("Add Endpoint")}
           </button>
         </form>
 
         <div className="clab-login-footer">
-          <span>Endpoint profiles</span>
+          <span>{uiText("Endpoint profiles")}</span>
           <button
             className="clab-login-link"
             data-testid="standalone-endpoints-import"
@@ -332,16 +331,14 @@ export function BootstrapLoginPage(props: {
             }}
             type="button"
           >
-            {importBusy ? "Importing..." : "Import"}
+            {importBusy ? uiText("Importing...") : uiText("Import")}
           </button>
           <button
             className="clab-login-link"
             data-testid="standalone-endpoints-export"
             onClick={handleExportEndpoints}
             type="button"
-          >
-            Export
-          </button>
+          >{uiText("Export")}</button>
         </div>
       </section>
     </div>

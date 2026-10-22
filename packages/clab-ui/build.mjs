@@ -36,6 +36,7 @@ const copiedCssAssets = [
 ];
 
 const entryPoints = {
+  "i18n/index": "src/i18n/index.ts",
   "settings/index": "src/settings/index.ts",
   "settings/schema": "src/settings/schema.ts",
   "workspace/yaml": "src/workspace/yaml.ts",

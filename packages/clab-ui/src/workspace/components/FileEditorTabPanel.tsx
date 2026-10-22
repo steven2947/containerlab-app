@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { useWorkspaceHost } from "../WorkspaceHost";
 import * as monaco from "monaco-editor";
 import { useCallback, useEffect, useRef } from "react";
@@ -260,13 +261,13 @@ export function FileEditorTabPanel({ onClose, tab }: FileEditorTabPanelProps) {
       useLabTabsStore
         .getState()
         .markFileTabSaved(currentTab.id, currentTab.content);
-      runtimeUiActions.notify(`Saved ${currentTab.path}`, "success");
+      runtimeUiActions.notify(uiText("Saved {0}", { "0": (currentTab.path) }), "success");
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       useLabTabsStore.getState().setFileTabSaving(currentTab.id, false);
       useLabTabsStore.getState().setFileTabError(currentTab.id, message);
       runtimeUiActions.notify(
-        `Failed to save ${currentTab.path}: ${message}`,
+        uiText("Failed to save {0}: {1}", { "0": (currentTab.path), "1": (message) }),
         "error",
       );
     }
@@ -412,13 +413,10 @@ export function FileEditorTabPanel({ onClose, tab }: FileEditorTabPanelProps) {
             variant="caption"
             noWrap
             sx={{ minWidth: 0, color: "text.secondary", fontFamily: MONO_FONT_FAMILY }}
-          >
-            Lab workspace/{tab.path}
+          >{uiText("Lab workspace/")}{tab.path}
           </Typography>
         </Box>
-        <Button size="small" variant="text" onClick={handleClose}>
-          Close
-        </Button>
+        <Button size="small" variant="text" onClick={handleClose}>{uiText("Close")}</Button>
         <Button
           size="small"
           variant="contained"
@@ -429,7 +427,7 @@ export function FileEditorTabPanel({ onClose, tab }: FileEditorTabPanelProps) {
           }}
           sx={{ minWidth: 64 }}
         >
-          {tab.saving ? "Saving..." : "Save"}
+          {tab.saving ? uiText("Saving...") : uiText("Save")}
         </Button>
       </Box>
       {tab.error ? (

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /**
  * What a capture picker says about the current pick: the submit label and,
  * when the pick cannot open the way the user asked, a short hint.
@@ -28,10 +29,10 @@ export function captureGroupLabel(
 function splitHint(picked: readonly CaptureInterfaceOption[], sessionCount: number): string {
   const hostSide = picked.filter((option) => option.hostNetns).map((option) => option.label);
   if (hostSide.length === 0) {
-    return `These interfaces belong to different containers, so they open in ${sessionCount} Wiresharks.`;
+    return uiText("These interfaces belong to different containers, so they open in {0} Wiresharks.", { "0": (sessionCount) });
   }
   const subject = hostSide.length === 1 ? `${hostSide[0]} is` : `${hostSide.join(", ")} are`;
-  return `${subject} only reachable from the host side, so ${sessionCount} Wiresharks open.`;
+  return uiText("{0} only reachable from the host side, so {1} Wiresharks open.", { "0": (subject), "1": (sessionCount) });
 }
 
 export function summarizeCapture(
@@ -44,7 +45,7 @@ export function summarizeCapture(
   if (picked.length === 0) return { submitLabel: "Select interfaces to capture" };
   if (picked.length === 1) return { submitLabel: `Capture ${captureOptionName(picked[0])}` };
   if (groups.length <= 1) return { submitLabel: `Capture ${picked.length} interfaces` };
-  const submitLabel = `Open ${groups.length} Wiresharks`;
+  const submitLabel = uiText("Open {0} Wiresharks", { "0": (groups.length) });
   return separate ? { submitLabel } : { submitLabel, hint: splitHint(picked, groups.length) };
 }
 
@@ -63,7 +64,7 @@ export function summarizeLinkCapture(
   if (groups.length === 1) {
     return { submitLabel: "Capture both ends", hint: "Each packet shows up once per end." };
   }
-  const submitLabel = `Open ${groups.length} Wiresharks`;
+  const submitLabel = uiText("Open {0} Wiresharks", { "0": (groups.length) });
   if (picked.every((option) => option.hostNetns)) return { submitLabel };
   return {
     submitLabel,

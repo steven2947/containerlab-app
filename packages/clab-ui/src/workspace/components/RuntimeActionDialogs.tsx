@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { normalizeNetemFields } from "../netem";
 import { useWorkspaceHost, useWorkspaceLabs } from "../WorkspaceHost";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -274,24 +275,20 @@ function InspectDialogView(props: {
       <DialogContent dividers>
         <Stack spacing={2}>
           <TextField
-            label="Filter"
+            label={uiText("Filter")}
             value={props.inspectFilter}
             onChange={(event) => props.setInspectFilter(event.target.value)}
             size="small"
             fullWidth
           />
           {props.inspectLoading ? (
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Loading inspect data…
-            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Loading inspect data…")}</Typography>
           ) : null}
           {props.inspectError ? <Alert severity="error">{props.inspectError}</Alert> : null}
           {!props.inspectLoading &&
           !props.inspectError &&
           props.filteredInspectGroups.length === 0 ? (
-            <Typography variant="body2" sx={EMPTY_STATE_SX}>
-              No matching running lab data.
-            </Typography>
+            <Typography variant="body2" sx={EMPTY_STATE_SX}>{uiText("No matching running lab data.")}</Typography>
           ) : null}
           {props.filteredInspectGroups.map((group) => (
             <Box key={group.labName}>
@@ -302,13 +299,13 @@ function InspectDialogView(props: {
                 <Table size="small">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Kind</TableCell>
-                      <TableCell>State</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell>{uiText("Name")}</TableCell>
+                      <TableCell>{uiText("Kind")}</TableCell>
+                      <TableCell>{uiText("State")}</TableCell>
+                      <TableCell>{uiText("Status")}</TableCell>
                       <TableCell>IPv4</TableCell>
                       <TableCell>IPv6</TableCell>
-                      <TableCell>Owner</TableCell>
+                      <TableCell>{uiText("Owner")}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -338,7 +335,7 @@ function InspectDialogView(props: {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={props.closeInspect}>Close</Button>
+        <Button variant="text" onClick={props.closeInspect}>{uiText("Close")}</Button>
       </DialogActions>
     </Dialog>
   );
@@ -363,7 +360,7 @@ function LogsDialogView(props: {
   visibleLogLines: number;
 }) {
   const logLineSummary = props.logsFilter.trim()
-    ? `Showing ${props.visibleLogLines}/${props.totalLogLines} lines`
+    ? uiText("Showing {0}/{1} lines", { "0": (props.visibleLogLines), "1": (props.totalLogLines) })
     : `${props.totalLogLines} lines`;
 
   return (
@@ -373,14 +370,14 @@ function LogsDialogView(props: {
         <Stack spacing={2}>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={1} sx={{ pt: 1, alignItems: { sm: "center" } }}>
             <TextField
-              label="Tail"
+              label={uiText("Tail")}
               value={props.logsTail}
               onChange={(event) => props.setLogsTail(event.target.value)}
               size="small"
               sx={{ maxWidth: 200 }}
             />
             <TextField
-              label="Find"
+              label={uiText("Find")}
               value={props.logsFilter}
               onChange={(event) => props.setLogsFilter(event.target.value)}
               size="small"
@@ -390,16 +387,12 @@ function LogsDialogView(props: {
               variant="outlined"
               onClick={() => void props.fetchLogs(props.logsTail, true)}
               disabled={props.logsLoading}
-            >
-              Refresh
-            </Button>
+            >{uiText("Refresh")}</Button>
             <Button
               variant="outlined"
               onClick={props.exportLogs}
               disabled={!props.filteredLogsContent}
-            >
-              Export
-            </Button>
+            >{uiText("Export")}</Button>
             <FormControlLabel
               sx={{ ml: { sm: 0.5 } }}
               control={
@@ -409,13 +402,11 @@ function LogsDialogView(props: {
                   onChange={(event) => props.setLogsFollow(event.target.checked)}
                 />
               }
-              label="Follow"
+              label={uiText("Follow")}
             />
           </Stack>
           {props.logsLoading ? (
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Loading logs…
-            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Loading logs…")}</Typography>
           ) : null}
           {props.logsError ? <Alert severity="error">{props.logsError}</Alert> : null}
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -444,13 +435,13 @@ function LogsDialogView(props: {
               }}
             >
               {props.filteredLogsContent ||
-                (props.logsFilter.trim() ? "No matching log lines." : "No logs returned.")}
+                (props.logsFilter.trim() ? uiText("No matching log lines.") : uiText("No logs returned."))}
             </Typography>
           </Paper>
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={props.closeLogs}>Close</Button>
+        <Button variant="text" onClick={props.closeLogs}>{uiText("Close")}</Button>
       </DialogActions>
     </Dialog>
   );
@@ -470,27 +461,25 @@ function VersionDialogView(props: {
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>Version Information</DialogTitle>
+      <DialogTitle>{uiText("Version Information")}</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
           {props.versionLoading ? (
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Loading version details…
-            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Loading version details…")}</Typography>
           ) : null}
           {props.versionError ? <Alert severity="error">{props.versionError}</Alert> : null}
           {props.versionInfo || props.versionCheck ? (
             <VersionList
               rows={[
-                ...(props.versionInfo ? [{ label: "Containerlab version", value: props.versionInfo }] : []),
-                ...(props.versionCheck ? [{ label: "Update check", value: props.versionCheck, mono: false }] : [])
+                ...(props.versionInfo ? [{ label: uiText("Containerlab version"), value: props.versionInfo }] : []),
+                ...(props.versionCheck ? [{ label: uiText("Update check"), value: props.versionCheck, mono: false }] : [])
               ]}
             />
           ) : null}
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={runtimeUiActions.closeVersion}>Close</Button>
+        <Button variant="text" onClick={runtimeUiActions.closeVersion}>{uiText("Close")}</Button>
       </DialogActions>
     </Dialog>
   );
@@ -517,14 +506,11 @@ function NetemDialogView(props: {
       <DialogContent dividers>
         <Stack spacing={2}>
           {props.netemLoading ? (
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Loading impairment state…
-            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Loading impairment state…")}</Typography>
           ) : null}
           {props.netemError ? <Alert severity="error">{props.netemError}</Alert> : null}
           {props.netemContainerName ? (
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Container:{" "}
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Container:")}{" "}
               <Box component="span" sx={{ color: "text.primary", fontFamily: MONO_FONT_FAMILY, fontSize: 12 }}>
                 {props.netemContainerName}
               </Box>
@@ -534,13 +520,13 @@ function NetemDialogView(props: {
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell>Interface</TableCell>
-                  <TableCell>Delay</TableCell>
-                  <TableCell>Jitter</TableCell>
-                  <TableCell>Loss</TableCell>
-                  <TableCell>Rate</TableCell>
-                  <TableCell>Corruption</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell>{uiText("Interface")}</TableCell>
+                  <TableCell>{uiText("Delay")}</TableCell>
+                  <TableCell>{uiText("Jitter")}</TableCell>
+                  <TableCell>{uiText("Loss")}</TableCell>
+                  <TableCell>{uiText("Rate")}</TableCell>
+                  <TableCell>{uiText("Corruption")}</TableCell>
+                  <TableCell align="right">{uiText("Actions")}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -586,17 +572,13 @@ function NetemDialogView(props: {
                             variant="outlined"
                             onClick={() => void props.applyNetem(row.name)}
                             disabled={props.netemPendingInterface === row.name}
-                          >
-                            Apply
-                          </Button>
+                          >{uiText("Apply")}</Button>
                           <Button
                             size="small"
                             variant="text"
                             onClick={() => void props.clearNetem(row.name)}
                             disabled={props.netemPendingInterface === row.name}
-                          >
-                            Reset
-                          </Button>
+                          >{uiText("Reset")}</Button>
                         </Stack>
                       </TableCell>
                     </TableRow>
@@ -606,14 +588,12 @@ function NetemDialogView(props: {
             </Table>
           </TableContainer>
           {!props.netemLoading && interfaceRows.length === 0 ? (
-            <Typography variant="body2" sx={EMPTY_STATE_SX}>
-              No runtime interface data is available for this node.
-            </Typography>
+            <Typography variant="body2" sx={EMPTY_STATE_SX}>{uiText("No runtime interface data is available for this node.")}</Typography>
           ) : null}
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={props.closeNetem}>Close</Button>
+        <Button variant="text" onClick={props.closeNetem}>{uiText("Close")}</Button>
       </DialogActions>
     </Dialog>
   );
@@ -671,8 +651,7 @@ function CloneRepoEndpointField(props: {
 }) {
   if (props.endpointOptions.length <= 1) {
     return (
-      <Typography variant="caption" sx={{ color: "text.secondary" }}>
-        Endpoint:{" "}
+      <Typography variant="caption" sx={{ color: "text.secondary" }}>{uiText("Endpoint:")}{" "}
         <Box component="span" sx={{ color: "text.primary", fontWeight: 500 }}>
           {props.endpointOptions[0]?.label ?? ""}
         </Box>
@@ -682,7 +661,7 @@ function CloneRepoEndpointField(props: {
   return (
     <EndpointOptionSelect
       labelId="clone-repo-endpoint-label"
-      label="Endpoint"
+      label={uiText("Endpoint")}
       options={props.endpointOptions}
       value={props.value}
       onChange={props.setValue}
@@ -703,7 +682,7 @@ function CloneRepoSourceField(props: {
     return (
       <EndpointOptionSelect
         labelId="clone-repo-popular-label"
-        label="Popular Lab"
+        label={uiText("Popular Lab")}
         options={props.popularOptions}
         value={props.popularValue}
         onChange={props.setPopularValue}
@@ -714,7 +693,7 @@ function CloneRepoSourceField(props: {
     <TextField
       autoFocus
       fullWidth
-      label="Repository or topology URL"
+      label={uiText("Repository or topology URL")}
       value={props.sourceUrlInput}
       onChange={(event) => props.setSourceUrlInput(event.target.value)}
       onKeyDown={(event) => {
@@ -770,31 +749,29 @@ function CloneRepoDialogView(props: {
             setValue={props.setCloneRepoEndpointValue}
           />
           <FormControl fullWidth size="small">
-            <InputLabel id="clone-repo-source-mode-label">Source</InputLabel>
+            <InputLabel id="clone-repo-source-mode-label">{uiText("Source")}</InputLabel>
             <Select
               labelId="clone-repo-source-mode-label"
-              label="Source"
+              label={uiText("Source")}
               value={props.cloneRepoMode}
               onChange={(event) => props.setCloneRepoMode(event.target.value as "url" | "popular")}
             >
-              <MenuItem value="url">Repository URL</MenuItem>
-              <MenuItem value="popular" disabled={(request?.popularOptions.length ?? 0) === 0}>
-                Popular Lab
-              </MenuItem>
+              <MenuItem value="url">{uiText("Repository URL")}</MenuItem>
+              <MenuItem value="popular" disabled={(request?.popularOptions.length ?? 0) === 0}>{uiText("Popular Lab")}</MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth size="small">
-            <InputLabel id="clone-repo-target-label">Action</InputLabel>
+            <InputLabel id="clone-repo-target-label">{uiText("Action")}</InputLabel>
             <Select
               labelId="clone-repo-target-label"
-              label="Action"
+              label={uiText("Action")}
               value={props.cloneRepoTarget}
               onChange={(event) =>
                 props.setCloneRepoTarget(event.target.value as CloneRepoDialogTarget)
               }
             >
-              <MenuItem value="deploy">Deploy now</MenuItem>
-              <MenuItem value="undeployed">Clone to undeployed labs</MenuItem>
+              <MenuItem value="deploy">{uiText("Deploy now")}</MenuItem>
+              <MenuItem value="undeployed">{uiText("Clone to undeployed labs")}</MenuItem>
             </Select>
           </FormControl>
           <CloneRepoSourceField
@@ -808,7 +785,7 @@ function CloneRepoDialogView(props: {
           />
           <TextField
             fullWidth
-            label="Lab name override (optional)"
+            label={uiText("Lab name override (optional)")}
             value={props.cloneRepoLabNameOverrideInput}
             onChange={(event) => props.setCloneRepoLabNameOverrideInput(event.target.value)}
             onKeyDown={(event) => {
@@ -821,13 +798,13 @@ function CloneRepoDialogView(props: {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={() => props.closeCloneRepoDialog(undefined)}>Cancel</Button>
+        <Button variant="text" onClick={() => props.closeCloneRepoDialog(undefined)}>{uiText("Cancel")}</Button>
         <Button
           variant="contained"
           onClick={props.submitCloneRepoDialog}
           disabled={!props.cloneRepoCanSubmit}
         >
-          {request?.confirmLabel ?? "Deploy"}
+          {request?.confirmLabel ?? uiText("Deploy")}
         </Button>
       </DialogActions>
     </Dialog>
@@ -836,10 +813,10 @@ function CloneRepoDialogView(props: {
 
 function createTopologyFileNameError(fileName: string): string {
   if (isSharedWorkspacePath(fileName)) {
-    return "Choose Shared above and enter the file name without @shared/.";
+    return uiText("Choose Shared above and enter the file name without @shared/.");
   }
   if (fileName.split("/").some((part) => !part || part === "." || part === "..")) {
-    return "Enter a file name or a relative folder path within the selected location.";
+    return uiText("Enter a file name or a relative folder path within the selected location.");
   }
   return "";
 }
@@ -850,17 +827,15 @@ function CreateTopologyLocationField(props: {
   sharedAvailable: boolean;
 }) {
   let description = props.location === "shared"
-    ? "Everyone signed in to this API server can edit, deploy, and destroy this lab."
-    : "Saved in your personal workspace.";
+    ? uiText("Everyone signed in to this API server can edit, deploy, and destroy this lab.")
+    : uiText("Saved in your personal workspace.");
   if (props.location === "shared" && !props.sharedAvailable) {
     description = "Shared is no longer available on this server. Choose Personal to save in your workspace.";
   }
   return (
     <Stack spacing={0.75}>
       <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-        <Typography id="create-topology-location-label" variant="body2" sx={{ fontWeight: 500 }}>
-          Location
-        </Typography>
+        <Typography id="create-topology-location-label" variant="body2" sx={{ fontWeight: 500 }}>{uiText("Location")}</Typography>
         <ToggleButtonGroup
           exclusive
           aria-labelledby="create-topology-location-label"
@@ -869,8 +844,8 @@ function CreateTopologyLocationField(props: {
             if (value) props.setLocation(value);
           }}
         >
-          <ToggleButton value="personal">Personal</ToggleButton>
-          {props.sharedAvailable ? <ToggleButton value="shared">Shared</ToggleButton> : null}
+          <ToggleButton value="personal">{uiText("Personal")}</ToggleButton>
+          {props.sharedAvailable ? <ToggleButton value="shared">{uiText("Shared")}</ToggleButton> : null}
         </ToggleButtonGroup>
       </Stack>
       <Typography variant="caption" color="text.secondary" aria-live="polite">
@@ -957,7 +932,7 @@ function CreateTopologyDialogView(props: {
           {showEndpoint ? (
             <EndpointOptionSelect
               labelId="create-topology-endpoint-label"
-              label="Endpoint"
+              label={uiText("Endpoint")}
               options={request.endpointOptions}
               value={endpointId}
               onChange={(value) => {
@@ -979,7 +954,7 @@ function CreateTopologyDialogView(props: {
           <TextField
             autoFocus
             fullWidth
-            label="Topology file name"
+            label={uiText("Topology file name")}
             value={fileName}
             onChange={(event) => setFileName(event.target.value)}
             onKeyDown={(event) => {
@@ -989,12 +964,12 @@ function CreateTopologyDialogView(props: {
               }
             }}
             error={Boolean(fileNameError)}
-            helperText={fileNameError || `Add a folder to save it in a subfolder, e.g. labs/${DEFAULT_TOPOLOGY_FILE_NAME}.`}
+            helperText={fileNameError || uiText("Add a folder to save it in a subfolder, e.g. labs/{0}.", { "0": (DEFAULT_TOPOLOGY_FILE_NAME) })}
           />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={() => props.closeCreateTopologyDialog(undefined)}>Cancel</Button>
+        <Button variant="text" onClick={() => props.closeCreateTopologyDialog(undefined)}>{uiText("Cancel")}</Button>
         <Button
           variant="contained"
           onClick={submit}
@@ -1036,7 +1011,7 @@ function EndpointSelectionDialogView(props: {
           </Typography>
           <EndpointOptionSelect
             labelId="endpoint-selection-label"
-            label="Endpoint"
+            label={uiText("Endpoint")}
             options={request?.options ?? []}
             value={props.endpointSelectionValue}
             onChange={props.setEndpointSelectionValue}
@@ -1044,13 +1019,13 @@ function EndpointSelectionDialogView(props: {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={() => props.closeEndpointSelectionDialog(undefined)}>Cancel</Button>
+        <Button variant="text" onClick={() => props.closeEndpointSelectionDialog(undefined)}>{uiText("Cancel")}</Button>
         <Button
           variant="contained"
           onClick={props.submitEndpointSelectionDialog}
           disabled={!props.endpointSelectionIsValid}
         >
-          {request?.confirmLabel ?? "Continue"}
+          {request?.confirmLabel ?? uiText("Continue")}
         </Button>
       </DialogActions>
     </Dialog>
@@ -1802,7 +1777,7 @@ export function RuntimeActionDialogs() {
         interfaceName,
         netem: netemPatchFromFields(fields)
       });
-      runtimeUiActions.notify(`Updated impairments for ${interfaceName}.`, "success");
+      runtimeUiActions.notify(uiText("Updated impairments for {0}.", { "0": (interfaceName) }), "success");
     } catch (error) {
       setNetemError(error instanceof Error ? error.message : String(error));
     } finally {
@@ -1836,7 +1811,7 @@ export function RuntimeActionDialogs() {
         ...current,
         [interfaceName]: DEFAULT_NETEM_FIELDS
       }));
-      runtimeUiActions.notify(`Cleared impairments for ${interfaceName}.`, "success");
+      runtimeUiActions.notify(uiText("Cleared impairments for {0}.", { "0": (interfaceName) }), "success");
     } catch (error) {
       setNetemError(error instanceof Error ? error.message : String(error));
     } finally {

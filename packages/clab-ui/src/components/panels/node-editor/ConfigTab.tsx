@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Configuration tab for node editor.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -18,9 +19,9 @@ import { CredentialsSection } from "./CredentialsSection";
 type StartupConfigMode = "default" | "enforce" | "suppress";
 
 const STARTUP_CONFIG_MODE_OPTIONS = [
-  { value: "default", label: "Default" },
-  { value: "enforce", label: "Enforce startup config" },
-  { value: "suppress", label: "Suppress startup config" }
+  { value: "default", label: uiText("Default") },
+  { value: "enforce", label: uiText("Enforce startup config") },
+  { value: "suppress", label: uiText("Suppress startup config") }
 ];
 
 function isStartupConfigMode(value: string): value is StartupConfigMode {
@@ -68,18 +69,18 @@ export const ConfigTab: React.FC<TabProps> = (props) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Startup Configuration">
+      <PanelSection title={uiText("Startup Configuration")}>
         <InputField
           id="node-startup-config"
-          label="Startup configuration Path"
+          label={uiText("Startup configuration Path")}
           value={data.startupConfig ?? ""}
           onChange={(value) => onChange({ startupConfig: value })}
-          placeholder="Path to startup configuration file"
+          placeholder={uiText("Path to startup configuration file")}
           helperText={inheritedFieldHint(props, "startupConfig")}
         />
         <SelectField
           id="node-startup-config-mode"
-          label="Startup configuration mode"
+          label={uiText("Startup configuration mode")}
           value={mode}
           onChange={(value) => {
             if (isStartupConfigMode(value)) {
@@ -91,30 +92,30 @@ export const ConfigTab: React.FC<TabProps> = (props) => {
         />
       </PanelSection>
 
-      <PanelSection title="License">
+      <PanelSection title={uiText("License")}>
         <InputField
           id="node-license"
-          label="License File"
+          label={uiText("License File")}
           value={data.license ?? ""}
           onChange={(value) => onChange({ license: value })}
-          placeholder="Path to license file"
+          placeholder={uiText("Path to license file")}
           helperText={inheritedFieldHint(props, "license")}
         />
       </PanelSection>
 
       <CredentialsSection {...props} />
 
-      <PanelAddSection title="Bind Mounts" onAdd={handleAddBind}>
+      <PanelAddSection title={uiText("Bind Mounts")} onAdd={handleAddBind}>
         <DynamicList
           items={data.binds ?? []}
           onChange={(items) => onChange({ binds: items })}
-          placeholder="host:container[:options]"
+          placeholder={uiText("host:container[:options]")}
           hideAddButton
           inheritedItems={inheritedListItems(props, "binds")}
         />
       </PanelAddSection>
 
-      <PanelAddSection title="Environment Variables" onAdd={handleAddEnvVar}>
+      <PanelAddSection title={uiText("Environment Variables")} onAdd={handleAddEnvVar}>
         <KeyValueList
           items={data.env ?? {}}
           onChange={(items) => onChange({ env: items })}
@@ -125,17 +126,17 @@ export const ConfigTab: React.FC<TabProps> = (props) => {
         />
       </PanelAddSection>
 
-      <PanelAddSection title="Environment Files" onAdd={handleAddEnvFile}>
+      <PanelAddSection title={uiText("Environment Files")} onAdd={handleAddEnvFile}>
         <DynamicList
           items={data.envFiles ?? []}
           onChange={(items) => onChange({ envFiles: items })}
-          placeholder="Path to env file"
+          placeholder={uiText("Path to env file")}
           hideAddButton
           inheritedItems={inheritedListItems(props, "envFiles")}
         />
       </PanelAddSection>
 
-      <PanelAddSection title="Labels" onAdd={handleAddLabel}>
+      <PanelAddSection title={uiText("Labels")} onAdd={handleAddLabel}>
         <KeyValueList
           items={data.labels ?? {}}
           onChange={(items) => onChange({ labels: items })}

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Context-sensitive panel with palette, info, and editor tabs.
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -133,7 +134,7 @@ const ToggleHandle: React.FC<{
 }> = ({ isOpen, panelWidth, isDragging, onOpen, onClose, onBack, side, onToggleSide }) => {
   const sideConfig = getSideConfig(side);
   const anchorOffset = isOpen ? panelWidth : 0;
-  const toggleTitle = isOpen ? "Close panel" : "Open panel";
+  const toggleTitle = isOpen ? uiText("Close panel") : uiText("Open panel");
   const ActiveIcon = isOpen ? sideConfig.closeIcon : sideConfig.openIcon;
   const handleToggle = useCallback(() => {
     if (isOpen) {
@@ -185,13 +186,13 @@ const ToggleHandle: React.FC<{
       </Tooltip>
       {isOpen && (
         <Tooltip
-          title={`Move panel to ${sideConfig.moveTargetLabel}`}
+          title={uiText("Move panel to {0}", { "0": (sideConfig.moveTargetLabel) })}
           placement={sideConfig.tooltipPlacement}
         >
           <Box
             component="button"
             type="button"
-            aria-label={`Move panel to ${sideConfig.moveTargetLabel}`}
+            aria-label={uiText("Move panel to {0}", { "0": (sideConfig.moveTargetLabel) })}
             onClick={onToggleSide}
             sx={{ ...HANDLE_BUTTON_SX, height: 28, borderTop: 1, borderColor: "divider" }}
           >
@@ -375,7 +376,7 @@ export const ContextPanel: React.FC<ContextPanelProps> = ({
               }}
             >
               <LockIcon sx={{ fontSize: 14 }} />
-              <Typography variant="caption">Read-only — unlock lab to edit</Typography>
+              <Typography variant="caption">{uiText("Read-only — unlock lab to edit")}</Typography>
             </Box>
             <Divider />
           </>
@@ -416,9 +417,7 @@ export const ContextPanel: React.FC<ContextPanelProps> = ({
           <>
             <Divider />
             <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, p: 1.5 }}>
-              <Button size="small" onClick={footer.handleApply} data-testid="panel-apply-btn">
-                Apply
-              </Button>
+              <Button size="small" onClick={footer.handleApply} data-testid="panel-apply-btn">{uiText("Apply")}</Button>
             </Box>
           </>
         )}

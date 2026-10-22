@@ -28,6 +28,10 @@ export default defineConfig({
       ],
   use: {
     baseURL: "http://127.0.0.1:5184",
+    storageState: { cookies: [], origins: [{
+      origin: "http://127.0.0.1:5184",
+      localStorage: [{ name: "clab-ui-language", value: "en" }]
+    }] },
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: isCI ? "off" : "retain-on-failure",

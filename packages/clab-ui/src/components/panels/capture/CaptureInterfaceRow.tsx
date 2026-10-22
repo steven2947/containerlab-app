@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // One selectable interface row in the capture dialog.
 import React from "react";
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
@@ -61,9 +62,7 @@ const ManagementTag: React.FC = () => (
         lineHeight: 1.5,
         whiteSpace: "nowrap"
       }}
-    >
-      management
-    </Box>
+    >{uiText("management")}</Box>
   </Box>
 );
 
@@ -77,7 +76,7 @@ const PeerCell: React.FC<{ option: CaptureInterfaceOption; linksKnown: boolean }
     return (
       <Box
         sx={{ display: "flex", alignItems: "center", gap: 0.5, minWidth: 0 }}
-        title={`Linked to ${peer.node} ${peerEndpoint}`.trim()}
+        title={uiText("Linked to {0} {1}", { "0": (peer.node), "1": (peerEndpoint) }).trim()}
       >
         <ArrowRightAltRoundedIcon sx={{ fontSize: 16, flexShrink: 0, color: "text.disabled" }} />
         <Typography noWrap sx={{ fontSize: 12, color: "text.primary" }}>
@@ -97,9 +96,7 @@ const PeerCell: React.FC<{ option: CaptureInterfaceOption; linksKnown: boolean }
   if (option.isManagement) return <ManagementTag />;
   if (!linksKnown) return <Box />;
   return (
-    <Typography noWrap sx={{ fontSize: 12, color: "text.disabled" }}>
-      not linked
-    </Typography>
+    <Typography noWrap sx={{ fontSize: 12, color: "text.disabled" }}>{uiText("not linked")}</Typography>
   );
 };
 
@@ -124,7 +121,7 @@ export const CaptureInterfaceRow: React.FC<CaptureInterfaceRowProps> = ({
       htmlFor={`${labelId}-input`}
       data-testid="capture-interface-row"
       data-interface={option.name}
-      title={option.label === option.name ? undefined : `Captured on ${option.name}`}
+      title={option.label === option.name ? undefined : uiText("Captured on {0}", { "0": (option.name) })}
       sx={{
         display: "grid",
         gridTemplateColumns: CAPTURE_ROW_GRID_COLUMNS,

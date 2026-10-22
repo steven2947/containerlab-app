@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import { runtimeFetch } from "./backend";
 import { useTopoViewerStore } from "@containerlab/clab-ui";
 import {
@@ -496,7 +497,7 @@ export function createStandaloneLifecycleManager(
       }
 
       if (event.type === "error") {
-        let errorMessage = "Lifecycle command failed.";
+        let errorMessage = uiText("Lifecycle command failed.");
         if (typeof event.error === "string" && event.error.trim().length > 0) {
           errorMessage = event.error;
         } else if (typeof event.message === "string" && event.message.trim().length > 0) {

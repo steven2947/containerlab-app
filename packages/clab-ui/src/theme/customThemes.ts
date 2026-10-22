@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 // User themes: a built-in theme with color roles and single tokens overridden on top.
 import {
   DEFAULT_APP_THEME_IDS,
@@ -159,32 +160,32 @@ const BORDER_TOKENS = [
 ] as const;
 
 const ANSI_LABELS: Readonly<Record<AnsiName, string>> = {
-  black: "Black",
-  red: "Red",
-  green: "Green",
+  black: uiText("Black"),
+  red: uiText("Red"),
+  green: uiText("Green"),
   yellow: "Yellow",
-  blue: "Blue",
-  magenta: "Magenta",
-  cyan: "Cyan",
-  white: "White",
-  brightBlack: "Bright black",
-  brightRed: "Bright red",
-  brightGreen: "Bright green",
-  brightYellow: "Bright yellow",
-  brightBlue: "Bright blue",
-  brightMagenta: "Bright magenta",
-  brightCyan: "Bright cyan",
-  brightWhite: "Bright white"
+  blue: uiText("Blue"),
+  magenta: uiText("Magenta"),
+  cyan: uiText("Cyan"),
+  white: uiText("White"),
+  brightBlack: uiText("Bright black"),
+  brightRed: uiText("Bright red"),
+  brightGreen: uiText("Bright green"),
+  brightYellow: uiText("Bright yellow"),
+  brightBlue: uiText("Bright blue"),
+  brightMagenta: uiText("Bright magenta"),
+  brightCyan: uiText("Bright cyan"),
+  brightWhite: uiText("Bright white")
 };
 
 export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly ThemeRole[] }> = [
   {
-    label: "Surfaces",
+    label: uiText("Surfaces"),
     roles: [
       {
         key: "background",
-        label: "Background",
-        description: "Canvas, editors and dialogs. Panels, inputs and borders move with it.",
+        label: uiText("Background"),
+        description: uiText("Canvas, editors and dialogs. Panels, inputs and borders move with it."),
         tokens: SURFACE_TOKENS,
         apply: (vars, color) => {
           const base = vars[EDITOR_BACKGROUND];
@@ -196,8 +197,8 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "surface",
-        label: "Sidebar and panels",
-        description: "Explorer, palette, side panels and widgets.",
+        label: uiText("Sidebar and panels"),
+        description: uiText("Explorer, palette, side panels and widgets."),
         tokens: [
           "--vscode-sideBar-background",
           "--vscode-panel-background",
@@ -215,8 +216,8 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "input",
-        label: "Inputs",
-        description: "Text fields and dropdowns.",
+        label: uiText("Inputs"),
+        description: uiText("Text fields and dropdowns."),
         tokens: [
           "--vscode-input-background",
           "--vscode-dropdown-background",
@@ -230,8 +231,8 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "raised",
-        label: "Secondary buttons",
-        description: "Secondary buttons and code blocks.",
+        label: uiText("Secondary buttons"),
+        description: uiText("Secondary buttons and code blocks."),
         tokens: [
           "--vscode-button-secondaryBackground",
           "--vscode-textCodeBlock-background",
@@ -245,22 +246,22 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "border",
-        label: "Borders",
-        description: "Dividers and outlines.",
+        label: uiText("Borders"),
+        description: uiText("Dividers and outlines."),
         tokens: BORDER_TOKENS,
         apply: setTokens(BORDER_TOKENS)
       },
       {
         key: "hover",
-        label: "Hover",
-        description: "Rows and tabs under the pointer.",
+        label: uiText("Hover"),
+        description: uiText("Rows and tabs under the pointer."),
         tokens: ["--vscode-list-hoverBackground", "--vscode-tab-hoverBackground"],
         apply: setTokens(["--vscode-list-hoverBackground", "--vscode-tab-hoverBackground"])
       },
       {
         key: "selection",
-        label: "Selection",
-        description: "Selected rows and items.",
+        label: uiText("Selection"),
+        description: uiText("Selected rows and items."),
         tokens: [
           "--vscode-list-inactiveSelectionBackground",
           "--vscode-list-activeSelectionBackground",
@@ -277,8 +278,8 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "badge",
-        label: "Node labels and badges",
-        description: "Labels under canvas nodes and filled chips.",
+        label: uiText("Node labels and badges"),
+        description: uiText("Labels under canvas nodes and filled chips."),
         tokens: ["--vscode-badge-background", "--vscode-badge-foreground"],
         apply: (vars, color) => {
           vars["--vscode-badge-background"] = color;
@@ -288,19 +289,19 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
     ]
   },
   {
-    label: "Text",
+    label: uiText("Text"),
     roles: [
       {
         key: "foreground",
-        label: "Text",
-        description: "Body text and icons.",
+        label: uiText("Text"),
+        description: uiText("Body text and icons."),
         tokens: TEXT_TOKENS,
         apply: setTokens(TEXT_TOKENS)
       },
       {
         key: "muted",
-        label: "Secondary text",
-        description: "Descriptions, placeholders and inactive tabs.",
+        label: uiText("Secondary text"),
+        description: uiText("Descriptions, placeholders and inactive tabs."),
         tokens: [
           "--vscode-descriptionForeground",
           "--vscode-tab-inactiveForeground",
@@ -316,19 +317,19 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "link",
-        label: "Links",
+        label: uiText("Links"),
         tokens: ["--vscode-textLink-foreground", "--vscode-textLink-activeForeground"],
         apply: setTokens(["--vscode-textLink-foreground", "--vscode-textLink-activeForeground"])
       }
     ]
   },
   {
-    label: "Accent",
+    label: uiText("Accent"),
     roles: [
       {
         key: "accent",
-        label: "Accent",
-        description: "Primary buttons, focus rings, toggles and progress.",
+        label: uiText("Accent"),
+        description: uiText("Primary buttons, focus rings, toggles and progress."),
         tokens: [
           "--vscode-button-background",
           "--vscode-focusBorder",
@@ -357,8 +358,8 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "accentForeground",
-        label: "Text on accent",
-        description: "Labels on primary buttons and highlighted menu items.",
+        label: uiText("Text on accent"),
+        description: uiText("Labels on primary buttons and highlighted menu items."),
         tokens: [
           "--vscode-button-foreground",
           "--vscode-menu-selectionForeground",
@@ -373,11 +374,11 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
     ]
   },
   {
-    label: "Status",
+    label: uiText("Status"),
     roles: [
       {
         key: "error",
-        label: "Errors",
+        label: uiText("Errors"),
         tokens: [
           "--vscode-editorError-foreground",
           "--vscode-errorForeground",
@@ -393,7 +394,7 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "warning",
-        label: "Warnings",
+        label: uiText("Warnings"),
         tokens: [
           "--vscode-editorWarning-foreground",
           "--vscode-charts-yellow",
@@ -409,7 +410,7 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "info",
-        label: "Info",
+        label: uiText("Info"),
         tokens: [
           "--vscode-editorInfo-foreground",
           "--vscode-inputValidation-infoBorder",
@@ -423,20 +424,20 @@ export const THEME_ROLE_GROUPS: ReadonlyArray<{ label: string; roles: readonly T
       },
       {
         key: "success",
-        label: "Success",
-        description: "Running nodes and passed checks.",
+        label: uiText("Success"),
+        description: uiText("Running nodes and passed checks."),
         tokens: ["--vscode-testing-iconPassed", "--vscode-charts-green"],
         apply: setTokens(["--vscode-testing-iconPassed", "--vscode-charts-green"])
       }
     ]
   },
   {
-    label: "Editor and terminal",
+    label: uiText("Editor and terminal"),
     roles: [
       {
         key: "editorSelection",
-        label: "Text selection",
-        description: "Selected text in the YAML editor and terminals.",
+        label: uiText("Text selection"),
+        description: uiText("Selected text in the YAML editor and terminals."),
         tokens: [
           "--vscode-editor-selectionBackground",
           "--vscode-terminal-selectionBackground",

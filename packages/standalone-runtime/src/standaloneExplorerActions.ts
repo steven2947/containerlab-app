@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import { runtimeFetch } from "./backend";
 import type { TopologyRef } from "@containerlab/clab-ui/session";
 import { standaloneServerUrl } from "./standaloneServerOrigin";
@@ -143,9 +144,9 @@ export async function resolveEndpointForExplorerAction(input: {
   }
 
   const selectedEndpointId = await promptForEndpointSelection({
-    title: "Select Endpoint",
-    message: `Select endpoint for ${actionDescription}.`,
-    confirmLabel: "Use Endpoint",
+    title: uiText("Select Endpoint"),
+    message: uiText("Select endpoint for {0}.", { "0": (actionDescription) }),
+    confirmLabel: uiText("Use Endpoint"),
     options: connectedEndpoints.map((endpoint) => ({
       value: endpoint.id,
       label: endpoint.label,
@@ -157,7 +158,7 @@ export async function resolveEndpointForExplorerAction(input: {
     return null;
   }
   if (!connectedEndpoints.some((endpoint) => endpoint.id === selectedEndpointId)) {
-    runtimeUiActions.notify("Invalid endpoint selection.", "error");
+    runtimeUiActions.notify(uiText("Invalid endpoint selection."), "error");
     return null;
   }
   return selectedEndpointId;
@@ -185,9 +186,9 @@ export function topologyRefForNodeActions(
 
 export function sshOpenedNotification(containers: ContainerState[]): string {
   if (containers.length > 1) {
-    return `Opened SSH terminals for ${containers.length} nodes.`;
+    return uiText("Opened SSH terminals for {0} nodes.", { "0": (containers.length) });
   }
-  return `Opened SSH terminal for ${containers[0]?.nodeName || containers[0]?.name}.`;
+  return uiText("Opened SSH terminal for {0}.", { "0": (containers[0]?.nodeName || containers[0]?.name) });
 }
 
 export async function runLabShareAction(input: {
@@ -236,7 +237,7 @@ export async function handleShareActionLink(
   }
   if (!link) {
     runtimeUiActions.notify(
-      `${kind.toUpperCase()} ${action} completed, but no share link was returned.`,
+      uiText("{0} {1} completed, but no share link was returned.", { "0": (kind.toUpperCase()), "1": (action) }),
       "warning"
     );
     return;
@@ -244,9 +245,9 @@ export async function handleShareActionLink(
 
   await navigator.clipboard.writeText(link).catch(() => {});
   const shouldOpen = await confirmRuntimeAction({
-    title: `${kind.toUpperCase()} Link Copied`,
+    title: uiText("{0} Link Copied", { "0": (kind.toUpperCase()) }),
     message: "The link was copied to clipboard.\n\nOpen link now?",
-    confirmLabel: "Open Link"
+    confirmLabel: uiText("Open Link")
   });
   if (shouldOpen) {
     window.open(link, "_blank", "noopener,noreferrer");
@@ -277,7 +278,7 @@ export function nodeAccessProtocol(commandId: string): "shell" | "ssh" | "telnet
 
 export function nodeAccessTitlePrefix(protocol: "shell" | "ssh" | "telnet"): string {
   if (protocol === "shell") {
-    return "Shell";
+    return uiText("Shell");
   }
   if (protocol === "telnet") {
     return "Telnet";
@@ -323,13 +324,13 @@ const FALLBACK_POPULAR_REPOS: PopularLabRepo[] = [
   {
     name: "srl-telemetry-lab",
     htmlUrl: "https://github.com/srl-labs/srl-telemetry-lab",
-    description: "A lab demonstrating the telemetry stack with SR Linux.",
+    description: uiText("A lab demonstrating the telemetry stack with SR Linux."),
     stars: 85
   },
   {
     name: "netbox-nrx-clab",
     htmlUrl: "https://github.com/srl-labs/netbox-nrx-clab",
-    description: "NetBox NRX Containerlab integration for network automation use cases.",
+    description: uiText("NetBox NRX Containerlab integration for network automation use cases."),
     stars: 65
   },
   {
@@ -341,13 +342,13 @@ const FALLBACK_POPULAR_REPOS: PopularLabRepo[] = [
   {
     name: "intent-based-ansible-lab",
     htmlUrl: "https://github.com/srl-labs/intent-based-ansible-lab",
-    description: "Intent-based networking lab with Ansible and SR Linux.",
+    description: uiText("Intent-based networking lab with Ansible and SR Linux."),
     stars: 38
   },
   {
     name: "multivendor-evpn-lab",
     htmlUrl: "https://github.com/srl-labs/multivendor-evpn-lab",
-    description: "Multivendor EVPN lab with Nokia, Arista, and Cisco network operating systems.",
+    description: uiText("Multivendor EVPN lab with Nokia, Arista, and Cisco network operating systems."),
     stars: 78
   }
 ];
@@ -391,15 +392,15 @@ export async function fetchPopularRepos(): Promise<PopularLabRepo[]> {
 export async function pickPopularRepo(promptTitle: string): Promise<string | undefined> {
   const repos = (await fetchPopularRepos()).slice(0, 12);
   if (repos.length === 0) {
-    runtimeUiActions.notify("No popular repositories are available right now.", "warning");
+    runtimeUiActions.notify(uiText("No popular repositories are available right now."), "warning");
     return undefined;
   }
 
   return promptForOptionSelection({
     title: promptTitle,
-    message: "Choose a popular lab repository.",
-    label: "Popular lab",
-    confirmLabel: "Use Repository",
+    message: uiText("Choose a popular lab repository."),
+    label: uiText("Popular lab"),
+    confirmLabel: uiText("Use Repository"),
     options: repos.map((repo) => ({
       label: repo.name,
       description: `${repo.stars} stars` + (repo.description ? ` - ${repo.description}` : ""),
@@ -458,9 +459,9 @@ export function pickTransferFiles(accept = "", multiple = false): Promise<File[]
 
 export async function promptArchiveFormat(): Promise<LabArchiveFormat | undefined> {
   const value = await promptForOptionSelection({
-    title: "Archive Format",
-    message: "Choose the archive format to download.",
-    label: "Format",
+    title: uiText("Archive Format"),
+    message: uiText("Choose the archive format to download."),
+    label: uiText("Format"),
     confirmLabel: "Download",
     options: [
       { label: "ZIP", value: "zip" },

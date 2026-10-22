@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -47,9 +48,9 @@ function useHostColors(): SchemeColors {
 
 /** Light and Dark preview the Modern palettes they apply; Follow VS Code previews the host theme. */
 const SCHEMES = [
-  { key: "vscode", label: "Follow VS Code", palette: undefined },
-  { key: "light", label: "Light", palette: LIGHT_MODERN_VARS },
-  { key: "dark", label: "Dark", palette: DARK_MODERN_VARS },
+  { key: "vscode", label: uiText("Follow VS Code"), palette: undefined },
+  { key: "light", label: uiText("Light"), palette: LIGHT_MODERN_VARS },
+  { key: "dark", label: uiText("Dark"), palette: DARK_MODERN_VARS },
 ] as const satisfies ReadonlyArray<{ key: string; label: string; palette: VarMap | undefined }>;
 export type SettingsColorScheme = (typeof SCHEMES)[number]["key"];
 export function ColorSchemePicker({
@@ -69,7 +70,7 @@ export function ColorSchemePicker({
   return (
     <Box
       role="group"
-      aria-label="Color scheme"
+      aria-label={uiText("Color scheme")}
       sx={{
         display: "grid",
         gridTemplateColumns: followHost

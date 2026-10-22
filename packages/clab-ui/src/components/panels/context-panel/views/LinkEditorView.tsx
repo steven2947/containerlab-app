@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 // Link editor content for the ContextPanel.
 import React, { useCallback, useEffect, useRef, useMemo } from "react";
 
@@ -35,12 +36,12 @@ interface LinkEditorFooterRef {
 }
 
 const ALL_TABS: Array<TabConfig<LinkTabProps>> = [
-  { id: "basic", label: "Basic", component: BasicTab },
-  { id: "extended", label: "Extended", component: ExtendedTab }
+  { id: "basic", label: uiText("Basic"), component: BasicTab },
+  { id: "extended", label: uiText("Extended"), component: ExtendedTab }
 ];
 
 const BASIC_ONLY_TABS: Array<TabConfig<LinkTabProps>> = [
-  { id: "basic", label: "Basic", component: BasicTab }
+  { id: "basic", label: uiText("Basic"), component: BasicTab }
 ];
 
 function isLinkEditorTabId(value: string): value is LinkEditorTabId {

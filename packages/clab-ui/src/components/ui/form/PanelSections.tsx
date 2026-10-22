@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
@@ -72,7 +73,7 @@ export const PanelAddSection: React.FC<PanelAddSectionProps> = ({
   title,
   children,
   onAdd,
-  addLabel = "Add",
+  addLabel = uiText("Add"),
   bodySx = DEFAULT_LIST_BODY_SX,
   addDisabled = false,
   addTitle

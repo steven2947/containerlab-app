@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /**
  * DynamicList - Array of string inputs with add/remove
  */
@@ -23,7 +24,7 @@ export const DynamicList: React.FC<DynamicListProps> = ({
   items,
   onChange,
   placeholder,
-  addLabel = "Add",
+  addLabel = uiText("Add"),
   disabled,
   hideAddButton,
   inheritedItems

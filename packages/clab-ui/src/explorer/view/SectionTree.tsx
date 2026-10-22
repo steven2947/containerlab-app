@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -102,7 +103,7 @@ function SectionTreeNode({
                 event.stopPropagation();
                 onToggleExpanded(node.id);
               }}
-              aria-label={isExpanded ? `Collapse ${node.label}` : `Expand ${node.label}`}
+              aria-label={isExpanded ? uiText("Collapse {0}", { "0": (node.label) }) : uiText("Expand {0}", { "0": (node.label) })}
             >
               <ChevronRightRoundedIcon
                 sx={{
@@ -224,9 +225,7 @@ export function SectionTree({
       <Typography
         variant="body2"
         sx={{ color: "text.secondary", px: `${TREE_ROW_INSET_PX + 2 + TREE_DISCLOSURE_SLOT_PX}px`, py: 0.75 }}
-      >
-        No items found.
-      </Typography>
+      >{uiText("No items found.")}</Typography>
     );
   }
 

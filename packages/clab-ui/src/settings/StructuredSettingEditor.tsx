@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -61,8 +62,8 @@ export function StructuredSettingEditor({
       >
         <Typography variant="caption" color="text.secondary">
           {templates
-            ? `${templates.length} reusable node templates`
-            : "Map each node kind to its preferred value."}
+            ? uiText("{0} reusable node templates", { "0": (templates.length) })
+            : uiText("Map each node kind to its preferred value.")}
         </Typography>
         <Button
           variant="text"
@@ -71,7 +72,7 @@ export function StructuredSettingEditor({
           disabled={!canUseForm || disabled}
           onClick={() => setJson(!json)}
         >
-          {json ? "Form editor" : "Edit JSON"}
+          {json ? uiText("Form editor") : uiText("Edit JSON")}
         </Button>
       </Box>
       {json || !canUseForm ? (
@@ -101,7 +102,7 @@ export function StructuredSettingEditor({
               sx={{ alignItems: "center" }}
             >
               <TextField
-                label={`Node kind ${index + 1}`}
+                label={uiText("Node kind {0}", { "0": (index + 1) })}
                 size="small"
                 value={kind}
                 disabled={disabled}
@@ -123,8 +124,8 @@ export function StructuredSettingEditor({
               <TextField
                 label={
                   definition.key.endsWith("sshUserMapping")
-                    ? `SSH user ${index + 1}`
-                    : `Command ${index + 1}`
+                    ? uiText("SSH user {0}", { "0": (index + 1) })
+                    : uiText("Command {0}", { "0": (index + 1) })
                 }
                 size="small"
                 value={value}
@@ -135,7 +136,7 @@ export function StructuredSettingEditor({
                 }
               />
               <IconButton
-                aria-label={`Remove mapping ${index + 1}`}
+                aria-label={uiText("Remove mapping {0}", { "0": (index + 1) })}
                 disabled={disabled}
                 onClick={() =>
                   update(
@@ -150,9 +151,7 @@ export function StructuredSettingEditor({
             </Stack>
           ))}
           {!Object.keys(mapping).length && (
-            <Typography variant="body2" color="text.secondary" sx={{ py: 1 }}>
-              Built-in defaults are used. Add a mapping to override a node kind.
-            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ py: 1 }}>{uiText("Built-in defaults are used. Add a mapping to override a node kind.")}</Typography>
           )}
           <Box>
             <Button
@@ -161,9 +160,7 @@ export function StructuredSettingEditor({
               startIcon={<AddIcon />}
               disabled={disabled || "" in mapping}
               onClick={() => update({ ...mapping, "": "" })}
-            >
-              Add mapping
-            </Button>
+            >{uiText("Add mapping")}</Button>
           </Box>
         </Stack>
       )}
@@ -192,7 +189,7 @@ export function StructuredSettingEditor({
                   {String(template.name || "New template")}
                 </Typography>
                 <IconButton
-                  aria-label={`Remove template ${index + 1}`}
+                  aria-label={uiText("Remove template {0}", { "0": (index + 1) })}
                   size="small"
                   disabled={disabled}
                   onClick={() =>
@@ -222,7 +219,7 @@ export function StructuredSettingEditor({
                 ).map((field) => (
                   <TextField
                     key={field}
-                    label={`${{ name: "Name", kind: "Node kind", type: "Device type", image: "Container image", icon: "Icon", baseName: "Base name", interfacePattern: "Interface pattern" }[field]} · ${index + 1}`}
+                    label={`${{ name: uiText("Name"), kind: uiText("Node kind"), type: uiText("Device type"), image: uiText("Container image"), icon: uiText("Icon"), baseName: uiText("Base name"), interfacePattern: uiText("Interface pattern") }[field]} · ${index + 1}`}
                     size="small"
                     value={template[field] ?? ""}
                     disabled={disabled}
@@ -240,7 +237,7 @@ export function StructuredSettingEditor({
               </Box>
               <FormControlLabel
                 sx={{ mt: 1 }}
-                label="Use as default template"
+                label={uiText("Use as default template")}
                 control={
                   <Checkbox
                     size="small"
@@ -274,11 +271,7 @@ export function StructuredSettingEditor({
                   variant="caption"
                   color="text.secondary"
                   sx={{ display: "block" }}
-                >
-                  Additional configuration is preserved. Use Edit JSON to change
-                  startup configs, binds, environment variables, and other
-                  fields.
-                </Typography>
+                >{uiText("Additional configuration is preserved. Use Edit JSON to change startup configs, binds, environment variables, and other fields.")}</Typography>
               )}
             </Box>
           ))}
@@ -294,9 +287,7 @@ export function StructuredSettingEditor({
                   { name: "", kind: "linux", image: "", setDefault: false },
                 ])
               }
-            >
-              Add template
-            </Button>
+            >{uiText("Add template")}</Button>
           </Box>
         </Stack>
       )}

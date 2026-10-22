@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Components tab for node editor (Nokia SROS).
 import React, { useCallback, useState } from "react";
@@ -80,7 +81,7 @@ const MdaEntry: React.FC<MdaEntryProps> = ({
     <Box sx={{ flex: 2, minWidth: 0 }}>
       <TextField
         id={`mda-slot-${index}`}
-        label="Slot"
+        label={uiText("Slot")}
         type="number"
         size="small"
         fullWidth
@@ -88,7 +89,7 @@ const MdaEntry: React.FC<MdaEntryProps> = ({
         onChange={(e) =>
           onUpdate(index, { slot: e.target.value ? parseInt(e.target.value, 10) : undefined })
         }
-        placeholder="Slot"
+        placeholder={uiText("Slot")}
         slotProps={{
           htmlInput: { min: 1 },
           input: slotPrefix
@@ -102,7 +103,7 @@ const MdaEntry: React.FC<MdaEntryProps> = ({
     <Box sx={{ flex: 3, minWidth: 0 }}>
       <FilterableDropdown
         id={`mda-type-${index}`}
-        label="Type"
+        label={uiText("Type")}
         value={mda.type ?? ""}
         onChange={(v) => onUpdate(index, { type: v })}
         options={toOptions(mdaTypes)}
@@ -112,7 +113,7 @@ const MdaEntry: React.FC<MdaEntryProps> = ({
     <IconButton
       size="small"
       onClick={() => onRemove(index)}
-      title="Remove MDA"
+      title={uiText("Remove MDA")}
       sx={REMOVE_BUTTON_SX}
     >
       <DeleteIcon sx={ROW_ICON_SX} />
@@ -187,16 +188,14 @@ const MdaSectionWrapper: React.FC<MdaSectionWrapperProps> = ({
         pt: 1
       }}
     >
-      <Typography variant="subtitle2">MDA Components</Typography>
+      <Typography variant="subtitle2">{uiText("MDA Components")}</Typography>
       <Button
         variant="text"
         size="small"
         startIcon={<AddIcon />}
         onClick={() => onAddMda(parentIndex)}
         sx={SUBSECTION_ADD_SX}
-      >
-        Add
-      </Button>
+      >{uiText("Add")}</Button>
     </Box>
     <Box sx={{ px: 1.5, pt: 1.5, pb: 1.5, "&:has(> :only-child:empty)": { pt: 0 } }}>
       <MdaListSection
@@ -232,7 +231,7 @@ const XiomTabContent: React.FC<{
       <Box sx={{ px: 1.5, pt: 2, pb: 0.5 }}>
         <FilterableDropdown
           id={`xiom-type-${index}`}
-          label="Type"
+          label={uiText("Type")}
           value={xiom.type ?? ""}
           onChange={(v) => onUpdate(index, { type: v })}
           options={toOptions(srosTypes.xiom)}
@@ -309,7 +308,7 @@ const ComponentHeader: React.FC<{
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
       {isExpanded ? <ExpandLessIcon sx={ROW_ICON_SX} /> : <ExpandMoreIcon sx={ROW_ICON_SX} />}
       <Chip label={slot} size="small" />
-      <Typography variant="body2">{isCpm ? "Control Processing Module" : "Line Card"}</Typography>
+      <Typography variant="body2">{isCpm ? uiText("Control Processing Module") : uiText("Line Card")}</Typography>
       {!isCpm && type !== undefined && type.length > 0 && (
         <Typography
           variant="caption"
@@ -337,7 +336,7 @@ const ComponentHeader: React.FC<{
         e.stopPropagation();
         onRemove();
       }}
-      title="Remove component"
+      title={uiText("Remove component")}
       sx={REMOVE_BUTTON_SX}
     >
       <DeleteIcon sx={ROW_ICON_SX} />
@@ -408,18 +407,16 @@ const ComponentXiomSection: React.FC<
           py: 1
         }}
       >
-        <Typography variant="subtitle2">XIOM Components</Typography>
+        <Typography variant="subtitle2">{uiText("XIOM Components")}</Typography>
         <Button
           variant="text"
           size="small"
           startIcon={<AddIcon />}
           onClick={() => onAddXiom(index)}
           disabled={xioms.length >= 2}
-          title={xioms.length >= 2 ? "XIOM slots x1 and x2 are already defined" : undefined}
+          title={xioms.length >= 2 ? uiText("XIOM slots x1 and x2 are already defined") : undefined}
           sx={SUBSECTION_ADD_SX}
-        >
-          Add
-        </Button>
+        >{uiText("Add")}</Button>
       </Box>
       {xioms.length > 0 && (
         <>
@@ -446,7 +443,7 @@ const ComponentXiomSection: React.FC<
                 onRemoveXiom(index, clampedTab);
                 setActiveXiomTab(0);
               }}
-              title="Remove XIOM"
+              title={uiText("Remove XIOM")}
               sx={REMOVE_BUTTON_SX}
             >
               <DeleteIcon sx={ROW_ICON_SX} />
@@ -588,14 +585,14 @@ const ComponentSlotTypeRow: React.FC<ComponentSlotTypeRowProps> = ({
   >
     <InputField
       id={`comp-slot-${index}`}
-      label="Slot"
+      label={uiText("Slot")}
       value={String(component.slot ?? "")}
       onChange={(v) => onUpdate(index, { slot: v })}
       placeholder={slotPlaceholder}
     />
     <FilterableDropdown
       id={`comp-type-${index}`}
-      label="Type"
+      label={uiText("Type")}
       value={component.type ?? ""}
       onChange={(v) => onUpdate(index, { type: v })}
       options={toOptions(typeOptions)}
@@ -612,7 +609,7 @@ const ComponentSlotTypeRow: React.FC<ComponentSlotTypeRowProps> = ({
 const RESOURCE_FIELDS: Partial<Record<string, { label: string; suffix?: string }>> = {
   cpu: { label: "vCPUs" },
   ram: { label: "RAM", suffix: "GB" },
-  "max-nics": { label: "NICs" }
+  "max-nics": { label: uiText("NICs") }
 };
 
 /** VM resources of a card (nokia_sros runs each card as its own VM) */
@@ -653,7 +650,7 @@ const ComponentResourcesRow: React.FC<{
             value={typeof value === "number" || typeof value === "string" ? String(value) : ""}
             onChange={(text) => setResource(key, text)}
             suffix={RESOURCE_FIELDS[key]?.suffix}
-            placeholder={key === "max-nics" ? "From MDAs" : "Default"}
+            placeholder={key === "max-nics" ? uiText("From MDAs") : uiText("Default")}
           />
         );
       })}
@@ -769,7 +766,7 @@ const IntegratedModeSection: React.FC<IntegratedModeSectionProps> = ({
   };
 
   return (
-    <PanelAddSection title="MDA Configuration" onAdd={addMda}>
+    <PanelAddSection title={uiText("MDA Configuration")} onAdd={addMda}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         {mdas.map((mda, mdaIdx) => (
           <MdaEntry
@@ -948,7 +945,7 @@ const DistributedModeSection: React.FC<DistributedModeSectionProps> = ({
       {/* CPM Components */}
       <ComponentSection
         {...commonSectionProps}
-        title="Control Processing Modules (CPM)"
+        title={uiText("Control Processing Modules (CPM)")}
         filteredComponents={cpmComponents}
         onAdd={addCpm}
         addDisabled={cpmComponents.length >= 2}
@@ -958,16 +955,16 @@ const DistributedModeSection: React.FC<DistributedModeSectionProps> = ({
       {/* Card Components */}
       <ComponentSection
         {...commonSectionProps}
-        title="Line Cards"
+        title={uiText("Line Cards")}
         filteredComponents={cardComponents}
         onAdd={addCard}
       />
 
       {/* SFM Configuration */}
-      <PanelSection title="Switch Fabric Module (SFM)">
+      <PanelSection title={uiText("Switch Fabric Module (SFM)")}>
         <FilterableDropdown
           id="sfm-type"
-          label="SFM Type"
+          label={uiText("SFM Type")}
           value={sfmValue}
           onChange={onSfmChange}
           options={toOptions(srosTypes.sfm)}

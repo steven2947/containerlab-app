@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
@@ -386,20 +387,20 @@ function actionGroupId(action: ExplorerAction): ActionGroupId {
 }
 
 const ACTION_GROUP_LABELS: Record<ActionGroupId, string> = {
-  topology: "Topology",
-  graph: "Graph",
-  lifecycle: "Lifecycle",
-  save: "Save",
-  access: "Access",
-  sharing: "Sharing",
-  network: "Network",
-  capture: "Capture",
-  inspect: "Inspect",
-  copy: "Copy",
-  tools: "Tools",
-  view: "View",
-  danger: "Danger",
-  other: "Other"
+  topology: uiText("Topology"),
+  graph: uiText("Graph"),
+  lifecycle: uiText("Lifecycle"),
+  save: uiText("Save"),
+  access: uiText("Access"),
+  sharing: uiText("Sharing"),
+  network: uiText("Network"),
+  capture: uiText("Capture"),
+  inspect: uiText("Inspect"),
+  copy: uiText("Copy"),
+  tools: uiText("Tools"),
+  view: uiText("View"),
+  danger: uiText("Danger"),
+  other: uiText("Other")
 };
 
 const ACTION_GROUP_ICONS: Record<ActionGroupId, SvgIconComponent> = {

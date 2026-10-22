@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Confirmation dialog for bulk link creation.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -28,11 +29,10 @@ export const ConfirmBulkLinksModal: React.FC<ConfirmBulkLinksModalProps> = ({
   onConfirm
 }) => (
   <Dialog open={isOpen} onClose={onCancel} maxWidth="xs" fullWidth>
-    <DialogTitleWithClose title="Bulk Link Creation" onClose={onCancel} />
+    <DialogTitleWithClose title={uiText("Bulk Link Creation")} onClose={onCancel} />
     <DialogContent dividers>
       <Box>
-        <Typography variant="body2">
-          Create <strong>{count}</strong> new link{count === 1 ? "" : "s"}?
+        <Typography variant="body2">{uiText("Create ")}<strong>{count}</strong>{uiText(" new link")}{count === 1 ? "" : "s"}?
         </Typography>
         <Box sx={{ mt: 1, "& code": { fontFamily: MONO_FONT_FAMILY, fontSize: 12 } }}>
           <Typography
@@ -40,8 +40,7 @@ export const ConfirmBulkLinksModal: React.FC<ConfirmBulkLinksModalProps> = ({
             sx={{
               color: "text.secondary"
             }}
-          >
-            Source: <code className="select-text">{sourcePattern}</code>
+          >{uiText("Source: ")}<code className="select-text">{sourcePattern}</code>
           </Typography>
           <br />
           <Typography
@@ -49,19 +48,14 @@ export const ConfirmBulkLinksModal: React.FC<ConfirmBulkLinksModalProps> = ({
             sx={{
               color: "text.secondary"
             }}
-          >
-            Target: <code className="select-text">{targetPattern}</code>
+          >{uiText("Target: ")}<code className="select-text">{targetPattern}</code>
           </Typography>
         </Box>
       </Box>
     </DialogContent>
     <DialogActions>
-      <Button variant="text" size="small" onClick={onCancel}>
-        Cancel
-      </Button>
-      <Button size="small" onClick={onConfirm}>
-        Create Links
-      </Button>
+      <Button variant="text" size="small" onClick={onCancel}>{uiText("Cancel")}</Button>
+      <Button size="small" onClick={onConfirm}>{uiText("Create Links")}</Button>
     </DialogActions>
   </Dialog>
 );

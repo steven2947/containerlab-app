@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
@@ -147,7 +148,7 @@ export function ExplorerSectionCard({
               event.stopPropagation();
               onToggleSectionCollapsed(section.id);
             }}
-            aria-label={isCollapsed ? `Expand ${section.label}` : `Collapse ${section.label}`}
+            aria-label={isCollapsed ? uiText("Expand {0}", { "0": (section.label) }) : uiText("Collapse {0}", { "0": (section.label) })}
             sx={{ color: "text.disabled", p: 0, width: 18, height: 18, "&:hover": { color: "text.primary", bgcolor: "transparent" } }}
           >
             <ChevronRightRoundedIcon
@@ -188,12 +189,12 @@ export function ExplorerSectionCard({
           <SectionToolbarActions actions={section.toolbarActions} onInvokeAction={onInvokeAction} />
 
           {showExpandAllControl && (
-            <Tooltip title={allExpanded ? "Collapse All" : "Expand All"}>
+            <Tooltip title={allExpanded ? uiText("Collapse All") : uiText("Expand All")}>
               <IconButton
                 size="small"
                 className="explorer-section-hover-actions"
                 sx={TOOLBAR_ICON_BUTTON_SX}
-                aria-label={allExpanded ? "Collapse all" : "Expand all"}
+                aria-label={allExpanded ? uiText("Collapse all") : uiText("Expand all")}
                 onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();

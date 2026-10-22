@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Deploy, redeploy or destroy the lab with extra containerlab options.
 import React from "react";
@@ -42,9 +43,9 @@ export interface LifecycleOptionsDialogProps {
 const KINDS: readonly LabLifecycleOptionKind[] = ["deploy", "redeploy", "destroy"];
 
 const KIND_LABELS: Record<LabLifecycleOptionKind, string> = {
-  deploy: "Deploy",
-  redeploy: "Redeploy",
-  destroy: "Destroy"
+  deploy: uiText("Deploy"),
+  redeploy: uiText("Redeploy"),
+  destroy: uiText("Destroy")
 };
 
 const CLEANUP_DESCRIPTIONS: Record<LabLifecycleOptionKind, string> = {
@@ -150,7 +151,7 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
       data-testid="lifecycle-options-dialog"
     >
       <DialogTitleWithClose
-        title="Run with options"
+        title={uiText("Run with options")}
         onClose={onClose}
         closeButtonTestId="lifecycle-options-close"
       />
@@ -163,7 +164,7 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
           onChange={(_event, kind: LabLifecycleOptionKind | null) => {
             if (kind) update("kind", kind);
           }}
-          aria-label="Lifecycle action"
+          aria-label={uiText("Lifecycle action")}
         >
           {KINDS.map((kind) => (
             <ToggleButton
@@ -188,8 +189,8 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Nodes"
-                placeholder={form.nodeFilter.length === 0 ? "All nodes" : undefined}
+                label={uiText("Nodes")}
+                placeholder={form.nodeFilter.length === 0 ? uiText("All nodes") : undefined}
                 helperText={NODE_FILTER_HELP[form.kind]}
                 slotProps={{
                   ...params.slotProps,
@@ -206,10 +207,10 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <OptionCheckbox
             testId="lifecycle-options-cleanup"
-            label="Clean up"
+            label={uiText("Clean up")}
             description={
               cleanupBlocked
-                ? "Not available when only some nodes are destroyed."
+                ? uiText("Not available when only some nodes are destroyed.")
                 : CLEANUP_DESCRIPTIONS[form.kind]
             }
             checked={form.cleanup && !cleanupBlocked}
@@ -219,8 +220,8 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
           {takes("graceful") && (
             <OptionCheckbox
               testId="lifecycle-options-graceful"
-              label="Graceful shutdown"
-              description="Stop containers before removing them."
+              label={uiText("Graceful shutdown")}
+              description={uiText("Stop containers before removing them.")}
               checked={form.graceful}
               onChange={(checked) => update("graceful", checked)}
             />
@@ -228,8 +229,8 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
           {takes("keepMgmtNet") && (
             <OptionCheckbox
               testId="lifecycle-options-keep-mgmt-net"
-              label="Keep management network"
-              description="Leave the management network in place."
+              label={uiText("Keep management network")}
+              description={uiText("Leave the management network in place.")}
               checked={form.keepMgmtNet}
               onChange={(checked) => update("keepMgmtNet", checked)}
             />
@@ -237,8 +238,8 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
           {takes("skipPostDeploy") && (
             <OptionCheckbox
               testId="lifecycle-options-skip-post-deploy"
-              label="Skip post-deploy actions"
-              description="Do not run the node configuration steps after the containers start."
+              label={uiText("Skip post-deploy actions")}
+              description={uiText("Do not run the node configuration steps after the containers start.")}
               checked={form.skipPostDeploy}
               onChange={(checked) => update("skipPostDeploy", checked)}
             />
@@ -246,8 +247,8 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
           {takes("skipLabdirAcl") && (
             <OptionCheckbox
               testId="lifecycle-options-skip-labdir-acl"
-              label="Skip lab directory ACLs"
-              description="Do not set extended file ACLs on the lab directory."
+              label={uiText("Skip lab directory ACLs")}
+              description={uiText("Do not set extended file ACLs on the lab directory.")}
               checked={form.skipLabdirAcl}
               onChange={(checked) => update("skipLabdirAcl", checked)}
             />
@@ -259,24 +260,24 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
             {takes("maxWorkers") && (
               <InputField
                 id="lifecycle-options-max-workers"
-                label="Max workers"
+                label={uiText("Max workers")}
                 type="number"
                 min={1}
                 value={form.maxWorkers}
                 onChange={(value) => update("maxWorkers", value)}
-                placeholder="No limit"
+                placeholder={uiText("No limit")}
                 error={workersError !== undefined}
-                helperText={workersError ?? "Nodes handled in parallel."}
+                helperText={workersError ?? uiText("Nodes handled in parallel.")}
               />
             )}
             {takes("exportTemplate") && (
               <InputField
                 id="lifecycle-options-export-template"
-                label="Export template"
+                label={uiText("Export template")}
                 value={form.exportTemplate}
                 onChange={(value) => update("exportTemplate", value)}
-                placeholder="Default"
-                helperText="Use __full to export everything."
+                placeholder={uiText("Default")}
+                helperText={uiText("Use __full to export everything.")}
               />
             )}
           </Box>
@@ -300,9 +301,7 @@ export const LifecycleOptionsDialog: React.FC<LifecycleOptionsDialogProps> = ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" size="small" onClick={onClose}>
-          Cancel
-        </Button>
+        <Button variant="text" size="small" onClick={onClose}>{uiText("Cancel")}</Button>
         <Button
           size="small"
           color={form.kind === "destroy" ? "error" : "primary"}

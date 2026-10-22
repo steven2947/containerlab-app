@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 // Network editor content for the ContextPanel.
 import React, { useCallback, useMemo } from "react";
 import Box from "@mui/material/Box";
@@ -66,10 +67,7 @@ const MgmtNetLinkNote: React.FC = () => {
       variant="caption"
       data-testid="network-mgmt-net-note"
       sx={{ color: "text.secondary", display: "block" }}
-    >
-      Connects to the bridge of the default management network ({getMgmtNetworkName(networks[0])}),
-      not to the other networks of this lab.
-    </Typography>
+    >{uiText("Connects to the bridge of the default management network (")}{getMgmtNetworkName(networks[0])}{uiText("), not to the other networks of this lab.")}</Typography>
   );
 };
 
@@ -96,10 +94,10 @@ const NetworkEditorContent: React.FC<{
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Network Configuration">
+      <PanelSection title={uiText("Network Configuration")}>
         <FilterableDropdown
           id="network-type"
-          label="Network Type"
+          label={uiText("Network Type")}
           options={NETWORK_TYPE_OPTIONS}
           value={formData.networkType}
           onChange={(v) => {
@@ -107,7 +105,7 @@ const NetworkEditorContent: React.FC<{
               handleNetworkTypeChange(v);
             }
           }}
-          placeholder="Select network type..."
+          placeholder={uiText("Select network type...")}
           allowFreeText={false}
         />
         {formData.networkType === "mgmt-net" && <MgmtNetLinkNote />}
@@ -126,21 +124,21 @@ const NetworkEditorContent: React.FC<{
           VXLAN_TYPES.includes(formData.networkType)) && (
           <InputField
             id="network-label"
-            label="Label / Alias"
+            label={uiText("Label / Alias")}
             value={formData.label}
             onChange={(v) => onChange({ label: v })}
-            placeholder="Display label for the network node"
+            placeholder={uiText("Display label for the network node")}
           />
         )}
 
         {formData.networkType === "macvlan" && (
           <FilterableDropdown
             id="macvlan-mode"
-            label="Mode"
+            label={uiText("Mode")}
             options={MACVLAN_MODE_OPTIONS}
             value={formData.macvlanMode ?? "bridge"}
             onChange={(v) => onChange({ macvlanMode: v })}
-            placeholder="Select mode..."
+            placeholder={uiText("Select mode...")}
             allowFreeText={false}
           />
         )}
@@ -149,23 +147,23 @@ const NetworkEditorContent: React.FC<{
         {!BRIDGE_TYPES.includes(formData.networkType) && (
           <InputField
             id="network-mac"
-            label="MAC Address"
+            label={uiText("MAC Address")}
             value={formData.mac ?? ""}
             onChange={(v) => onChange({ mac: v })}
-            placeholder="e.g., 00:11:22:33:44:55 (optional)"
+            placeholder={uiText("e.g., 00:11:22:33:44:55 (optional)")}
           />
         )}
       </PanelSection>
 
       {/* VXLAN Settings */}
       {VXLAN_TYPES.includes(formData.networkType) && (
-        <PanelSection title="VXLAN Settings">
+        <PanelSection title={uiText("VXLAN Settings")}>
           <InputField
             id="vxlan-remote"
-            label="Remote"
+            label={uiText("Remote")}
             value={formData.vxlanRemote ?? ""}
             onChange={(v) => onChange({ vxlanRemote: v })}
-            placeholder="Remote endpoint IP address"
+            placeholder={uiText("Remote endpoint IP address")}
           />
           <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1.5 }}>
             <InputField
@@ -177,14 +175,14 @@ const NetworkEditorContent: React.FC<{
             />
             <InputField
               id="vxlan-dst-port"
-              label="Dst Port"
+              label={uiText("Dst Port")}
               value={formData.vxlanDstPort ?? ""}
               onChange={(v) => onChange({ vxlanDstPort: v })}
               placeholder="e.g., 4789"
             />
             <InputField
               id="vxlan-src-port"
-              label="Src Port"
+              label={uiText("Src Port")}
               value={formData.vxlanSrcPort ?? ""}
               onChange={(v) => onChange({ vxlanSrcPort: v })}
               placeholder="e.g., 0"
@@ -196,7 +194,7 @@ const NetworkEditorContent: React.FC<{
       {/* Extended Properties */}
       {supportsExtendedProps(formData.networkType) && (
         <>
-          <PanelSection title="Extended Properties">
+          <PanelSection title={uiText("Extended Properties")}>
             <InputField
               id="network-mtu"
               label="MTU"
@@ -208,7 +206,7 @@ const NetworkEditorContent: React.FC<{
               max={65535}
             />
           </PanelSection>
-          <PanelSection title="Vars">
+          <PanelSection title={uiText("Vars")}>
             <KeyValueList
               items={formData.vars ?? {}}
               onChange={(items) => onChange({ vars: items })}
@@ -217,7 +215,7 @@ const NetworkEditorContent: React.FC<{
               addLabel="Add Variable"
             />
           </PanelSection>
-          <PanelSection title="Labels">
+          <PanelSection title={uiText("Labels")}>
             <KeyValueList
               items={formData.labels ?? {}}
               onChange={(items) => onChange({ labels: items })}

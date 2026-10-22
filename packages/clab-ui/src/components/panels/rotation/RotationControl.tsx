@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React, { useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -50,12 +51,12 @@ export function RotationControl({
     onChangeRef.current?.(keepUpright ? uprightRotation(value) : value);
 
   const matchHint = keepUpright
-    ? "Pick a direction on the canvas · Text stays upright"
-    : "Pick a direction from any link, line, text or shape";
-  const hint = picking ? "Click a link, line, text or shape · Esc to cancel" : matchHint;
+    ? uiText("Pick a direction on the canvas · Text stays upright")
+    : uiText("Pick a direction from any link, line, text or shape");
+  const hint = picking ? uiText("Click a link, line, text or shape · Esc to cancel") : matchHint;
   return (
     <Box data-testid="rotation-control">
-      <PanelSectionHeader title="Rotation" />
+      <PanelSectionHeader title={uiText("Rotation")} />
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, px: 2, pt: 1.5, pb: 0.5 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <RotationDial
@@ -91,7 +92,7 @@ export function RotationControl({
                       variant="outlined"
                       disabled={!editable}
                       onClick={() => apply(preset)}
-                      aria-label={`Set rotation to ${preset}°`}
+                      aria-label={uiText("Set rotation to {0}°", { "0": (preset) })}
                       sx={{
                         flex: 1,
                         fontVariantNumeric: "tabular-nums",
@@ -106,8 +107,8 @@ export function RotationControl({
             ) : (
               <Typography variant="caption" sx={{ color: "text.secondary" }}>
                 {unavailable
-                  ? "No direction available for this link."
-                  : "Direction at the link midpoint. Copy it to align an annotation."}
+                  ? uiText("No direction available for this link.")
+                  : uiText("Direction at the link midpoint. Copy it to align an annotation.")}
               </Typography>
             )}
           </Box>
@@ -127,7 +128,7 @@ export function RotationControl({
               }}
               sx={{ flexShrink: 0 }}
             >
-              {picking ? "Choose an object on the canvas…" : "Match rotation"}
+              {picking ? uiText("Choose an object on the canvas…") : uiText("Match rotation")}
             </Button>
             <Typography variant="caption" sx={{ color: "text.secondary", minWidth: 0 }}>
               {hint}

@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
@@ -54,8 +55,8 @@ function portStateOf(node: ExplorerNode): "up" | "down" | undefined {
 }
 
 function statusWord(status: string): string {
-  const word = status === "expired" ? "session expired" : status;
-  return word.charAt(0).toUpperCase() + word.slice(1);
+  const word = status === "expired" ? "Session Expired" : status;
+  return uiText(word.charAt(0).toUpperCase() + word.slice(1));
 }
 
 interface StatusDotProps {
@@ -233,9 +234,9 @@ function ExplorerNodeTrailingContent({
   return (
     <>
       {node.workspaceScope === "shared" && (
-        <Tooltip title="Shared lab" placement="bottom" enterDelay={300} disableInteractive>
+        <Tooltip title={uiText("Shared lab")} placement="bottom" enterDelay={300} disableInteractive>
           <GroupsOutlinedIcon
-            titleAccess="Shared lab"
+            titleAccess={uiText("Shared lab")}
             sx={{ fontSize: 15, color: "text.secondary", flexShrink: 0, ml: "6px" }}
           />
         </Tooltip>
@@ -252,7 +253,7 @@ function ExplorerNodeTrailingContent({
           size="small"
           className="explorer-node-inline-icon-button"
           onClick={handleShareAction}
-          aria-label={node.shareAction?.label ?? "Open shared session"}
+          aria-label={node.shareAction?.label ?? uiText("Open shared session")}
           sx={{ ...SMALL_ICON_BUTTON_SX, ml: "4px", flexShrink: 0 }}
         >
           <LinkRoundedIcon
@@ -326,19 +327,19 @@ function ExplorerEndpointQuickActions({
     <>
       <ExplorerEndpointActionButton
         action={actions.newTopologyAction}
-        ariaLabel="New topology file"
+        ariaLabel={uiText("New topology file")}
         icon={NoteAddOutlinedIcon}
         onInvokeAction={onInvokeAction}
       />
       <ExplorerEndpointActionButton
         action={actions.cloneRepoAction}
-        ariaLabel="Clone repository"
+        ariaLabel={uiText("Clone repository")}
         icon={CodeRoundedIcon}
         onInvokeAction={onInvokeAction}
       />
       <ExplorerEndpointActionButton
         action={actions.reconnectAction}
-        ariaLabel="Reconnect"
+        ariaLabel={uiText("Reconnect")}
         icon={RefreshRoundedIcon}
         onInvokeAction={onInvokeAction}
       />
@@ -477,7 +478,7 @@ function ExplorerNodeActions({
         size="small"
         className="explorer-node-actions-trigger"
         onClick={handleMenuOpen}
-        aria-label={`Actions for ${node.label}`}
+        aria-label={uiText("Actions for {0}", { "0": (node.label) })}
         data-node-actions-trigger="true"
         sx={{
           ...SMALL_ICON_BUTTON_SX,

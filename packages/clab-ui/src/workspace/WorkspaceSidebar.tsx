@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 /* eslint-disable import-x/max-dependencies -- Keep individual icon imports tree-shakeable. */
 import React, { lazy, Suspense, useRef, useState, type ReactNode } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,8 +26,8 @@ const SECTIONS: Record<SidebarView, readonly ExplorerSectionId[]> = {
   files: ["fileExplorer"]
 };
 const VIEWS = [
-  { id: "labs", label: "Labs", icon: <ScienceOutlinedIcon fontSize="small" /> },
-  { id: "files", label: "Files", icon: <FolderOutlinedIcon fontSize="small" /> }
+  { id: "labs", label: uiText("Labs"), icon: <ScienceOutlinedIcon fontSize="small" /> },
+  { id: "files", label: uiText("Files"), icon: <FolderOutlinedIcon fontSize="small" /> }
 ] as const;
 const RAIL_WIDTH = 48;
 const EXPANDED_RAIL_WIDTH = 196;
@@ -84,8 +85,8 @@ export function WorkspaceSidebar({ colorScheme, hideLogo = false, onColorSchemeC
   });
   const pinned = preferences.pinned && availableWidth >= 720;
   const railWidth = pinned ? EXPANDED_RAIL_WIDTH : RAIL_WIDTH;
-  const themeLabel = colorScheme === "dark" ? "Light mode" : "Dark mode";
-  const pinLabel = preferences.pinned ? "Unpin" : "Pin";
+  const themeLabel = colorScheme === "dark" ? uiText("Light mode") : uiText("Dark mode");
+  const pinLabel = preferences.pinned ? uiText("Unpin") : uiText("Pin");
   const selectView = (id: SidebarView) => {
     if (open && view === id) {
       setOpen(false);
@@ -121,7 +122,7 @@ export function WorkspaceSidebar({ colorScheme, hideLogo = false, onColorSchemeC
         <Box
           ref={navRef}
           component="nav"
-          aria-label="Workspace"
+          aria-label={uiText("Workspace")}
           data-testid="workspace-rail"
           data-pinned={pinned}
           sx={{
@@ -157,13 +158,13 @@ export function WorkspaceSidebar({ colorScheme, hideLogo = false, onColorSchemeC
           }}>
             {tabs}
           </Box>
-          <WorkspaceRailItem pinned={pinned} label="Help & Feedback" onClick={() => window.open("https://containerlab.app", "_blank", "noopener,noreferrer")}>
+          <WorkspaceRailItem pinned={pinned} label={uiText("Help & Feedback")} onClick={() => window.open("https://containerlab.app", "_blank", "noopener,noreferrer")}>
             <HelpOutlineIcon fontSize="small" />
           </WorkspaceRailItem>
           <WorkspaceRailItem pinned={pinned} label={themeLabel} onClick={() => onColorSchemeChange(colorScheme === "dark" ? "light" : "dark")}>
             {colorScheme === "dark" ? <DarkModeOutlinedIcon fontSize="small" /> : <LightModeOutlinedIcon fontSize="small" />}
           </WorkspaceRailItem>
-          <WorkspaceRailItem pinned={pinned} label="Settings" testId="standalone-settings-button" onClick={onOpenSettings}>
+          <WorkspaceRailItem pinned={pinned} label={uiText("Settings")} testId="standalone-settings-button" onClick={onOpenSettings}>
             <TuneIcon fontSize="small" />
           </WorkspaceRailItem>
           <WorkspaceRailItem pinned={pinned} label={pinLabel} active={preferences.pinned} testId="workspace-sidebar-pin" onClick={() => savePreferences({ ...preferences, pinned: !preferences.pinned })}>
@@ -201,15 +202,15 @@ export function WorkspaceSidebar({ colorScheme, hideLogo = false, onColorSchemeC
           <Box sx={{ display: "flex", alignItems: "center", px: 1, height: headerBarHeight, flexShrink: 0, borderBottom: `1px solid ${RAIL_BORDER}` }}>
             <Typography noWrap variant="subtitle2" sx={{ flex: 1, minWidth: 0 }}>{VIEWS.find((entry) => entry.id === view)?.label}</Typography>
             <Box ref={setHeaderActions} sx={{ display: "flex", alignItems: "center", flexShrink: 0, mr: 0.25 }} />
-            <IconButton size="small" aria-label="Close explorer" onClick={closeExplorer}><CloseIcon fontSize="small" /></IconButton>
+            <IconButton size="small" aria-label={uiText("Close explorer")} onClick={closeExplorer}><CloseIcon fontSize="small" /></IconButton>
           </Box>
           <Box sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
-            <Suspense fallback={<Typography sx={{ p: 2 }} variant="body2" color="text.secondary">Loading explorer…</Typography>}>
+            <Suspense fallback={<Typography sx={{ p: 2 }} variant="body2" color="text.secondary">{uiText("Loading explorer…")}</Typography>}>
               <Explorer key={view} visibleSectionIds={SECTIONS[view]} toolbarActionsContainer={headerActions} />
             </Suspense>
           </Box>
         </Box>
-        <Box {...separatorProps} aria-label="Resize sidebar" aria-controls="workspace-explorer" sx={{
+        <Box {...separatorProps} aria-label={uiText("Resize sidebar")} aria-controls="workspace-explorer" sx={{
           position: "absolute", right: 0, top: 0, bottom: 0, width: 4, cursor: "col-resize", touchAction: "none", zIndex: 2,
           bgcolor: isDragging ? "primary.main" : undefined,
           "&:hover, &:focus-visible": { bgcolor: "primary.main" }

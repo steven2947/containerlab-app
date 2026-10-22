@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import { createExplorerController } from "@containerlab/clab-ui/host";
 import type {
   ExplorerAction,
@@ -108,7 +109,7 @@ const STANDALONE_TRANSFER_FILE_ACTIONS = [
   {
     commandId: "containerlab.editor.topoViewerEditor",
     contextValues: ["containerlabFileExplorerRoot", "containerlabFileFolder"],
-    label: "New Topology File",
+    label: uiText("New Topology File"),
   },
   {
     commandId: "containerlab.file.download",
@@ -284,7 +285,7 @@ function buildRunningShareItems(
   return [
     {
       id: `running-lab-share:${kind}:${lab.endpointId}:${lab.name}`,
-      label: kind === "sshx" ? "Shared Terminal" : "Web Terminal",
+      label: kind === "sshx" ? uiText("Shared Terminal") : uiText("Web Terminal"),
       contextValue:
         kind === "sshx" ? "containerlabSSHXLink" : "containerlabGottyLink",
       collapsibleState: TREE_ITEM_NONE,
@@ -344,7 +345,7 @@ function buildRunningLabItem(input: {
   if (topologyRef) {
     labItem.command = {
       command: "containerlab.lab.graph.topoViewer",
-      title: "Open TopoViewer",
+      title: uiText("Open TopoViewer"),
       arguments: [labItem],
     };
   }
@@ -354,12 +355,12 @@ function buildRunningLabItem(input: {
 
 function disconnectedEndpointLabel(status: EndpointConfig["status"]): string {
   if (status === "saved") {
-    return "Saved endpoint — reconnect to restore the session";
+    return uiText("Saved endpoint — reconnect to restore the session");
   }
   if (status === "session_expired") {
-    return "Session expired — reconnect with your credentials";
+    return uiText("Session expired — reconnect with your credentials");
   }
-  return "Endpoint is offline — reconnect when it is reachable";
+  return uiText("Endpoint is offline — reconnect when it is reachable");
 }
 
 type ExplorerSnapshotMessage = Extract<
@@ -392,16 +393,16 @@ export interface StandaloneExplorerBridge {
 }
 
 const HELP_LINKS = [
-  { label: "Containerlab Documentation", url: "https://containerlab.dev/" },
+  { label: uiText("Containerlab Documentation"), url: "https://containerlab.dev/" },
   {
-    label: "VS Code Extension Documentation",
+    label: uiText("VS Code Extension Documentation"),
     url: "https://containerlab.dev/manual/vsc-extension/",
   },
   {
-    label: "Browse Labs on GitHub (srl-labs)",
+    label: uiText("Browse Labs on GitHub (srl-labs)"),
     url: "https://github.com/srl-labs/",
   },
-  { label: "Join our Discord server", url: "https://discord.gg/vAyddtaEV9" },
+  { label: uiText("Join our Discord server"), url: "https://discord.gg/vAyddtaEV9" },
 ] as const;
 
 function filterTreeItems(
@@ -606,10 +607,10 @@ function endpointHealthTooltip(
     return undefined;
   }
   if (state.status === "loading") {
-    return "Health: loading...";
+    return uiText("Health: loading...");
   }
   if (state.status === "error") {
-    return "Health: unavailable";
+    return uiText("Health: unavailable");
   }
   return `Health\n${formatEndpointHealthTooltip(state.metrics)}`;
 }
@@ -622,8 +623,10 @@ function buildEndpointSectionItem(
   const count = children.length;
   return {
     id: `endpoint-section:${kind}:${endpointId}`,
-    label: kind === "running" ? "Running Labs" : "Undeployed Labs",
-    tooltip: `${count} ${kind === "running" ? "running" : "undeployed"} lab${count === 1 ? "" : "s"}`,
+    label: kind === "running" ? uiText("Running Labs") : uiText("Undeployed Labs"),
+    tooltip: kind === "running"
+      ? uiText(count === 1 ? "{0} running lab" : "{0} running labs", { 0: count })
+      : uiText(count === 1 ? "{0} undeployed lab" : "{0} undeployed labs", { 0: count }),
     contextValue:
       kind === "running"
         ? "containerlabEndpointSectionRunning"
@@ -677,11 +680,11 @@ function buildFileExplorerEntryItem(
   }
   return {
     id: `file:${entry.endpointId}:${entry.path || "."}`,
-    label: sharedRoot ? "Shared labs" : entry.name || safeFilename(entry.path),
+    label: sharedRoot ? uiText("Shared labs") : entry.name || safeFilename(entry.path),
     description,
     tooltip: isSharedWorkspacePath(entry.path)
       ? `${entry.path}\n${SHARED_WORKSPACE_DESCRIPTION}`
-      : `Lab workspace/${entry.path}`,
+      : uiText("Lab workspace/{0}", { "0": (entry.path) }),
     contextValue,
     endpointId: entry.endpointId,
     labName: entry.labName,
@@ -950,7 +953,7 @@ export function createStandaloneExplorerBridge(
           };
           item.command = {
             command: "containerlab.lab.graph.topoViewer",
-            title: "Open TopoViewer",
+            title: uiText("Open TopoViewer"),
             arguments: [item],
           };
           return item;
@@ -1066,7 +1069,7 @@ export function createStandaloneExplorerBridge(
             .map((endpoint) => ({
               id: `file-root:${endpoint.id}`,
               label: endpoint.label,
-              tooltip: `${endpoint.label} (${endpoint.url}): lab workspace`,
+              tooltip: uiText("{0} ({1}): lab workspace", { "0": (endpoint.label), "1": (endpoint.url) }),
               contextValue: "containerlabFileExplorerRoot",
               endpointId: endpoint.id,
               resourceKind: "directory",
@@ -1264,7 +1267,7 @@ export function createStandaloneExplorerBridge(
           return [
             {
               ...section,
-              label: "File Explorer",
+              label: uiText("File Explorer"),
               count: section.nodes.length,
               appearance: "bareTree" as const,
             },
@@ -1277,7 +1280,7 @@ export function createStandaloneExplorerBridge(
         return [
           {
             ...section,
-            label: "Endpoints",
+            label: uiText("Endpoints"),
             count: options.getEndpoints().length,
             appearance: "bareTree" as const,
             toolbarActions: dedupeExplorerActions([

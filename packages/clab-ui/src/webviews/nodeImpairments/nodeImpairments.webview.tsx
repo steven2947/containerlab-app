@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /* eslint-disable import-x/max-dependencies */
 import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import Box from "@mui/material/Box";
@@ -42,13 +43,13 @@ const FIELD_META: ReadonlyArray<{
   placeholder: string;
   inputType: "text" | "number";
 }> = [
-  { key: "delay", label: "Delay", unit: "ms/s/m", placeholder: "50", inputType: "text" },
-  { key: "jitter", label: "Jitter", unit: "ms/s", placeholder: "10", inputType: "text" },
-  { key: "loss", label: "Loss", unit: "%", placeholder: "0", inputType: "text" },
-  { key: "rate", label: "Rate-limit", unit: "kb/s", placeholder: "1000", inputType: "number" },
+  { key: "delay", label: uiText("Delay"), unit: "ms/s/m", placeholder: "50", inputType: "text" },
+  { key: "jitter", label: uiText("Jitter"), unit: "ms/s", placeholder: "10", inputType: "text" },
+  { key: "loss", label: uiText("Loss"), unit: "%", placeholder: "0", inputType: "text" },
+  { key: "rate", label: uiText("Rate-limit"), unit: "kb/s", placeholder: "1000", inputType: "number" },
   {
     key: "corruption",
-    label: "Corruption",
+    label: uiText("Corruption"),
     unit: "%",
     placeholder: "0",
     inputType: "text"
@@ -143,8 +144,7 @@ export function NodeImpairmentsApp(): React.JSX.Element {
             borderColor: "divider"
           }}
         >
-          <Typography variant="h6" sx={{ minWidth: 0 }}>
-            Link Impairments:{" "}
+          <Typography variant="h6" sx={{ minWidth: 0 }}>{uiText("Link Impairments:")}{" "}
             <Box component="span" sx={{ fontFamily: MONO_FONT_FAMILY, fontWeight: 500 }}>
               {nodeName}
             </Box>
@@ -156,25 +156,19 @@ export function NodeImpairmentsApp(): React.JSX.Element {
               onClick={() => {
                 postMessage({ command: "apply", data: netemByInterface });
               }}
-            >
-              Apply
-            </Button>
+            >{uiText("Apply")}</Button>
             <Button
               variant="outlined"
               onClick={() => {
                 postMessage({ command: "clearAll" });
               }}
-            >
-              Clear All
-            </Button>
+            >{uiText("Clear All")}</Button>
             <Button
               variant="outlined"
               onClick={() => {
                 postMessage({ command: "refresh" });
               }}
-            >
-              Refresh
-            </Button>
+            >{uiText("Refresh")}</Button>
           </Stack>
         </Box>
 
@@ -182,9 +176,7 @@ export function NodeImpairmentsApp(): React.JSX.Element {
           {sortedInterfaces.length === 0 ? (
             <Stack spacing={1.5} sx={{ alignItems: "center", py: 8, color: "text.secondary" }}>
               <SettingsEthernetIcon sx={{ fontSize: 28, opacity: 0.8 }} />
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                No interfaces available for this node.
-              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("No interfaces available for this node.")}</Typography>
             </Stack>
           ) : (
             <TableContainer
@@ -200,11 +192,11 @@ export function NodeImpairmentsApp(): React.JSX.Element {
               <Table
                 stickyHeader
                 size="small"
-                aria-label={`Link impairments table for ${nodeName}`}
+                aria-label={uiText("Link impairments table for {0}", { "0": (nodeName) })}
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ whiteSpace: "nowrap" }}>Interface</TableCell>
+                    <TableCell sx={{ whiteSpace: "nowrap" }}>{uiText("Interface")}</TableCell>
                     {FIELD_META.map((field) => (
                       <TableCell key={field.key} sx={{ whiteSpace: "nowrap" }}>
                         {field.label}
@@ -248,7 +240,7 @@ export function NodeImpairmentsApp(): React.JSX.Element {
                                 error={isErrorField}
                                 helperText={
                                   showDelayMessage
-                                    ? "A positive delay is required if jitter is set."
+                                    ? uiText("A positive delay is required if jitter is set.")
                                     : undefined
                                 }
                                 onChange={(event) => {

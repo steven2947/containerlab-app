@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useCallback, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -118,8 +119,7 @@ function ReconnectCard({
             >
               {endpointUrl} &middot; {endpoint.username}
             </Typography>
-            <Typography variant="caption" sx={{ color: "text.secondary", display: "block" }}>
-              Keep signed in: {endpointSessionDurationLabel(endpoint.sessionDuration)}
+            <Typography variant="caption" sx={{ color: "text.secondary", display: "block" }}>{uiText("Keep signed in: ")}{endpointSessionDurationLabel(endpoint.sessionDuration)}
             </Typography>
           </Box>
         </Stack>
@@ -141,7 +141,7 @@ function ReconnectCard({
         <Stack spacing={1} sx={{ pt: 0.5 }}>
           <TextField
             size="small"
-            label="Username"
+            label={uiText("Username")}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fullWidth
@@ -157,7 +157,7 @@ function ReconnectCard({
         >
           <TextField
             size="small"
-            label="Password"
+            label={uiText("Password")}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -182,7 +182,7 @@ function ReconnectCard({
             }
             sx={{ flexShrink: 0 }}
           >
-            {busy ? "Connecting..." : "Connect"}
+            {busy ? uiText("Connecting...") : uiText("Connect")}
           </Button>
         </Stack>
       </Stack>
@@ -251,9 +251,7 @@ export function LoginPage({
             sx={{ display: "block", width: 40, height: 40 }}
           />
           {hasPersistedEndpoints ? (
-            <Typography variant="body2" sx={{ color: "text.secondary", mt: 2, textAlign: "center" }}>
-              Enter your password to reconnect to your endpoints.
-            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary", mt: 2, textAlign: "center" }}>{uiText("Enter your password to reconnect to your endpoints.")}</Typography>
           ) : null}
         </Box>
 
@@ -279,9 +277,7 @@ export function LoginPage({
                 alignSelf: "center",
                 color: "text.secondary"
               }}
-            >
-              Manage saved endpoints
-            </Button>
+            >{uiText("Manage saved endpoints")}</Button>
           </Stack>
         ) : (
           <Stack spacing={2}>
@@ -306,9 +302,7 @@ export function LoginPage({
                   alignSelf: "center",
                   color: "text.secondary"
                 }}
-              >
-                Back to reconnect
-              </Button>
+              >{uiText("Back to reconnect")}</Button>
             )}
           </Stack>
         )}

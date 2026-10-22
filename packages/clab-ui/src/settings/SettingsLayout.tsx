@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -15,7 +16,7 @@ export function SettingsLayout({
   navigationTestIdPrefix,
   headerActions,
   toolbar,
-  title = "Settings",
+  title = uiText("Settings"),
   titleId = "containerlab-settings-title",
   sectionTitle,
   sectionDescription,

@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import React from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -25,7 +26,7 @@ export function SettingsNavigation({
   return (
     <List
       component="nav"
-      aria-label="Settings categories"
+      aria-label={uiText("Settings categories")}
       sx={{
         p: 1,
         display: "flex",

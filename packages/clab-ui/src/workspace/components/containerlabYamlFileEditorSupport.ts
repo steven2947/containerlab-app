@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import Ajv from "ajv";
 import type * as monaco from "monaco-editor";
 import { containerlabSchema } from "../../session";
@@ -114,7 +115,7 @@ function formatAjvError(error: {
   const allowedValues = error.params?.["allowedValues"];
   if (error.keyword === "enum" && Array.isArray(allowedValues)) {
     const list = allowedValues.map((value) => `"${String(value)}"`).join(", ");
-    return `Value is not accepted. Valid values: ${list}`;
+    return uiText("Value is not accepted. Valid values: {0}", { "0": (list) });
   }
 
   const additionalProperty = error.params?.["additionalProperty"];
@@ -122,17 +123,17 @@ function formatAjvError(error: {
     error.keyword === "additionalProperties" &&
     typeof additionalProperty === "string"
   ) {
-    return `Unknown property "${additionalProperty}"`;
+    return uiText("Unknown property \"{0}\"", { "0": (additionalProperty) });
   }
 
   const missingProperty = error.params?.["missingProperty"];
   if (error.keyword === "required" && typeof missingProperty === "string") {
-    return `Missing required property "${missingProperty}"`;
+    return uiText("Missing required property \"{0}\"", { "0": (missingProperty) });
   }
 
   const expectedType = error.params?.["type"];
   if (error.keyword === "type" && typeof expectedType === "string") {
-    return `Must be ${expectedType}`;
+    return uiText("Must be {0}", { "0": (expectedType) });
   }
 
   return error.message ?? "Schema validation error";
@@ -175,7 +176,7 @@ function validateYaml(
         startColumn: 1,
         endLineNumber: 1,
         endColumn: 1,
-        message: "Invalid YAML syntax",
+        message: uiText("Invalid YAML syntax"),
         severity: monacoApi.MarkerSeverity.Error,
       },
     ];

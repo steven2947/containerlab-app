@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * Kind-specific config keys read from the containerlab schema.
  *
@@ -162,9 +163,9 @@ const WORD_LABELS: Partial<Record<string, string>> = {
   nics: "NICs",
   ram: "RAM",
   cpu: "CPU",
-  intf: "Interface",
-  gen: "Generate",
-  mgmt: "Management",
+  intf: uiText("Interface"),
+  gen: uiText("Generate"),
+  mgmt: uiText("Management"),
   to: "to"
 };
 

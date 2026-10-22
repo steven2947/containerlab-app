@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import { parse } from "yaml";
 
 import { resolveNodeConfig } from "../core/parsing/NodeConfigResolver";
@@ -217,7 +218,7 @@ export function collectKindImageReferencesFromTopology(
       kind,
       image: cleanString(cfg.image),
       source: "topology-kind",
-      label: `${sourceLabel} kind ${kind}`,
+      label: uiText("{0} kind {1}", { "0": (sourceLabel), "1": (kind) }),
       endpointId: options.endpointId,
       path: options.path,
       type: cleanString(cfg.type) || undefined
@@ -229,7 +230,7 @@ export function collectKindImageReferencesFromTopology(
       kind: cleanString(cfg.kind),
       image: cleanString(cfg.image),
       source: "topology-group",
-      label: `${sourceLabel} group ${groupName}`,
+      label: uiText("{0} group {1}", { "0": (sourceLabel), "1": (groupName) }),
       endpointId: options.endpointId,
       path: options.path,
       type: cleanString(cfg.type) || undefined
@@ -243,7 +244,7 @@ export function collectKindImageReferencesFromTopology(
       kind: defaultKind,
       image: defaultImage,
       source: "topology-defaults",
-      label: `${sourceLabel} defaults`,
+      label: uiText("{0} defaults", { "0": (sourceLabel) }),
       endpointId: options.endpointId,
       path: options.path,
       type: cleanString(topo.defaults?.type) || undefined
@@ -261,7 +262,7 @@ export function collectKindImageReferencesFromTopology(
       kind,
       image,
       source: inferNodeImageSource(topology, node, kind),
-      label: `${sourceLabel} node ${nodeName}`,
+      label: uiText("{0} node {1}", { "0": (sourceLabel), "1": (nodeName) }),
       endpointId: options.endpointId,
       path: options.path,
       nodeName,
@@ -325,7 +326,7 @@ export function pinnedReferencesFromMap(
         kind,
         image,
         source: "pinned",
-        label: "Pinned",
+        label: uiText("Pinned"),
         endpointId
       });
     }

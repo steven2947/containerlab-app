@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Form of one management network: driver, addressing and driver-specific options.
 import React from "react";
 import MenuItem from "@mui/material/MenuItem";
@@ -45,20 +46,20 @@ function recordToDriverOptions(record: Record<string, string>): DriverOption[] {
 }
 
 const MACVLAN_MODE_LABELS: Record<MacvlanMode, string> = {
-  bridge: "Bridge (default)",
-  private: "Private",
+  bridge: uiText("Bridge (default)"),
+  private: uiText("Private"),
   vepa: "VEPA",
-  passthru: "Passthru"
+  passthru: uiText("Passthru")
 };
 
 const DriverFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues }) => (
   <>
     <SettingsField
-      title="Driver"
-      description="Bridge connects nodes through a Linux bridge on the host. Macvlan puts them directly on the Layer 2 network of a host interface."
+      title={uiText("Driver")}
+      description={uiText("Bridge connects nodes through a Linux bridge on the host. Macvlan puts them directly on the Layer 2 network of a host interface.")}
     >
       <TextField
-        slotProps={{ select: { inputProps: { "aria-label": "Driver" } } }}
+        slotProps={{ select: { inputProps: { "aria-label": uiText("Driver") } } }}
         id="lab-mgmt-driver"
         select
         size="small"
@@ -66,21 +67,21 @@ const DriverFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues 
         onChange={(event) => setMgmt.setDriver(event.target.value as MgmtDriver)}
         disabled={isViewMode}
       >
-        <MenuItem value="bridge">Bridge (default)</MenuItem>
+        <MenuItem value="bridge">{uiText("Bridge (default)")}</MenuItem>
         <MenuItem value="macvlan">Macvlan</MenuItem>
       </TextField>
     </SettingsField>
     {mgmt.driver === "macvlan" ? (
       <>
         <SettingsField
-          title="Parent Interface"
-          description="Existing host interface the nodes attach to. For a VLAN, create the VLAN interface first, for example eth1.100."
+          title={uiText("Parent Interface")}
+          description={uiText("Existing host interface the nodes attach to. For a VLAN, create the VLAN interface first, for example eth1.100.")}
         >
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "Parent Interface" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("Parent Interface") } }}
             id="lab-mgmt-macvlan-parent"
             size="small"
-            placeholder="e.g., eth1"
+            placeholder={uiText("e.g., eth1")}
             value={mgmt.macvlanParent}
             onChange={(event) => setMgmt.setMacvlanParent(event.target.value)}
             disabled={isViewMode}
@@ -89,11 +90,11 @@ const DriverFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues 
           />
         </SettingsField>
         <SettingsField
-          title="Macvlan Mode"
-          description="Bridge mode lets nodes on the same parent reach each other and is the only mode with host access."
+          title={uiText("Macvlan Mode")}
+          description={uiText("Bridge mode lets nodes on the same parent reach each other and is the only mode with host access.")}
         >
           <TextField
-            slotProps={{ select: { inputProps: { "aria-label": "Macvlan Mode" } } }}
+            slotProps={{ select: { inputProps: { "aria-label": uiText("Macvlan Mode") } } }}
             id="lab-mgmt-macvlan-mode"
             select
             size="small"
@@ -110,15 +111,15 @@ const DriverFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues 
         </SettingsField>
         {mgmt.macvlanMode === "bridge" ? (
           <SettingsField
-            title="Host Access"
-            description="Add a macvlan interface on the host so the host can reach the nodes. Linux blocks traffic between a parent and its macvlan interfaces otherwise."
+            title={uiText("Host Access")}
+            description={uiText("Add a macvlan interface on the host so the host can reach the nodes. Linux blocks traffic between a parent and its macvlan interfaces otherwise.")}
           >
             <Switch
               size="small"
               checked={mgmt.macvlanAux}
               onChange={(event) => setMgmt.setMacvlanAux(event.target.checked)}
               disabled={isViewMode}
-              slotProps={{ input: { "aria-label": "Host Access" } }}
+              slotProps={{ input: { "aria-label": uiText("Host Access") } }}
             />
           </SettingsField>
         ) : null}
@@ -133,8 +134,8 @@ function defaultSubnetLabel(
   isDefaultNetwork: boolean,
   defaultSubnet: string
 ): string {
-  if (driver === "macvlan") return "From parent interface";
-  return isDefaultNetwork ? `Default (${defaultSubnet})` : "Default (picked by Docker)";
+  if (driver === "macvlan") return uiText("From parent interface");
+  return isDefaultNetwork ? uiText("Default ({0})", { "0": (defaultSubnet) }) : uiText("Default (picked by Docker)");
 }
 
 const SubnetTypeField: React.FC<{
@@ -151,7 +152,7 @@ const SubnetTypeField: React.FC<{
   // Macvlan has no auto subnet; a file that sets one still shows it, flagged.
   const showAuto = driver === "bridge" || value === "auto";
   return (
-    <SettingsField title={title} description={`Management ${family} addressing.`}>
+    <SettingsField title={title} description={uiText("Management {0} addressing.", { "0": (family) })}>
       <TextField
         slotProps={{ select: { inputProps: { "aria-label": title } } }}
         id={`lab-mgmt-${family.toLowerCase()}-type`}
@@ -164,8 +165,8 @@ const SubnetTypeField: React.FC<{
         helperText={issue}
       >
         <MenuItem value="default">{defaultSubnetLabel(driver, isDefaultNetwork, defaultSubnet)}</MenuItem>
-        {showAuto ? <MenuItem value="auto">Auto-assign</MenuItem> : null}
-        <MenuItem value="custom">Custom</MenuItem>
+        {showAuto ? <MenuItem value="auto">{uiText("Auto-assign")}</MenuItem> : null}
+        <MenuItem value="custom">{uiText("Custom")}</MenuItem>
       </TextField>
     </SettingsField>
   );
@@ -190,9 +191,9 @@ const AddressFields: React.FC<FieldProps & { isDefaultNetwork: boolean }> = ({
     />
     {mgmt.ipv4Type === "custom" ? (
       <>
-        <SettingsField title="IPv4 Subnet CIDR" description="Custom IPv4 subnet, for example 172.100.100.0/24.">
+        <SettingsField title={uiText("IPv4 Subnet CIDR")} description={uiText("Custom IPv4 subnet, for example 172.100.100.0/24.")}>
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "IPv4 Subnet CIDR" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("IPv4 Subnet CIDR") } }}
             id="lab-mgmt-ipv4-subnet"
             size="small"
             placeholder="e.g., 172.100.100.0/24"
@@ -201,9 +202,9 @@ const AddressFields: React.FC<FieldProps & { isDefaultNetwork: boolean }> = ({
             disabled={isViewMode}
           />
         </SettingsField>
-        <SettingsField title="IPv4 Gateway" description="Gateway address for the custom IPv4 subnet.">
+        <SettingsField title={uiText("IPv4 Gateway")} description={uiText("Gateway address for the custom IPv4 subnet.")}>
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "IPv4 Gateway" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("IPv4 Gateway") } }}
             id="lab-mgmt-ipv4-gateway"
             size="small"
             placeholder="e.g., 172.100.100.1"
@@ -212,9 +213,9 @@ const AddressFields: React.FC<FieldProps & { isDefaultNetwork: boolean }> = ({
             disabled={isViewMode}
           />
         </SettingsField>
-        <SettingsField title="IPv4 Range" description="Optional allocation range within the subnet.">
+        <SettingsField title={uiText("IPv4 Range")} description={uiText("Optional allocation range within the subnet.")}>
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "IPv4 Range" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("IPv4 Range") } }}
             id="lab-mgmt-ipv4-range"
             size="small"
             placeholder="e.g., 172.100.100.128/25"
@@ -236,34 +237,34 @@ const AddressFields: React.FC<FieldProps & { isDefaultNetwork: boolean }> = ({
     />
     {mgmt.ipv6Type === "custom" ? (
       <>
-        <SettingsField title="IPv6 Subnet CIDR" description="Custom IPv6 subnet, for example 3fff:172:100:100::/80.">
+        <SettingsField title={uiText("IPv6 Subnet CIDR")} description={uiText("Custom IPv6 subnet, for example 3fff:172:100:100::/80.")}>
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "IPv6 Subnet CIDR" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("IPv6 Subnet CIDR") } }}
             id="lab-mgmt-ipv6-subnet"
             size="small"
-            placeholder="e.g., 3fff:172:100:100::/80"
+            placeholder={uiText("e.g., 3fff:172:100:100::/80")}
             value={mgmt.ipv6Subnet}
             onChange={(event) => setMgmt.setIpv6Subnet(event.target.value)}
             disabled={isViewMode}
           />
         </SettingsField>
-        <SettingsField title="IPv6 Gateway" description="Gateway address for the custom IPv6 subnet.">
+        <SettingsField title={uiText("IPv6 Gateway")} description={uiText("Gateway address for the custom IPv6 subnet.")}>
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "IPv6 Gateway" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("IPv6 Gateway") } }}
             id="lab-mgmt-ipv6-gateway"
             size="small"
-            placeholder="e.g., 3fff:172:100:100::1"
+            placeholder={uiText("e.g., 3fff:172:100:100::1")}
             value={mgmt.ipv6Gateway}
             onChange={(event) => setMgmt.setIpv6Gateway(event.target.value)}
             disabled={isViewMode}
           />
         </SettingsField>
-        <SettingsField title="IPv6 Range" description="Optional allocation range within the subnet.">
+        <SettingsField title={uiText("IPv6 Range")} description={uiText("Optional allocation range within the subnet.")}>
           <TextField
-            slotProps={{ htmlInput: { "aria-label": "IPv6 Range" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("IPv6 Range") } }}
             id="lab-mgmt-ipv6-range"
             size="small"
-            placeholder="e.g., 3fff:172:100:100::8000/81"
+            placeholder={uiText("e.g., 3fff:172:100:100::8000/81")}
             value={mgmt.ipv6Range}
             onChange={(event) => setMgmt.setIpv6Range(event.target.value)}
             disabled={isViewMode}
@@ -277,24 +278,24 @@ const AddressFields: React.FC<FieldProps & { isDefaultNetwork: boolean }> = ({
 /** Settings containerlab only accepts on bridge networks. */
 const BridgeFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues }) => (
   <>
-    <SettingsField title="MTU" description="Defaults to the docker0 interface MTU.">
+    <SettingsField title="MTU" description={uiText("Defaults to the docker0 interface MTU.")}>
       <TextField
         slotProps={{ htmlInput: { "aria-label": "MTU" } }}
         id="lab-mgmt-mtu"
         size="small"
         type="number"
-        placeholder="Defaults to docker0 interface MTU"
+        placeholder={uiText("Defaults to docker0 interface MTU")}
         value={mgmt.mtu}
         onChange={(event) => setMgmt.setMtu(event.target.value)}
         disabled={isViewMode}
       />
     </SettingsField>
-    <SettingsField title="Bridge Name" description="Linux bridge name (default: br-<network-id>).">
+    <SettingsField title={uiText("Bridge Name")} description={uiText("Linux bridge name (default: br-<network-id>).")}>
       <TextField
-        slotProps={{ htmlInput: { "aria-label": "Bridge Name" } }}
+        slotProps={{ htmlInput: { "aria-label": uiText("Bridge Name") } }}
         id="lab-mgmt-bridge"
         size="small"
-        placeholder="Linux bridge name"
+        placeholder={uiText("Linux bridge name")}
         value={mgmt.bridge}
         onChange={(event) => setMgmt.setBridge(event.target.value)}
         disabled={isViewMode}
@@ -302,13 +303,13 @@ const BridgeFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues 
         helperText={issues.bridge}
       />
     </SettingsField>
-    <SettingsField title="Enable External Access" description="Allow access to the management network from outside the lab.">
+    <SettingsField title={uiText("Enable External Access")} description={uiText("Allow access to the management network from outside the lab.")}>
       <Switch
         size="small"
         checked={mgmt.externalAccess}
         onChange={(event) => setMgmt.setExternalAccess(event.target.checked)}
         disabled={isViewMode}
-        slotProps={{ input: { "aria-label": "Enable External Access" } }}
+        slotProps={{ input: { "aria-label": uiText("Enable External Access") } }}
       />
     </SettingsField>
   </>
@@ -317,11 +318,11 @@ const BridgeFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode, issues 
 const AllocationFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode }) => (
   <>
     <SettingsField
-      title="Address Allocation"
-      description="Who assigns node addresses (ipam.provider). Containerlab keeps them stable across redeploys."
+      title={uiText("Address Allocation")}
+      description={uiText("Who assigns node addresses (ipam.provider). Containerlab keeps them stable across redeploys.")}
     >
       <TextField
-        slotProps={{ select: { inputProps: { "aria-label": "Address Allocation" } } }}
+        slotProps={{ select: { inputProps: { "aria-label": uiText("Address Allocation") } } }}
         id="lab-mgmt-ipam-provider"
         select
         size="small"
@@ -329,17 +330,17 @@ const AllocationFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode }) =
         onChange={(event) => setMgmt.setIpamProvider(event.target.value as IpamProvider)}
         disabled={isViewMode}
       >
-        <MenuItem value="containerlab">Containerlab (default)</MenuItem>
-        <MenuItem value="runtime">Container runtime</MenuItem>
+        <MenuItem value="containerlab">{uiText("Containerlab (default)")}</MenuItem>
+        <MenuItem value="runtime">{uiText("Container runtime")}</MenuItem>
       </TextField>
     </SettingsField>
     {mgmt.ipamProvider === "containerlab" ? (
       <SettingsField
-        title="Duplicate Address Detection"
+        title={uiText("Duplicate Address Detection")}
         description={
           mgmt.driver === "macvlan"
-            ? "Check that an address is free before using it, with ARP and neighbour solicitations on the parent interface. Slows down very large labs."
-            : "Check that an address is free before using it."
+            ? uiText("Check that an address is free before using it, with ARP and neighbour solicitations on the parent interface. Slows down very large labs.")
+            : uiText("Check that an address is free before using it.")
         }
       >
         <Switch
@@ -347,20 +348,20 @@ const AllocationFields: React.FC<FieldProps> = ({ mgmt, setMgmt, isViewMode }) =
           checked={mgmt.ipamDad}
           onChange={(event) => setMgmt.setIpamDad(event.target.checked)}
           disabled={isViewMode}
-          slotProps={{ input: { "aria-label": "Duplicate Address Detection" } }}
+          slotProps={{ input: { "aria-label": uiText("Duplicate Address Detection") } }}
         />
       </SettingsField>
     ) : null}
     <SettingsField
-      title="Skip When Unused"
-      description="Do not create the network when no node uses it: every node on it runs with network-mode: none, or none picks it."
+      title={uiText("Skip When Unused")}
+      description={uiText("Do not create the network when no node uses it: every node on it runs with network-mode: none, or none picks it.")}
     >
       <Switch
         size="small"
         checked={mgmt.skipWhenUnused}
         onChange={(event) => setMgmt.setSkipWhenUnused(event.target.checked)}
         disabled={isViewMode}
-        slotProps={{ input: { "aria-label": "Skip When Unused" } }}
+        slotProps={{ input: { "aria-label": uiText("Skip When Unused") } }}
       />
     </SettingsField>
   </>
@@ -377,12 +378,12 @@ export const MgmtNetworkForm: React.FC<MgmtNetworkFormProps> = ({
   const fieldProps: FieldProps = { mgmt, setMgmt, isViewMode, issues };
   return (
     <>
-      <SettingsField title="Network Name" description="Docker network name (default: clab).">
+      <SettingsField title={uiText("Network Name")} description={uiText("Docker network name (default: clab).")}>
         <TextField
-          slotProps={{ htmlInput: { "aria-label": "Network Name" } }}
+          slotProps={{ htmlInput: { "aria-label": uiText("Network Name") } }}
           id="lab-mgmt-network-name"
           size="small"
-          placeholder="Docker network name (default: clab)"
+          placeholder={uiText("Docker network name (default: clab)")}
           value={mgmt.networkName}
           onChange={(event) => setMgmt.setNetworkName(event.target.value)}
           disabled={isViewMode}
@@ -395,8 +396,8 @@ export const MgmtNetworkForm: React.FC<MgmtNetworkFormProps> = ({
       {mgmt.driver === "bridge" ? <BridgeFields {...fieldProps} /> : null}
       <AllocationFields {...fieldProps} />
       <SettingsField
-        title="Driver Options"
-        description={`Key/value options passed to the Docker ${mgmt.driver} driver.`}
+        title={uiText("Driver Options")}
+        description={uiText("Key/value options passed to the Docker {0} driver.", { "0": (mgmt.driver) })}
         wide
         feedback={
           issues.driverOptions !== undefined ? (

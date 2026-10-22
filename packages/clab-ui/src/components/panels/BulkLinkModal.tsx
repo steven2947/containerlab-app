@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Bulk link creation dialog.
 import React from "react";
@@ -43,17 +44,17 @@ type ExampleDefinition = {
 
 const EXAMPLES: readonly ExampleDefinition[] = [
   {
-    title: "All leaves to all spines:",
+    title: uiText("All leaves to all spines:"),
     source: <CopyableCode>leaf*</CopyableCode>,
     target: <CopyableCode>spine*</CopyableCode>
   },
   {
-    title: "Pair by number (leaf1→spine1):",
+    title: uiText("Pair by number (leaf1→spine1):"),
     source: <CopyableCode>{"leaf(\\d+)"}</CopyableCode>,
     target: <CopyableCode>spine$1</CopyableCode>
   },
   {
-    title: "Single char match:",
+    title: uiText("Single char match:"),
     source: <CopyableCode>srl?</CopyableCode>,
     target: <CopyableCode>client*</CopyableCode>
   }
@@ -95,9 +96,7 @@ const ExamplesSection: React.FC = () => (
       borderRadius: controlRadius
     }}
   >
-    <Typography variant="subtitle2" sx={{ mb: 1 }}>
-      Examples
-    </Typography>
+    <Typography variant="subtitle2" sx={{ mb: 1 }}>{uiText("Examples")}</Typography>
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
       {EXAMPLES.map((def, idx) => (
         <ExampleRow key={idx} index={idx + 1} def={def} />
@@ -113,17 +112,13 @@ const ExamplesSection: React.FC = () => (
     >
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 1.5, rowGap: 0.25 }}>
         <Box>
-          <CopyableCode>*</CopyableCode> any chars
-        </Box>
+          <CopyableCode>*</CopyableCode>{uiText(" any chars")}</Box>
         <Box>
-          <CopyableCode>?</CopyableCode> single char
-        </Box>
+          <CopyableCode>?</CopyableCode>{uiText(" single char")}</Box>
         <Box>
-          <CopyableCode>#</CopyableCode> single digit
-        </Box>
+          <CopyableCode>#</CopyableCode>{uiText(" single digit")}</Box>
         <Box>
-          <CopyableCode>$1</CopyableCode> capture group
-        </Box>
+          <CopyableCode>$1</CopyableCode>{uiText(" capture group")}</Box>
       </Box>
     </Typography>
   </Box>
@@ -215,7 +210,7 @@ export const BulkLinkModal: React.FC<BulkLinkModalProps> = ({
         data-testid="bulk-link-modal"
       >
         <DialogTitleWithClose
-          title="Bulk Link Devices"
+          title={uiText("Bulk Link Devices")}
           onClose={handleCancel}
           closeButtonTestId="bulk-link-close-btn"
         />
@@ -226,31 +221,29 @@ export const BulkLinkModal: React.FC<BulkLinkModalProps> = ({
               sx={{
                 color: "text.secondary"
               }}
-            >
-              Create multiple links by matching node names with patterns.
-            </Typography>
+            >{uiText("Create multiple links by matching node names with patterns.")}</Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, pt: 0.5 }}>
               <TextField
                 inputRef={sourceInputRef}
-                label="Source Pattern"
+                label={uiText("Source Pattern")}
                 required
                 size="small"
                 fullWidth
                 value={sourcePattern}
                 onChange={(e) => setSourcePattern(e.target.value)}
-                placeholder="e.g. leaf*, srl(\d+)"
+                placeholder={uiText("e.g. leaf*, srl(\\d+)")}
                 disabled={mode !== "edit"}
                 data-testid="bulk-link-source"
                 sx={PATTERN_FIELD_SX}
               />
               <TextField
-                label="Target Pattern"
+                label={uiText("Target Pattern")}
                 required
                 size="small"
                 fullWidth
                 value={targetPattern}
                 onChange={(e) => setTargetPattern(e.target.value)}
-                placeholder="e.g. spine*, client$1"
+                placeholder={uiText("e.g. spine*, client$1")}
                 disabled={mode !== "edit"}
                 data-testid="bulk-link-target"
                 sx={PATTERN_FIELD_SX}
@@ -263,16 +256,12 @@ export const BulkLinkModal: React.FC<BulkLinkModalProps> = ({
               </Alert>
             )}
             {!canApply && (
-              <Alert severity="warning" variant="outlined">
-                Bulk linking is disabled while locked or in view mode.
-              </Alert>
+              <Alert severity="warning" variant="outlined">{uiText("Bulk linking is disabled while locked or in view mode.")}</Alert>
             )}
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button size="small" onClick={handleCompute} data-testid="bulk-link-apply-btn">
-            Apply
-          </Button>
+          <Button size="small" onClick={handleCompute} data-testid="bulk-link-apply-btn">{uiText("Apply")}</Button>
         </DialogActions>
       </Dialog>
 

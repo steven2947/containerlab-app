@@ -35,6 +35,13 @@ export function defineHostSuiteConfig(options: HostSuiteOptions) {
     use: {
       ...devices["Desktop Chrome"],
       baseURL: options.baseURL,
+      // Keep the upstream English assertions explicit in this Chinese-default fork.
+      ...(options.baseURL ? {
+        storageState: { cookies: [], origins: [{
+          origin: new URL(options.baseURL).origin,
+          localStorage: [{ name: "clab-ui-language", value: "en" }]
+        }] }
+      } : {}),
       permissions: ["clipboard-read", "clipboard-write"],
       trace: "retain-on-failure",
       screenshot: "only-on-failure",

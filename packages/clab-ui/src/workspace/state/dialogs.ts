@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 
 type RuntimeDialogSeverity = "default" | "warning" | "error";
 
@@ -254,10 +255,10 @@ function normalizeRuntimeConfirmDialogRequest(
   request: RuntimeConfirmDialogRequest
 ): ActiveRuntimeConfirmDialogRequest {
   return {
-    title: request.title?.trim() || "Confirm Action",
+    title: request.title?.trim() || uiText("Confirm Action"),
     message: request.message.trim(),
-    confirmLabel: request.confirmLabel?.trim() || "Continue",
-    cancelLabel: request.cancelLabel?.trim() || "Cancel",
+    confirmLabel: request.confirmLabel?.trim() || uiText("Continue"),
+    cancelLabel: request.cancelLabel?.trim() || uiText("Cancel"),
     severity: request.severity ?? "default"
   };
 }
@@ -277,13 +278,13 @@ function normalizeRuntimeTextInputDialogRequest(
   request: RuntimeTextInputDialogRequest
 ): ActiveRuntimeTextInputDialogRequest {
   return {
-    title: request.title?.trim() || "Enter Value",
+    title: request.title?.trim() || uiText("Enter Value"),
     message: request.message?.trim() || "",
-    label: request.label?.trim() || "Value",
+    label: request.label?.trim() || uiText("Value"),
     defaultValue: request.defaultValue ?? "",
     helperText: request.helperText?.trim() || "",
-    confirmLabel: request.confirmLabel?.trim() || "Continue",
-    cancelLabel: request.cancelLabel?.trim() || "Cancel",
+    confirmLabel: request.confirmLabel?.trim() || uiText("Continue"),
+    cancelLabel: request.cancelLabel?.trim() || uiText("Cancel"),
     allowEmpty: Boolean(request.allowEmpty),
     multiline: Boolean(request.multiline)
   };
@@ -308,11 +309,11 @@ function normalizeRuntimeOptionSelectionDialogRequest(
       ? request.preferredValue
       : options[0]?.value ?? "";
   return {
-    title: request.title?.trim() || "Select Option",
-    message: request.message?.trim() || "Choose an option to continue.",
-    label: request.label?.trim() || "Option",
-    confirmLabel: request.confirmLabel?.trim() || "Continue",
-    cancelLabel: request.cancelLabel?.trim() || "Cancel",
+    title: request.title?.trim() || uiText("Select Option"),
+    message: request.message?.trim() || uiText("Choose an option to continue."),
+    label: request.label?.trim() || uiText("Option"),
+    confirmLabel: request.confirmLabel?.trim() || uiText("Continue"),
+    cancelLabel: request.cancelLabel?.trim() || uiText("Cancel"),
     options,
     preferredValue
   };
@@ -340,9 +341,9 @@ function normalizeEndpointSelectionDialogRequest(
       ? request.preferredValue
       : options[0]?.value ?? "";
   return {
-    title: request.title?.trim() || "Select Endpoint",
-    message: request.message?.trim() || "Choose an endpoint to continue.",
-    confirmLabel: request.confirmLabel?.trim() || "Continue",
+    title: request.title?.trim() || uiText("Select Endpoint"),
+    message: request.message?.trim() || uiText("Choose an endpoint to continue."),
+    confirmLabel: request.confirmLabel?.trim() || uiText("Continue"),
     options,
     preferredValue
   };
@@ -362,7 +363,7 @@ export function promptForEndpointSelection(
   return promptForOptionSelection({
     title: normalizedRequest.title,
     message: normalizedRequest.message,
-    label: "Endpoint",
+    label: uiText("Endpoint"),
     confirmLabel: normalizedRequest.confirmLabel,
     options: normalizedRequest.options,
     preferredValue: normalizedRequest.preferredValue
@@ -379,8 +380,8 @@ function normalizeCreateTopologyDialogRequest(
       ? request.defaultEndpointId
       : endpointOptions[0]?.value ?? "";
   return {
-    title: request.title?.trim() || "Create Topology File",
-    confirmLabel: request.confirmLabel?.trim() || "Create",
+    title: request.title?.trim() || uiText("Create Topology File"),
+    confirmLabel: request.confirmLabel?.trim() || uiText("Create"),
     endpointOptions,
     defaultEndpointId,
     defaultFileName: request.defaultFileName ?? DEFAULT_TOPOLOGY_FILE_NAME
@@ -409,9 +410,9 @@ function normalizeCloneRepoDialogRequest(request: CloneRepoDialogRequest): Activ
   const endpointOptions = request.endpointOptions.filter((option) => option.value.trim().length > 0);
   const popularOptions = request.popularOptions.filter((option) => option.value.trim().length > 0);
   return {
-    title: request.title?.trim() || "Clone Repository",
-    message: request.message?.trim() || "Select endpoint and repository source.",
-    confirmLabel: request.confirmLabel?.trim() || "Continue",
+    title: request.title?.trim() || uiText("Clone Repository"),
+    message: request.message?.trim() || uiText("Select endpoint and repository source."),
+    confirmLabel: request.confirmLabel?.trim() || uiText("Continue"),
     endpointOptions,
     popularOptions,
     defaultEndpointId: resolveDefaultEndpointId(request.defaultEndpointId, endpointOptions),
@@ -443,22 +444,22 @@ async function promptForCloneRepoSourceUrl(
   request: ActiveCloneRepoDialogRequest
 ): Promise<string | undefined> {
   const sourceOptions: EndpointSelectionOption[] = [
-    { label: "Repository URL", value: "url" },
-    { label: "Popular Lab", value: "popular" }
+    { label: uiText("Repository URL"), value: "url" },
+    { label: uiText("Popular Lab"), value: "popular" }
   ].filter((option) => option.value !== "popular" || request.popularOptions.length > 0);
   const mode = await promptForOptionSelection({
-    title: "Repository Source",
-    message: "Choose how to select the repository source.",
-    label: "Source",
+    title: uiText("Repository Source"),
+    message: uiText("Choose how to select the repository source."),
+    label: uiText("Source"),
     confirmLabel: "Continue",
     options: sourceOptions,
     preferredValue: request.defaultMode
   });
   if (mode === "url") {
     return promptForTextInput({
-      title: "Repository Source",
-      message: "Enter a repository or topology URL.",
-      label: "Repository or topology URL",
+      title: uiText("Repository Source"),
+      message: uiText("Enter a repository or topology URL."),
+      label: uiText("Repository or topology URL"),
       defaultValue: request.defaultSourceUrl,
       confirmLabel: "Continue"
     });
@@ -468,10 +469,10 @@ async function promptForCloneRepoSourceUrl(
   }
 
   return promptForOptionSelection({
-    title: "Popular Lab",
-    message: "Choose a popular lab repository.",
-    label: "Popular lab",
-    confirmLabel: "Use Repository",
+    title: uiText("Popular Lab"),
+    message: uiText("Choose a popular lab repository."),
+    label: uiText("Popular lab"),
+    confirmLabel: uiText("Use Repository"),
     options: request.popularOptions,
     preferredValue: request.popularOptions[0]?.value
   });
@@ -481,13 +482,13 @@ function promptForCloneRepoTarget(
   request: ActiveCloneRepoDialogRequest
 ): Promise<CloneRepoDialogTarget | undefined> {
   return promptForOptionSelection({
-    title: "Clone Action",
-    message: "Choose what to do with the cloned repository.",
-    label: "Action",
+    title: uiText("Clone Action"),
+    message: uiText("Choose what to do with the cloned repository."),
+    label: uiText("Action"),
     confirmLabel: "Continue",
     options: [
-      { label: "Deploy now", value: "deploy" },
-      { label: "Clone to undeployed labs", value: "undeployed" }
+      { label: uiText("Deploy now"), value: "deploy" },
+      { label: uiText("Clone to undeployed labs"), value: "undeployed" }
     ],
     preferredValue: request.defaultTarget
   }).then((value) => {
@@ -502,9 +503,9 @@ async function promptForOptionalLabNameOverride(
   defaultValue: string
 ): Promise<string | undefined> {
   const rawLabNameOverride = await promptForTextInput({
-    title: "Lab Name Override",
-    message: "Leave empty to use the default lab name.",
-    label: "Lab name override",
+    title: uiText("Lab Name Override"),
+    message: uiText("Leave empty to use the default lab name."),
+    label: uiText("Lab name override"),
     defaultValue,
     confirmLabel: "Continue",
     allowEmpty: true
@@ -527,9 +528,9 @@ export async function promptForCloneRepo(
   }
 
   const endpointId = await promptForEndpointSelection({
-    title: "Select Endpoint",
+    title: uiText("Select Endpoint"),
     message: normalizedRequest.message,
-    confirmLabel: "Use Endpoint",
+    confirmLabel: uiText("Use Endpoint"),
     options: normalizedRequest.endpointOptions,
     preferredValue: normalizedRequest.defaultEndpointId
   });

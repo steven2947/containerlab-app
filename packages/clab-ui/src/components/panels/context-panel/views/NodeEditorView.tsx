@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Node editor content for the ContextPanel.
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
@@ -48,23 +49,23 @@ export interface NodeEditorFooterRef {
 }
 
 const BASE_TABS: Array<TabConfig<NodeEditorTabProps>> = [
-  { id: "basic", label: "Basic", component: BasicTab },
-  { id: "config", label: "Configuration", component: ConfigTab },
-  { id: "runtime", label: "Runtime", component: RuntimeTab },
-  { id: "stages", label: "Stages", component: StagesTab },
-  { id: "network", label: "Network", component: NetworkTab },
-  { id: "advanced", label: "Advanced", component: AdvancedTab }
+  { id: "basic", label: uiText("Basic"), component: BasicTab },
+  { id: "config", label: uiText("Configuration"), component: ConfigTab },
+  { id: "runtime", label: uiText("Runtime"), component: RuntimeTab },
+  { id: "stages", label: uiText("Stages"), component: StagesTab },
+  { id: "network", label: uiText("Network"), component: NetworkTab },
+  { id: "advanced", label: uiText("Advanced"), component: AdvancedTab }
 ];
 
 const COMPONENTS_TAB: TabConfig<NodeEditorTabProps> = {
   id: "components",
-  label: "Components",
+  label: uiText("Components"),
   component: ComponentsTab
 };
 
 const KIND_CONFIG_TAB: TabConfig<NodeEditorTabProps> = {
   id: "kind",
-  label: "Kind",
+  label: uiText("Kind"),
   component: KindConfigTab
 };
 

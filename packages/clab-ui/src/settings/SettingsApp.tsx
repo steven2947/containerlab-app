@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import React, { useCallback, useEffect, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -39,44 +40,44 @@ import type {
 const CATEGORIES: SettingsNavigationItem[] = [
   {
     key: "general",
-    label: "General & Runtime",
-    description: "Your Containerlab environment",
+    label: uiText("General & Runtime"),
+    description: uiText("Your Containerlab environment"),
     icon: <SettingsOutlinedIcon fontSize="small" />,
   },
   {
     key: "appearance",
-    label: "Appearance",
-    description: "Make yourself at home",
+    label: uiText("Appearance"),
+    description: uiText("Make yourself at home"),
     icon: <PaletteOutlinedIcon fontSize="small" />,
   },
   {
     key: "labs",
-    label: "Lab Actions",
-    description: "Deploy, destroy, and cleanup",
+    label: uiText("Lab Actions"),
+    description: uiText("Deploy, destroy, and cleanup"),
     icon: <ScienceOutlinedIcon fontSize="small" />,
   },
   {
     key: "topology",
-    label: "Topology",
-    description: "Canvas and node templates",
+    label: uiText("Topology"),
+    description: uiText("Canvas and node templates"),
     icon: <AccountTreeOutlinedIcon fontSize="small" />,
   },
   {
     key: "terminal",
-    label: "Terminal",
-    description: "Shells, SSH, and node actions",
+    label: uiText("Terminal"),
+    description: uiText("Shells, SSH, and node actions"),
     icon: <TerminalIcon fontSize="small" />,
   },
   {
     key: "capture",
-    label: "Packet Capture",
-    description: "Wireshark and Edgeshark",
+    label: uiText("Packet Capture"),
+    description: uiText("Wireshark and Edgeshark"),
     icon: <HubOutlinedIcon fontSize="small" />,
   },
   {
     key: "about",
-    label: "About",
-    description: "Versions and settings details",
+    label: uiText("About"),
+    description: uiText("Versions and settings details"),
     icon: <InfoOutlinedIcon fontSize="small" />,
   },
 ];
@@ -165,7 +166,7 @@ export function SettingsApp({
   }
   if (filter === "modified-all") {
     title = "All modified settings";
-    description = `${visible.length} overrides across all categories · ${snapshot.target === "user" ? "User" : "Workspace"}`;
+    description = `${visible.length} overrides across all categories · ${snapshot.target === "user" ? uiText("User") : uiText("Workspace")}`;
   }
   const categories = CATEGORIES.map((item) => ({
     ...item,
@@ -196,9 +197,7 @@ export function SettingsApp({
               void action("native");
             }}
             sx={{ color: "text.secondary", "&:hover": { color: "text.primary" } }}
-          >
-            VS Code Settings
-          </Button>
+          >{uiText("VS Code Settings")}</Button>
         }
         toolbar={
           <Stack spacing={1}>
@@ -206,11 +205,11 @@ export function SettingsApp({
               <TextField
                 size="small"
                 fullWidth
-                placeholder="Search all settings…"
+                placeholder={uiText("Search all settings…")}
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 slotProps={{
-                  htmlInput: { "aria-label": "Search settings" },
+                  htmlInput: { "aria-label": uiText("Search settings") },
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
@@ -226,7 +225,7 @@ export function SettingsApp({
                 value={snapshot.target}
                 disabled={busy}
                 slotProps={{
-                  select: { inputProps: { "aria-label": "Save settings to" } },
+                  select: { inputProps: { "aria-label": uiText("Save settings to") } },
                 }}
                 onChange={(event) => {
                   const target = event.target.value as SettingsTarget;
@@ -235,31 +234,28 @@ export function SettingsApp({
                 }}
                 sx={{ minWidth: 128 }}
               >
-                <MenuItem value="user">User</MenuItem>
+                <MenuItem value="user">{uiText("User")}</MenuItem>
                 <MenuItem
                   value="workspace"
                   disabled={!snapshot.workspaceAvailable}
-                >
-                  Workspace
-                </MenuItem>
+                >{uiText("Workspace")}</MenuItem>
               </TextField>
             </Stack>
             <ToggleButtonGroup
               value={filter}
               exclusive
               size="small"
-              aria-label="Filter settings"
+              aria-label={uiText("Filter settings")}
               onChange={(_, next: SettingsFilter | null) => {
                 if (next !== null) setFilter(next);
               }}
               sx={{ alignSelf: "flex-start", maxWidth: "100%" }}
             >
-              <ToggleButton value="all">All in view</ToggleButton>
+              <ToggleButton value="all">{uiText("All in view")}</ToggleButton>
               <ToggleButton
                 value="modified-view"
-                aria-label={`Modified in this view: ${currentModified}`}
-              >
-                Modified in view{" "}
+                aria-label={uiText("Modified in this view: {0}", { "0": (currentModified) })}
+              >{uiText("Modified in view")}{" "}
                 <Box
                   component="span"
                   sx={{
@@ -272,9 +268,8 @@ export function SettingsApp({
               </ToggleButton>
               <ToggleButton
                 value="modified-all"
-                aria-label={`Modified across all settings: ${allModified}`}
-              >
-                All modified{" "}
+                aria-label={uiText("Modified across all settings: {0}", { "0": (allModified) })}
+              >{uiText("All modified")}{" "}
                 <Box
                   component="span"
                   sx={{
@@ -297,9 +292,7 @@ export function SettingsApp({
               onClick={() => {
                 void action("colorTheme");
               }}
-            >
-              VS Code theme
-            </Button>
+            >{uiText("VS Code theme")}</Button>
           ) : undefined
         }
         navigationFooter={
@@ -314,8 +307,8 @@ export function SettingsApp({
             {snapshot.workspaceName ?? "Containerlab"}
             <br />
             {snapshot.remoteName
-              ? `Remote · ${snapshot.remoteName}`
-              : "Local session"}{" "}
+              ? uiText("Remote · {0}", { "0": (snapshot.remoteName) })
+              : uiText("Local session")}{" "}
             · v{snapshot.version}
           </Typography>
         }
@@ -335,12 +328,12 @@ export function SettingsApp({
               >
                 {dirtyKeys.size
                   ? `${dirtyKeys.size} unsaved ${dirtyKeys.size === 1 ? "setting" : "settings"}`
-                  : "All changes saved"}
+                  : uiText("All changes saved")}
               </Typography>
             </Stack>
             <Typography variant="caption" color="text.secondary">
-              {definitions.length} settings ·{" "}
-              {snapshot.target === "user" ? "User" : "Workspace"}
+              {definitions.length}{uiText(" settings ·")}{" "}
+              {snapshot.target === "user" ? uiText("User") : uiText("Workspace")}
             </Typography>
           </>
         }
@@ -360,13 +353,9 @@ export function SettingsApp({
                 onClick={() => {
                   void action("reload");
                 }}
-              >
-                Reload window
-              </Button>
+              >{uiText("Reload window")}</Button>
             }
-          >
-            Runtime settings changed. Reload VS Code to apply them.
-          </Alert>
+          >{uiText("Runtime settings changed. Reload VS Code to apply them.")}</Alert>
         )}
         <Box key={snapshot.target} hidden={visible.length === 0}>
           {CATEGORIES.filter((item) => item.key !== "about").map((item) => {
@@ -439,10 +428,8 @@ export function SettingsApp({
                   opacity: 0.7,
                 }}
               />
-              <Typography variant="subtitle1">No matching settings</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Try another search or change the Modified filter.
-              </Typography>
+              <Typography variant="subtitle1">{uiText("No matching settings")}</Typography>
+              <Typography variant="body2" color="text.secondary">{uiText("Try another search or change the Modified filter.")}</Typography>
               <Button
                 variant="outlined"
                 size="small"
@@ -451,16 +438,12 @@ export function SettingsApp({
                   setSearch("");
                   setFilter("all");
                 }}
-              >
-                Clear filters
-              </Button>
+              >{uiText("Clear filters")}</Button>
             </Box>
           )}
         {!query && category === "about" && filter === "all" && (
           <Box sx={{ display: "grid", gap: 1.5 }}>
-            <Typography component="h3" variant="subtitle1">
-              Containerlab for VS Code
-            </Typography>
+            <Typography component="h3" variant="subtitle1">{uiText("Containerlab for VS Code")}</Typography>
             <Box
               component="dl"
               sx={{
@@ -504,12 +487,7 @@ export function SettingsApp({
                 </Box>
               ))}
             </Box>
-            <Typography variant="body2" color="text.secondary">
-              All {definitions.length} Containerlab settings stay in sync with
-              VS Code. User settings apply to this session; Workspace settings
-              apply to the open workspace. Reset removes an override so the
-              setting inherits again.
-            </Typography>
+            <Typography variant="body2" color="text.secondary">{uiText("All ")}{definitions.length}{uiText(" Containerlab settings stay in sync with VS Code. User settings apply to this session; Workspace settings apply to the open workspace. Reset removes an override so the setting inherits again.")}</Typography>
           </Box>
         )}
       </SettingsLayout>
@@ -519,23 +497,16 @@ export function SettingsApp({
         maxWidth="xs"
         fullWidth
       >
-        <DialogTitle>Discard unsaved changes?</DialogTitle>
-        <DialogContent>
-          Your drafts belong to the current settings scope. Save them first or
-          discard them to switch.
-        </DialogContent>
+        <DialogTitle>{uiText("Discard unsaved changes?")}</DialogTitle>
+        <DialogContent>{uiText("Your drafts belong to the current settings scope. Save them first or discard them to switch.")}</DialogContent>
         <DialogActions>
-          <Button variant="text" onClick={() => setPendingTarget(undefined)}>
-            Keep editing
-          </Button>
+          <Button variant="text" onClick={() => setPendingTarget(undefined)}>{uiText("Keep editing")}</Button>
           <Button
             onClick={() => {
               if (pendingTarget) void changeTarget(pendingTarget);
             }}
             disabled={busy}
-          >
-            Discard and switch
-          </Button>
+          >{uiText("Discard and switch")}</Button>
         </DialogActions>
       </Dialog>
     </>

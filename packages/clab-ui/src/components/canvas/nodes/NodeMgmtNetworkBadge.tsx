@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Dot on a node showing which management network it joins, when the lab has several.
 import React, { useMemo } from "react";
 
@@ -54,15 +55,15 @@ export function NodeMgmtNetworkBadge({ extraData }: { extraData?: Record<string,
       <div
         className={`topology-node-mgmt-badge${mode === "hover" ? " on-hover" : ""}`}
         data-mgmt-net={resolved.name}
-        title={`Management network: ${resolved.name}`}
+        title={uiText("Management network: {0}", { "0": (resolved.name) })}
         style={{ ...BADGE_STYLE_BASE, backgroundColor: getMgmtNetworkColor(resolved.index) }}
       />
     );
   }
   const title =
     resolved.status === "missing"
-      ? "No management network: pick one in the node's Network tab"
-      : `Management network ${resolved.name} is not defined in this lab`;
+      ? uiText("No management network: pick one in the node's Network tab")
+      : uiText("Management network {0} is not defined in this lab", { "0": (resolved.name) });
   return (
     <div className="topology-node-mgmt-badge problem" title={title} style={PROBLEM_STYLE}>
       !

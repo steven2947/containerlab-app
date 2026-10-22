@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactFlowInstance } from "@xyflow/react";
 import Box from "@mui/material/Box";
@@ -180,10 +181,10 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
         title={matchCount !== null ? formatMatchCountText(matchCount) : undefined}
       >
         {collapseBelow !== undefined && (
-          <Tooltip title="Find nodes">
+          <Tooltip title={uiText("Find nodes")}>
             <span className="find-node-expand">
               <IconButton
-                aria-label="Find nodes"
+                aria-label={uiText("Find nodes")}
                 size="small"
                 disabled={!isActive}
                 onClick={() => {
@@ -206,14 +207,14 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
           }}
           inputRef={inputRef}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Filter"
+          placeholder={uiText("Filter")}
           size="small"
           value={searchTerm}
           variant="filled"
           data-testid="find-node-input"
           sx={toolbarFieldSx}
           slotProps={{
-            htmlInput: { "aria-label": "Find nodes" },
+            htmlInput: { "aria-label": uiText("Find nodes") },
             input: {
               disableUnderline: true,
               endAdornment: searchTerm ? (
@@ -221,7 +222,7 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
                   <IconButton
                     data-testid="find-node-clear-btn"
                     edge="end"
-                    aria-label="Clear node search"
+                    aria-label={uiText("Clear node search")}
                     onClick={handleClear}
                     size="small"
                   >
@@ -242,9 +243,7 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
 
   return (
     <>
-      <Typography variant="subtitle1" sx={{ mb: "1rem" }}>
-        Find Node
-      </Typography>
+      <Typography variant="subtitle1" sx={{ mb: "1rem" }}>{uiText("Find Node")}</Typography>
 
       {hasDescription ? (
         <Typography
@@ -263,20 +262,20 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
           inputRef={inputRef}
           fullWidth
           size="small"
-          label="Search"
-          placeholder="Search for nodes..."
+          label={uiText("Search")}
+          placeholder={uiText("Search for nodes...")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={handleKeyDown}
           data-testid="find-node-input"
           slotProps={{
-            htmlInput: { "aria-label": "Find nodes" },
+            htmlInput: { "aria-label": uiText("Find nodes") },
             input: {
               endAdornment: searchTerm ? (
                 <InputAdornment position="end">
                   <IconButton
                     size="small"
-                    aria-label="Clear node search"
+                    aria-label={uiText("Clear node search")}
                     onClick={handleClear}
                     edge="end"
                     data-testid="find-node-clear-btn"
@@ -311,9 +310,7 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
 
       <Box sx={{ mt: dense ? 0 : 2 }}>
         {showTipsHeader ? (
-          <Typography variant="subtitle2" gutterBottom>
-            Search tips:
-          </Typography>
+          <Typography variant="subtitle2" gutterBottom>{uiText("Search tips:")}</Typography>
         ) : null}
         <Typography
           variant="caption"
@@ -326,15 +323,10 @@ export const FindNodeSearchWidget: React.FC<FindNodeSearchWidgetProps> = ({
             "& code": { fontFamily: MONO_FONT_FAMILY }
           }}
         >
-          <li>
-            Use <code>*</code> for wildcard (e.g., <code>srl*</code>)
+          <li>{uiText("Use ")}<code>*</code> for wildcard (e.g., <code>srl*</code>)
           </li>
-          <li>
-            Use <code>+</code> prefix for starts-with
-          </li>
-          <li>
-            Press <code>Enter</code> to search
-          </li>
+          <li>{uiText("Use ")}<code>+</code>{uiText(" prefix for starts-with")}</li>
+          <li>{uiText("Press ")}<code>Enter</code>{uiText(" to search")}</li>
         </Typography>
       </Box>
     </>

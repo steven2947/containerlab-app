@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // SVG export dialog.
 import React, { useState, useCallback, useMemo } from "react";
@@ -615,7 +616,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
     downloadSvg(prepared.finalSvg, `${prepared.baseName}.svg`);
     setExportStatus({
       type: "success",
-      message: "SVG exported successfully"
+      message: uiText("SVG exported successfully")
     });
   }, []);
 
@@ -675,7 +676,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
         files.length > 0 ? ` (${files.map((file) => file.split("/").pop()).join(", ")})` : "";
       setExportStatus({
         type: "success",
-        message: `Grafana bundle exported successfully${suffix}`
+        message: uiText("Grafana bundle exported successfully{0}", { "0": (suffix) })
       });
     },
     [
@@ -694,7 +695,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
     if (!isExportAvailable || !rfInstance) {
       setExportStatus({
         type: "error",
-        message: "SVG export is not yet available"
+        message: uiText("SVG export is not yet available")
       });
       return;
     }
@@ -713,7 +714,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
       log.error(`[SvgExport] Export failed: ${errorMessage}`);
       setExportStatus({
         type: "error",
-        message: `Export failed: ${errorMessage}`
+        message: uiText("Export failed: {0}", { "0": (errorMessage) })
       });
     } finally {
       setIsExporting(false);
@@ -741,11 +742,11 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
     return { backgroundColor: customBackgroundColor } as const;
   })();
 
-  let exportButtonLabel = "Export SVG";
+  let exportButtonLabel = uiText("Export SVG");
   if (isExporting) {
-    exportButtonLabel = "Exporting...";
+    exportButtonLabel = uiText("Exporting...");
   } else if (exportGrafanaBundle) {
-    exportButtonLabel = "Export Grafana Bundle";
+    exportButtonLabel = uiText("Export Grafana Bundle");
   }
 
   return (
@@ -757,11 +758,11 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
         fullWidth
         data-testid="svg-export-modal"
       >
-        <DialogTitleWithClose title="Export SVG" onClose={onClose} />
+        <DialogTitleWithClose title={uiText("Export SVG")} onClose={onClose} />
         <DialogContent dividers sx={{ p: 0 }}>
           <Box sx={{ p: 2 }}>
             <TextField
-              label="Filename"
+              label={uiText("Filename")}
               size="small"
               fullWidth
               value={filename}
@@ -789,13 +790,13 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
 
           <Divider />
           <Box sx={{ px: 2, py: 1 }}>
-            <Typography variant="subtitle2">Quality & Size</Typography>
+            <Typography variant="subtitle2">{uiText("Quality & Size")}</Typography>
           </Box>
           <Divider />
           <Box sx={{ p: 2 }}>
             <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
               <TextField
-                label="Zoom"
+                label={uiText("Zoom")}
                 type="number"
                 size="small"
                 value={borderZoom}
@@ -810,7 +811,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 }}
               />
               <TextField
-                label="Padding"
+                label={uiText("Padding")}
                 type="number"
                 size="small"
                 value={borderPadding}
@@ -827,7 +828,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
 
           <Divider />
           <Box sx={{ px: 2, py: 1 }}>
-            <Typography variant="subtitle2">Background</Typography>
+            <Typography variant="subtitle2">{uiText("Background")}</Typography>
           </Box>
           <Divider />
           <Box sx={{ display: "flex", flexDirection: "column", px: 2, py: 1 }}>
@@ -838,14 +839,14 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
               <FormControlLabel
                 value="transparent"
                 control={<Radio size="small" />}
-                label="Transparent"
+                label={uiText("Transparent")}
               />
-              <FormControlLabel value="custom" control={<Radio size="small" />} label="Custom" />
+              <FormControlLabel value="custom" control={<Radio size="small" />} label={uiText("Custom")} />
             </RadioGroup>
             {backgroundOption === "custom" && (
               <Box sx={{ pl: 4, pt: 1 }}>
                 <ColorField
-                  label="Color"
+                  label={uiText("Color")}
                   value={customBackgroundColor}
                   onChange={setCustomBackgroundColor}
                 />
@@ -855,7 +856,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
 
           <Divider />
           <Box sx={{ px: 2, py: 1 }}>
-            <Typography variant="subtitle2">Include</Typography>
+            <Typography variant="subtitle2">{uiText("Include")}</Typography>
           </Box>
           <Divider />
           <Box sx={{ display: "flex", flexDirection: "column", px: 2, py: 1 }}>
@@ -867,7 +868,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   onChange={(e) => setIncludeAnnotations(e.target.checked)}
                 />
               }
-              label="Annotations"
+              label={uiText("Annotations")}
             />
             <FormControlLabel
               control={
@@ -877,7 +878,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   onChange={(e) => setIncludeEdgeLabels(e.target.checked)}
                 />
               }
-              label="Edge labels"
+              label={uiText("Edge labels")}
             />
             <Box
               sx={{
@@ -895,7 +896,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                     onChange={(e) => setExportGrafanaBundle(e.target.checked)}
                   />
                 }
-                label="Grafana bundle"
+                label={uiText("Grafana bundle")}
                 data-testid="svg-export-grafana-bundle"
               />
               <Button
@@ -905,15 +906,13 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 disabled={!exportGrafanaBundle}
                 onClick={() => setIsGrafanaSettingsOpen(true)}
                 data-testid="svg-export-grafana-advanced-btn"
-              >
-                Advanced Grafana Settings
-              </Button>
+              >{uiText("Advanced Grafana Settings")}</Button>
             </Box>
           </Box>
 
           <Divider />
           <Box sx={{ px: 2, py: 1 }}>
-            <Typography variant="subtitle2">Preview</Typography>
+            <Typography variant="subtitle2">{uiText("Preview")}</Typography>
           </Box>
           <Divider />
           <Box sx={{ p: 2 }}>
@@ -977,9 +976,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   sx={{
                     color: "text.secondary"
                   }}
-                >
-                  Tips
-                </Typography>
+                >{uiText("Tips")}</Typography>
               </Box>
               <Typography
                 variant="caption"
@@ -991,9 +988,9 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   "& li": { mb: 0.25 }
                 }}
               >
-                <li>Higher zoom = better quality, larger file</li>
-                <li>SVG files scale without quality loss</li>
-                <li>Transparent background for layering</li>
+                <li>{uiText("Higher zoom = better quality, larger file")}</li>
+                <li>{uiText("SVG files scale without quality loss")}</li>
+                <li>{uiText("Transparent background for layering")}</li>
               </Typography>
             </Paper>
           </Box>
@@ -1038,7 +1035,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
         data-testid="svg-export-grafana-settings-modal"
       >
         <DialogTitleWithClose
-          title="Advanced Grafana Settings"
+          title={uiText("Advanced Grafana Settings")}
           onClose={() => setIsGrafanaSettingsOpen(false)}
         />
         <DialogContent dividers sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -1047,8 +1044,8 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
             onChange={(_event, value) => setGrafanaSettingsTab(parseGrafanaSettingsTab(value))}
             variant="fullWidth"
           >
-            <Tab label="General" value="general" />
-            <Tab label="Interface Names" value="interface-names" />
+            <Tab label={uiText("General")} value="general" />
+            <Tab label={uiText("Interface Names")} value="interface-names" />
           </Tabs>
 
           {grafanaSettingsTab === "general" && (
@@ -1058,9 +1055,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Configure thresholds and topology sizing used in the exported Grafana panel.
-              </Typography>
+              >{uiText("Configure thresholds and topology sizing used in the exported Grafana panel.")}</Typography>
               <Box
                 sx={{
                   display: "grid",
@@ -1069,7 +1064,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 }}
               >
                 <TextField
-                  label="Node size"
+                  label={uiText("Node size")}
                   type="number"
                   size="small"
                   value={grafanaNodeSizePx}
@@ -1086,7 +1081,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   }}
                 />
                 <TextField
-                  label="Interface size"
+                  label={uiText("Interface size")}
                   type="number"
                   size="small"
                   value={grafanaInterfaceSizePercent}
@@ -1113,13 +1108,11 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Use larger values for dense topologies with many interfaces.
-              </Typography>
+              >{uiText("Use larger values for dense topologies with many interfaces.")}</Typography>
               <Divider />
               <TextField
                 select
-                label="Traffic threshold unit"
+                label={uiText("Traffic threshold unit")}
                 size="small"
                 value={trafficThresholdUnit}
                 onChange={(e) => setTrafficThresholdUnit(parseTrafficThresholdUnit(e.target.value))}
@@ -1136,7 +1129,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 }}
               >
                 <TextField
-                  label="Green threshold"
+                  label={uiText("Green threshold")}
                   type="number"
                   size="small"
                   value={formatThresholdForUnit(trafficThresholds.green, trafficThresholdUnit)}
@@ -1149,7 +1142,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   }}
                 />
                 <TextField
-                  label="Yellow threshold"
+                  label={uiText("Yellow threshold")}
                   type="number"
                   size="small"
                   value={formatThresholdForUnit(trafficThresholds.yellow, trafficThresholdUnit)}
@@ -1162,7 +1155,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   }}
                 />
                 <TextField
-                  label="Orange threshold"
+                  label={uiText("Orange threshold")}
                   type="number"
                   size="small"
                   value={formatThresholdForUnit(trafficThresholds.orange, trafficThresholdUnit)}
@@ -1175,7 +1168,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   }}
                 />
                 <TextField
-                  label="Red threshold"
+                  label={uiText("Red threshold")}
                   type="number"
                   size="small"
                   value={formatThresholdForUnit(trafficThresholds.red, trafficThresholdUnit)}
@@ -1193,10 +1186,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Values must be strictly ascending: green &lt; yellow &lt; orange &lt; red (within
-                selected unit).
-              </Typography>
+              >{uiText("Values must be strictly ascending: green < yellow < orange < red (within selected unit).")}</Typography>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -1205,7 +1195,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                     onChange={(e) => setExcludeNodesWithoutLinks(e.target.checked)}
                   />
                 }
-                label="Exclude nodes without any links"
+                label={uiText("Exclude nodes without any links")}
               />
               <FormControlLabel
                 control={
@@ -1215,7 +1205,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                     onChange={(e) => setIncludeGrafanaLegend(e.target.checked)}
                   />
                 }
-                label="Add traffic legend (top-left)"
+                label={uiText("Add traffic legend (top-left)")}
               />
               <FormControlLabel
                 control={
@@ -1225,7 +1215,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                     onChange={(e) => setTrafficRatesOnHoverOnly(e.target.checked)}
                   />
                 }
-                label="Show traffic rates on hover only"
+                label={uiText("Show traffic rates on hover only")}
               />
               <FormControlLabel
                 control={
@@ -1235,7 +1225,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                     onChange={(e) => setIncludeHideRatesLegendToggle(e.target.checked)}
                   />
                 }
-                label='Add "hide-rates" legend toggle for rate labels'
+                label={uiText("Add \"hide-rates\" legend toggle for rate labels")}
               />
             </>
           )}
@@ -1247,25 +1237,22 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Filter links and choose which interface segment should be shown in endpoint bubbles.
-              </Typography>
+              >{uiText("Filter links and choose which interface segment should be shown in endpoint bubbles.")}</Typography>
               <TextField
                 select
                 size="small"
-                label="Global override (all interfaces)"
+                label={uiText("Global override (all interfaces)")}
                 value={globalInterfaceOverrideSelection}
                 onChange={(e) => setGlobalInterfaceOverrideSelection(e.target.value)}
               >
-                <MenuItem value={INTERFACE_SELECT_AUTO}>Auto</MenuItem>
-                <MenuItem value={INTERFACE_SELECT_FULL}>Full interface name</MenuItem>
+                <MenuItem value={INTERFACE_SELECT_AUTO}>{uiText("Auto")}</MenuItem>
+                <MenuItem value={INTERFACE_SELECT_FULL}>{uiText("Full interface name")}</MenuItem>
                 {Array.from({ length: maxInterfacePartCount }, (_, index) => index + 1).map(
                   (partIndex) => (
                     <MenuItem
                       key={`global-interface-part-${partIndex}`}
                       value={`${GLOBAL_INTERFACE_PART_INDEX_PREFIX}${partIndex}`}
-                    >
-                      Part {partIndex}
+                    >{uiText("Part ")}{partIndex}
                     </MenuItem>
                   )
                 )}
@@ -1275,13 +1262,11 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Default for every interface; per-link overrides below take precedence.
-              </Typography>
+              >{uiText("Default for every interface; per-link overrides below take precedence.")}</Typography>
               <TextField
                 size="small"
-                label="Filter links"
-                placeholder="Search node or interface name"
+                label={uiText("Filter links")}
+                placeholder={uiText("Search node or interface name")}
                 value={interfaceLinkFilter}
                 onChange={(e) => setInterfaceLinkFilter(e.target.value)}
               />
@@ -1291,8 +1276,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                   color: "text.secondary"
                 }}
               >
-                {filteredInterfaceRows.length} of {interfaceRows.length} links shown
-              </Typography>
+                {filteredInterfaceRows.length}{uiText(" of ")}{interfaceRows.length}{uiText(" links shown")}</Typography>
               <Box
                 sx={{
                   maxHeight: 360,
@@ -1309,9 +1293,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                       sx={{
                         color: "text.secondary"
                       }}
-                    >
-                      No links match the current filter.
-                    </Typography>
+                    >{uiText("No links match the current filter.")}</Typography>
                   </Paper>
                 ) : (
                   filteredInterfaceRows.map((row) => {
@@ -1348,16 +1330,14 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                               updateInterfaceOverride(row.sourceEndpoint, e.target.value)
                             }
                           >
-                            <MenuItem value={INTERFACE_SELECT_AUTO}>Auto (use global)</MenuItem>
-                            <MenuItem value={INTERFACE_SELECT_FULL}>
-                              Full: {row.sourceEndpoint}
+                            <MenuItem value={INTERFACE_SELECT_AUTO}>{uiText("Auto (use global)")}</MenuItem>
+                            <MenuItem value={INTERFACE_SELECT_FULL}>{uiText("Full: ")}{row.sourceEndpoint}
                             </MenuItem>
                             {sourceParts.map((part, idx) => (
                               <MenuItem
                                 key={`${row.edgeId}-source-${idx}-${part}`}
                                 value={`${INTERFACE_SELECT_TOKEN_PREFIX}${part}`}
-                              >
-                                Part {idx + 1}: {part}
+                              >{uiText("Part ")}{idx + 1}: {part}
                               </MenuItem>
                             ))}
                           </TextField>
@@ -1373,16 +1353,14 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
                               updateInterfaceOverride(row.targetEndpoint, e.target.value)
                             }
                           >
-                            <MenuItem value={INTERFACE_SELECT_AUTO}>Auto (use global)</MenuItem>
-                            <MenuItem value={INTERFACE_SELECT_FULL}>
-                              Full: {row.targetEndpoint}
+                            <MenuItem value={INTERFACE_SELECT_AUTO}>{uiText("Auto (use global)")}</MenuItem>
+                            <MenuItem value={INTERFACE_SELECT_FULL}>{uiText("Full: ")}{row.targetEndpoint}
                             </MenuItem>
                             {targetParts.map((part, idx) => (
                               <MenuItem
                                 key={`${row.edgeId}-target-${idx}-${part}`}
                                 value={`${INTERFACE_SELECT_TOKEN_PREFIX}${part}`}
-                              >
-                                Part {idx + 1}: {part}
+                              >{uiText("Part ")}{idx + 1}: {part}
                               </MenuItem>
                             ))}
                           </TextField>
@@ -1396,7 +1374,7 @@ export const SvgExportModal: React.FC<SvgExportModalProps> = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsGrafanaSettingsOpen(false)}>Done</Button>
+          <Button onClick={() => setIsGrafanaSettingsOpen(false)}>{uiText("Done")}</Button>
         </DialogActions>
       </Dialog>
     </>

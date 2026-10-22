@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Color picker input with hex display and optional label.
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import Box from "@mui/material/Box";
@@ -199,7 +200,7 @@ export const ColorField: React.FC<ColorFieldProps> = ({
                   size="small"
                   onClick={handleCopy}
                   disabled={disabled}
-                  title="Copy hex color"
+                  title={uiText("Copy hex color")}
                 >
                   <ContentCopyIcon sx={{ fontSize: 16 }} />
                 </IconButton>

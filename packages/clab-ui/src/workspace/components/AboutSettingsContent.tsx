@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { useId, type ReactNode } from "react";
 
 import { Alert, Avatar, Box, Stack, Typography } from "@mui/material";
@@ -28,20 +29,20 @@ const TEXT_SECONDARY = "text.secondary";
 const authors: AboutAuthor[] = [
   {
     name: "Florian Schwarz",
-    title: "Maintainer",
+    title: uiText("Maintainer"),
     linkedIn: "https://linkedin.com/in/florian-schwarz-812a34145",
     initials: "FS"
   },
   {
     name: "Kaelem Chandra",
-    title: "Maintainer",
+    title: uiText("Maintainer"),
     linkedIn: "https://linkedin.com/in/kaelem-chandra",
     initials: "KC",
     photo: "https://github.com/kaelemc.png"
   },
   {
     name: "Asad Arafat",
-    title: "Maintainer",
+    title: uiText("Maintainer"),
     linkedIn: "https://www.linkedin.com/in/asadarafat/",
     initials: "AA"
   }
@@ -184,17 +185,15 @@ export function AboutSettingsContent({
   versionLoading
 }: AboutSettingsContentProps) {
   const { assetUrl: publicAssetUrl } = useWorkspaceHost();
-  const versionValue = versionLoading ? "Loading…" : versionInfo;
-  const updateValue = versionLoading ? "Loading…" : versionCheck;
+  const versionValue = versionLoading ? uiText("Loading…") : versionInfo;
+  const updateValue = versionLoading ? uiText("Loading…") : versionCheck;
 
   return (
     <Stack spacing={3}>
       {showHeading && (
         <Box>
-          <Typography variant="h6">About</Typography>
-          <Typography variant="body2" color={TEXT_SECONDARY}>
-            Containerlab App details, maintainers, and runtime diagnostics.
-          </Typography>
+          <Typography variant="h6">{uiText("About")}</Typography>
+          <Typography variant="body2" color={TEXT_SECONDARY}>{uiText("Containerlab App details, maintainers, and runtime diagnostics.")}</Typography>
         </Box>
       )}
 
@@ -206,27 +205,22 @@ export function AboutSettingsContent({
           sx={{ width: 48, height: 48, flexShrink: 0 }}
         />
         <Box sx={{ minWidth: 0 }}>
-          <Typography variant="h5" component="h3">
-            Containerlab App
-          </Typography>
-          <Typography variant="body2" color={TEXT_SECONDARY} sx={{ mt: 0.25 }}>
-            Interactive topology visualization and editing for Containerlab network labs in the
-            standalone browser UI.
-          </Typography>
+          <Typography variant="h5" component="h3">{uiText("Containerlab App")}</Typography>
+          <Typography variant="body2" color={TEXT_SECONDARY} sx={{ mt: 0.25 }}>{uiText("Interactive topology visualization and editing for Containerlab network labs in the standalone browser UI.")}</Typography>
         </Box>
       </Box>
 
-      <AboutSection title="Runtime">
+      <AboutSection title={uiText("Runtime")}>
         {versionError ? <Alert severity="error">{versionError}</Alert> : null}
         <VersionList
           rows={[
-            { label: "Containerlab version", testId: "standalone-settings-version-info", value: versionValue },
-            { label: "Update check", testId: "standalone-settings-version-check", value: updateValue, mono: false }
+            { label: uiText("Containerlab version"), testId: "standalone-settings-version-info", value: versionValue },
+            { label: uiText("Update check"), testId: "standalone-settings-version-check", value: updateValue, mono: false }
           ]}
         />
       </AboutSection>
 
-      <AboutSection title="Team">
+      <AboutSection title={uiText("Team")}>
         <AuthorCards />
       </AboutSection>
 
@@ -240,9 +234,9 @@ export function AboutSettingsContent({
           color: TEXT_SECONDARY
         }}
       >
-        <Typography variant="caption">Made with</Typography>
+        <Typography variant="caption">{uiText("Made with")}</Typography>
         <FavoriteIcon sx={{ fontSize: 12, color: "error.main" }} />
-        <Typography variant="caption">for the network community</Typography>
+        <Typography variant="caption">{uiText("for the network community")}</Typography>
       </Box>
     </Stack>
   );

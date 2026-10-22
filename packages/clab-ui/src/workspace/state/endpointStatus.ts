@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import type { AlertColor } from "@mui/material/Alert";
 
 import type { EndpointStatus } from "../types";
@@ -5,15 +6,15 @@ import type { EndpointStatus } from "../types";
 export function endpointStatusLabel(status: EndpointStatus): string {
   switch (status) {
     case "connected":
-      return "Connected";
+      return uiText("Connected");
     case "session_expired":
-      return "Session Expired";
+      return uiText("Session Expired");
     case "offline":
-      return "Offline";
+      return uiText("Offline");
     case "saved":
-      return "Saved";
+      return uiText("Saved");
     default:
-      return "Unknown";
+      return uiText("Unknown");
   }
 }
 
@@ -35,13 +36,13 @@ export function endpointStatusSeverity(status: EndpointStatus): AlertColor {
 export function endpointStatusHint(status: EndpointStatus): string {
   switch (status) {
     case "connected":
-      return "Authenticated and reachable.";
+      return uiText("Authenticated and reachable.");
     case "session_expired":
-      return "Reconnect with your credentials to continue using this endpoint.";
+      return uiText("Reconnect with your credentials to continue using this endpoint.");
     case "offline":
-      return "The endpoint cannot be reached right now. Reconnect when it is available again.";
+      return uiText("The endpoint cannot be reached right now. Reconnect when it is available again.");
     case "saved":
-      return "Saved locally. Reconnect to restore the browser session for this endpoint.";
+      return uiText("Saved locally. Reconnect to restore the browser session for this endpoint.");
     default:
       return "";
   }

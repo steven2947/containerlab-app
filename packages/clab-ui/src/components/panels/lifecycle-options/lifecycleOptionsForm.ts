@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Form state of the lifecycle options dialog and the request it produces.
 import type { TopoViewerLifecycleAction } from "../../../host/contracts";
 import {
@@ -59,7 +60,7 @@ export function maxWorkersError(value: string): string | undefined {
   const trimmed = value.trim();
   if (trimmed === "") return undefined;
   const parsed = Number(trimmed);
-  return Number.isInteger(parsed) && parsed > 0 ? undefined : "Enter a whole number above 0";
+  return Number.isInteger(parsed) && parsed > 0 ? undefined : uiText("Enter a whole number above 0");
 }
 
 const ACTIONS: Record<LabLifecycleOptionKind, [TopoViewerLifecycleAction, TopoViewerLifecycleAction]> =

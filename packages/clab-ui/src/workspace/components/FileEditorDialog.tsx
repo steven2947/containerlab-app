@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { useWorkspaceHost } from "../WorkspaceHost";
 import * as monaco from "monaco-editor";
 import {
@@ -127,9 +128,9 @@ export function FileEditorDialog() {
     const state = useRuntimeUiStore.getState().fileEditor;
     if (state && state.content !== state.originalContent) {
       const shouldClose = await confirmRuntimeAction({
-        title: "Discard Unsaved Changes",
-        message: `Discard unsaved changes to "${state.title}"?`,
-        confirmLabel: "Discard",
+        title: uiText("Discard Unsaved Changes"),
+        message: uiText("Discard unsaved changes to \"{0}\"?", { "0": (state.title) }),
+        confirmLabel: uiText("Discard"),
         severity: "error",
       });
       if (!shouldClose) {
@@ -154,12 +155,12 @@ export function FileEditorDialog() {
         originalContent: state.originalContent,
       });
       runtimeUiActions.markFileEditorSaved(state.content);
-      runtimeUiActions.notify(`Saved ${state.path}`, "success");
+      runtimeUiActions.notify(uiText("Saved {0}", { "0": (state.path) }), "success");
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       runtimeUiActions.setFileEditorError(message);
       runtimeUiActions.notify(
-        `Failed to save ${state.path}: ${message}`,
+        uiText("Failed to save {0}: {1}", { "0": (state.path), "1": (message) }),
         "error",
       );
     }
@@ -189,8 +190,7 @@ export function FileEditorDialog() {
             {fileEditor.title}
             {dirty ? " *" : ""}
           </Typography>
-          <Typography variant="caption" sx={{ color: "text.secondary", fontFamily: MONO_FONT_FAMILY }}>
-            Lab workspace/{fileEditor.path}
+          <Typography variant="caption" sx={{ color: "text.secondary", fontFamily: MONO_FONT_FAMILY }}>{uiText("Lab workspace/")}{fileEditor.path}
           </Typography>
         </Stack>
       </DialogTitle>
@@ -211,9 +211,7 @@ export function FileEditorDialog() {
           onClick={() => {
             void handleClose();
           }}
-        >
-          Close
-        </Button>
+        >{uiText("Close")}</Button>
         <Button
           variant="contained"
           onClick={() => {
@@ -221,7 +219,7 @@ export function FileEditorDialog() {
           }}
           disabled={!dirty || fileEditor.saving}
         >
-          {fileEditor.saving ? "Saving..." : "Save"}
+          {fileEditor.saving ? uiText("Saving...") : uiText("Save")}
         </Button>
       </DialogActions>
     </Dialog>

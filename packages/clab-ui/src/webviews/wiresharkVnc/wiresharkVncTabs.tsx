@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 // Several Wireshark capture sessions in one window: one tab per session, or all side by side.
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import Box from "@mui/material/Box";
@@ -53,10 +54,10 @@ const PanelCaption: React.FC<{
     >
       {label}
     </Box>
-    <Tooltip title="Show as tab">
+    <Tooltip title={uiText("Show as tab")}>
       <IconButton
         size="small"
-        aria-label={`Show ${label} as tab`}
+        aria-label={uiText("Show {0} as tab", { "0": (label) })}
         onClick={onShowAsTab}
         sx={{ width: 20, height: 20, p: 0, borderRadius: 1, color: "inherit" }}
       >
@@ -165,7 +166,7 @@ export function WiresharkVncTabsApp({ tabs }: WiresharkVncTabsAppProps): React.J
                 />
                 <Box
                   component="iframe"
-                  title={`Wireshark ${tab.label}`}
+                  title={uiText("Wireshark {0}", { "0": (tab.label) })}
                   src={tab.src}
                   sx={{
                     display: "block",

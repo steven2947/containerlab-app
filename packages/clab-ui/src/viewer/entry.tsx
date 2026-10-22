@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import type { Root } from "react-dom/client";
 import type { ReactFlowInstance } from "@xyflow/react";
 
@@ -107,7 +108,7 @@ function selectNode(id: string | null): void {
 }
 
 function renderError(error: unknown): void {
-  send({ type: "clab-viewer:error", message: error instanceof Error ? error.message : "Unable to render topology" });
+  send({ type: "clab-viewer:error", message: error instanceof Error ? error.message : uiText("Unable to render topology") });
 }
 
 function render(msg: Omit<RenderMessage, "type">): void {

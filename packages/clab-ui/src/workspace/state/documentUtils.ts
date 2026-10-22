@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import type { TopologyRef } from "../../session";
 
 import type { EndpointConfig,ContainerState,InterfaceState,LabState } from "../types";
@@ -117,7 +118,7 @@ export function isSharedWorkspacePath(pathValue: string | undefined): boolean {
 }
 
 export const SHARED_WORKSPACE_DESCRIPTION =
-  "Everyone on this server can edit, deploy, and destroy these labs. Terminal and capture sessions remain personal.";
+  uiText("Everyone on this server can edit, deploy, and destroy these labs. Terminal and capture sessions remain personal.");
 
 export function normalizeLabName(labName: string | undefined): string {
   return (labName ?? "").trim().toLowerCase();

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Basic link configuration tab.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -66,8 +67,7 @@ const EndpointInterfaceField: React.FC<EndpointInterfaceFieldProps> = ({
     return (
       <Box sx={READ_ONLY_ENDPOINT_SX}>
         <Typography component="span" sx={READ_ONLY_ENDPOINT_LABEL_SX}>
-          {nodeName} Interface
-        </Typography>
+          {nodeName}{uiText(" Interface")}</Typography>
         <Typography component="span" noWrap sx={{ fontFamily: MONO_FONT_FAMILY, fontSize: 12 }}>
           {nodeName || "Unknown"}
         </Typography>
@@ -82,7 +82,7 @@ const EndpointInterfaceField: React.FC<EndpointInterfaceFieldProps> = ({
       required
       value={endpoint ?? ""}
       onChange={onChange}
-      placeholder="e.g., eth1, e1-1"
+      placeholder={uiText("e.g., eth1, e1-1")}
     />
   );
 };
@@ -101,7 +101,7 @@ const LabelOffsetSection: React.FC<LabelOffsetSectionProps> = ({
   onOffsetReset
 }) => {
   return (
-    <PanelSection title="Label Offset" bodySx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+    <PanelSection title={uiText("Label Offset")} bodySx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
       <>
         <Typography variant="caption" sx={OFFSET_BOUND_SX}>
           {ENDPOINT_LABEL_OFFSET_MIN}
@@ -123,10 +123,8 @@ const LabelOffsetSection: React.FC<LabelOffsetSectionProps> = ({
           variant="outlined"
           size="small"
           onClick={onOffsetReset}
-          title={`Reset to ${DEFAULT_ENDPOINT_LABEL_OFFSET}`}
-        >
-          Reset
-        </Button>
+          title={uiText("Reset to {0}", { "0": (DEFAULT_ENDPOINT_LABEL_OFFSET) })}
+        >{uiText("Reset")}</Button>
       </>
     </PanelSection>
   );
@@ -141,8 +139,8 @@ function resolveEndpointOffsetValue(offset: unknown): number {
 }
 
 export const BasicTab: React.FC<LinkTabProps> = ({ data, onChange, onPreviewOffset }) => {
-  const sourceName = data.source.length > 0 ? data.source : "Source";
-  const targetName = data.target.length > 0 ? data.target : "Target";
+  const sourceName = data.source.length > 0 ? data.source : uiText("Source");
+  const targetName = data.target.length > 0 ? data.target : uiText("Target");
   const endpointOffsetValue = resolveEndpointOffsetValue(data.endpointLabelOffset);
 
   const handleOffsetChange = (_event: Event, value: number | number[]) => {
@@ -174,7 +172,7 @@ export const BasicTab: React.FC<LinkTabProps> = ({ data, onChange, onPreviewOffs
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Endpoints">
+      <PanelSection title={uiText("Endpoints")}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <EndpointInterfaceField
             isNetwork={Boolean(data.sourceIsNetwork)}

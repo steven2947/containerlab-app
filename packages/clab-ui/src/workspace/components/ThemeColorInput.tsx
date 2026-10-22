@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
@@ -84,7 +85,7 @@ export function ThemeColorInput({
         <Box
           component="input"
           type="color"
-          aria-label={`${label} picker`}
+          aria-label={uiText("{0} picker", { "0": (label) })}
           value={toOpaqueHex(value) ?? "#000000"}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
           sx={{

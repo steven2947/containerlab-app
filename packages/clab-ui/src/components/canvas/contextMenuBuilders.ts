@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 // Context menu item builders for ReactFlowCanvas.
 import React from "react";
 import type { ReactFlowInstance } from "@xyflow/react";
@@ -177,7 +178,7 @@ function buildFreeTextContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
   const items: ContextMenuItem[] = [
     {
       id: "edit-text",
-      label: "Edit Text",
+      label: uiText("Edit Text"),
       icon: React.createElement(EditIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -191,7 +192,7 @@ function buildFreeTextContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
     items.push(
       {
         id: "duplicate-text",
-        label: "Duplicate Text",
+        label: uiText("Duplicate Text"),
         icon: React.createElement(ContentCopyIcon, { fontSize: "small" }),
         onClick: () => {
           duplicateFreeText?.(targetId);
@@ -201,7 +202,7 @@ function buildFreeTextContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
       { id: DIVIDER_ID, label: "", divider: true },
       {
         id: "delete-text",
-        label: "Delete Text",
+        label: uiText("Delete Text"),
         icon: React.createElement(DeleteIcon, { fontSize: "small" }),
         disabled: isLocked,
         danger: true,
@@ -224,7 +225,7 @@ function buildFreeShapeContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
   const items: ContextMenuItem[] = [
     {
       id: "edit-shape",
-      label: "Edit Shape",
+      label: uiText("Edit Shape"),
       icon: React.createElement(EditIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -238,7 +239,7 @@ function buildFreeShapeContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
       { id: DIVIDER_ID, label: "", divider: true },
       {
         id: "delete-shape",
-        label: "Delete Shape",
+        label: uiText("Delete Shape"),
         icon: React.createElement(DeleteIcon, { fontSize: "small" }),
         disabled: isLocked,
         danger: true,
@@ -261,7 +262,7 @@ function buildGroupContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
   const items: ContextMenuItem[] = [
     {
       id: "edit-group",
-      label: "Edit Group",
+      label: uiText("Edit Group"),
       icon: React.createElement(EditIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -275,7 +276,7 @@ function buildGroupContextMenu(ctx: MenuBuilderContext): ContextMenuItem[] {
       { id: DIVIDER_ID, label: "", divider: true },
       {
         id: "delete-group",
-        label: "Delete Group",
+        label: uiText("Delete Group"),
         icon: React.createElement(DeleteIcon, { fontSize: "small" }),
         disabled: isLocked,
         danger: true,
@@ -298,7 +299,7 @@ function buildTrafficRateContextMenu(ctx: MenuBuilderContext): ContextMenuItem[]
   const items: ContextMenuItem[] = [
     {
       id: "edit-traffic-rate",
-      label: "Edit Traffic Rate",
+      label: uiText("Edit Traffic Rate"),
       icon: React.createElement(EditIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -313,7 +314,7 @@ function buildTrafficRateContextMenu(ctx: MenuBuilderContext): ContextMenuItem[]
       { id: DIVIDER_ID, label: "", divider: true },
       {
         id: "delete-traffic-rate",
-        label: "Delete Traffic Rate",
+        label: uiText("Delete Traffic Rate"),
         icon: React.createElement(DeleteIcon, { fontSize: "small" }),
         disabled: isLocked,
         danger: true,
@@ -333,7 +334,7 @@ function buildNodeRuntimeItems(ctx: MenuBuilderContext): ContextMenuItem[] {
   return [
     {
       id: "start-node",
-      label: "Start",
+      label: uiText("Start"),
       icon: React.createElement(PlayArrowIcon, { fontSize: "small" }),
       onClick: () => {
         onNodeAction("start", targetId);
@@ -342,7 +343,7 @@ function buildNodeRuntimeItems(ctx: MenuBuilderContext): ContextMenuItem[] {
     },
     {
       id: "stop-node",
-      label: "Stop",
+      label: uiText("Stop"),
       icon: React.createElement(StopIcon, { fontSize: "small" }),
       disabled: isNodeActionDisabled("stop", targetRuntimeState),
       onClick: () => {
@@ -352,7 +353,7 @@ function buildNodeRuntimeItems(ctx: MenuBuilderContext): ContextMenuItem[] {
     },
     {
       id: "restart-node",
-      label: "Restart",
+      label: uiText("Restart"),
       icon: React.createElement(ReplayIcon, { fontSize: "small" }),
       disabled: isNodeActionDisabled("restart", targetRuntimeState),
       onClick: () => {
@@ -373,7 +374,7 @@ function buildNodeRuntimeItems(ctx: MenuBuilderContext): ContextMenuItem[] {
     },
     {
       id: "shell-node",
-      label: "Shell",
+      label: uiText("Shell"),
       icon: React.createElement(TerminalIcon, { fontSize: "small" }),
       disabled: isNodeActionDisabled("shell", targetRuntimeState),
       onClick: () => {
@@ -383,7 +384,7 @@ function buildNodeRuntimeItems(ctx: MenuBuilderContext): ContextMenuItem[] {
     },
     {
       id: "logs-node",
-      label: "Logs",
+      label: uiText("Logs"),
       icon: React.createElement(ArticleIcon, { fontSize: "small" }),
       disabled: isNodeActionDisabled("logs", targetRuntimeState),
       onClick: () => {
@@ -396,7 +397,7 @@ function buildNodeRuntimeItems(ctx: MenuBuilderContext): ContextMenuItem[] {
           { id: "divider-node-capture", label: "", divider: true },
           {
             id: "capture-node",
-            label: "Capture",
+            label: uiText("Capture"),
             icon: React.createElement(WiresharkIcon, { fontSize: "small" }),
             // Capture follows SSH: it needs a running container.
             disabled: isNodeActionDisabled("ssh", targetRuntimeState),
@@ -429,7 +430,7 @@ function buildNodeEditItems(ctx: MenuBuilderContext): ContextMenuItem[] {
   if (isNonEmptyString(linkSourceNode)) {
     items.push({
       id: "cancel-link",
-      label: "Cancel Link Creation",
+      label: uiText("Cancel Link Creation"),
       icon: React.createElement(CloseIcon, { fontSize: "small" }),
       onClick: () => {
         cancelLinkCreation?.();
@@ -443,7 +444,7 @@ function buildNodeEditItems(ctx: MenuBuilderContext): ContextMenuItem[] {
   if (!isNonEmptyString(linkSourceNode)) {
     items.push({
       id: "create-link",
-      label: "Create Link",
+      label: uiText("Create Link"),
       icon: React.createElement(LinkIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -456,7 +457,7 @@ function buildNodeEditItems(ctx: MenuBuilderContext): ContextMenuItem[] {
   items.push({ id: "divider-edit", label: "", divider: true });
   items.push({
     id: "edit-node",
-    label: isNetworkNode ? "Edit Network" : "Edit Node",
+    label: isNetworkNode ? uiText("Edit Network") : uiText("Edit Node"),
     icon: isNetworkNode
       ? React.createElement(LanIcon, { fontSize: "small" })
       : React.createElement(EditIcon, { fontSize: "small" }),
@@ -475,7 +476,7 @@ function buildNodeEditItems(ctx: MenuBuilderContext): ContextMenuItem[] {
   items.push({ id: DIVIDER_ID, label: "", divider: true });
   items.push({
     id: "delete-node",
-    label: "Delete Node",
+    label: uiText("Delete Node"),
     icon: React.createElement(DeleteIcon, { fontSize: "small" }),
     disabled: isLocked,
     danger: true,
@@ -531,7 +532,7 @@ export function buildNodeContextMenu(ctx: MenuBuilderContext): ContextMenuItem[]
     }
     items.push({
       id: "info-node",
-      label: "Info",
+      label: uiText("Info"),
       icon: React.createElement(InfoIcon, { fontSize: "small" }),
       onClick: () => {
         showNodeInfo?.(targetId);
@@ -575,7 +576,7 @@ function buildEdgeCaptureItems(ctx: EdgeMenuBuilderContext): ContextMenuItem[] {
   return [
     {
       id: "capture-link",
-      label: "Capture",
+      label: uiText("Capture"),
       icon: React.createElement(WiresharkIcon, { fontSize: "small" }),
       panelLabel: "Capture packets on this link",
       panel: (close: () => void) => renderLinkCapturePanel({ linkId: targetId, ends }, close)
@@ -603,7 +604,7 @@ export function buildEdgeContextMenu(ctx: EdgeMenuBuilderContext): ContextMenuIt
 
   const impairmentItem: ContextMenuItem = {
     id: "impair-edge",
-    label: "Link Impairments",
+    label: uiText("Link Impairments"),
     icon: React.createElement(TuneIcon, { fontSize: "small" }),
     onClick: () => {
       showLinkImpairment?.(targetId);
@@ -612,7 +613,7 @@ export function buildEdgeContextMenu(ctx: EdgeMenuBuilderContext): ContextMenuIt
   };
   const linkInfoItem: ContextMenuItem = {
     id: "info-edge",
-    label: "Info",
+    label: uiText("Info"),
     icon: React.createElement(InfoIcon, { fontSize: "small" }),
     onClick: () => {
       showLinkInfo?.(targetId);
@@ -640,7 +641,7 @@ export function buildEdgeContextMenu(ctx: EdgeMenuBuilderContext): ContextMenuIt
     }
     items.push({
       id: "edit-edge",
-      label: "Edit Link",
+      label: uiText("Edit Link"),
       icon: React.createElement(EditIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -659,7 +660,7 @@ export function buildEdgeContextMenu(ctx: EdgeMenuBuilderContext): ContextMenuIt
     items.push({ id: DIVIDER_ID, label: "", divider: true });
     items.push({
       id: "delete-edge",
-      label: "Delete Link",
+      label: uiText("Delete Link"),
       icon: React.createElement(DeleteIcon, { fontSize: "small" }),
       disabled: isLocked,
       danger: true,
@@ -696,7 +697,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
     items.push(
       {
         id: "add-node",
-        label: "Add Node",
+        label: uiText("Add Node"),
         icon: React.createElement(AddIcon, { fontSize: "small" }),
         disabled: isLocked,
         onClick: () => {
@@ -725,7 +726,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
   if (onAddGroup) {
     editorItems.push({
       id: "add-group",
-      label: "Add Group",
+      label: uiText("Add Group"),
       icon: React.createElement(LayersIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -737,7 +738,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
   if (onAddText || onAddTextAtPosition) {
     editorItems.push({
       id: "add-text",
-      label: "Add Text",
+      label: uiText("Add Text"),
       icon: React.createElement(TextFieldsIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -755,13 +756,13 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
   if (onAddShapes || onAddShapeAtPosition) {
     editorItems.push({
       id: "add-shape",
-      label: "Add Shape",
+      label: uiText("Add Shape"),
       icon: React.createElement(CategoryIcon, { fontSize: "small" }),
       disabled: isLocked,
       children: [
         {
           id: "add-shape-rectangle",
-          label: "Rectangle",
+          label: uiText("Rectangle"),
           icon: React.createElement(CropSquareIcon, { fontSize: "small" }),
           disabled: isLocked,
           onClick: () => {
@@ -776,7 +777,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
         },
         {
           id: "add-shape-circle",
-          label: "Circle",
+          label: uiText("Circle"),
           icon: React.createElement(CircleOutlinedIcon, { fontSize: "small" }),
           disabled: isLocked,
           onClick: () => {
@@ -791,7 +792,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
         },
         {
           id: "add-shape-line",
-          label: "Line",
+          label: uiText("Line"),
           icon: React.createElement(RemoveIcon, { fontSize: "small" }),
           disabled: isLocked,
           onClick: () => {
@@ -810,7 +811,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
   if (onAddTrafficRateAtPosition) {
     editorItems.push({
       id: "add-traffic-rate",
-      label: "Add Traffic Rate",
+      label: uiText("Add Traffic Rate"),
       icon: React.createElement(SpeedIcon, { fontSize: "small" }),
       disabled: isLocked,
       onClick: () => {
@@ -828,7 +829,7 @@ export function buildPaneContextMenu(ctx: PaneMenuBuilderContext): ContextMenuIt
 
   const paletteItem: ContextMenuItem = {
     id: "open-node-palette",
-    label: "Open Palette",
+    label: uiText("Open Palette"),
     icon: React.createElement(DashboardIcon, { fontSize: "small" }),
     onClick: () => {
       onOpenNodePalette?.();

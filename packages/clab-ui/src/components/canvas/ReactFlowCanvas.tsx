@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 // Main React Flow canvas component.
 import React, {
   useRef,
@@ -999,11 +1000,8 @@ function renderGeoMapLayer(
             pointerEvents: "none"
           }}
         >
-          <strong>Geo map unavailable:</strong> {geoInitError}
-          <br />
-          The map requires WebGL. If VS Code is running without GPU acceleration (e.g. after a
-          driver update or suspend), fully restart VS Code and re-open this view.
-        </div>
+          <strong>{uiText("Geo map unavailable:")}</strong> {geoInitError}
+          <br />{uiText("The map requires WebGL. If VS Code is running without GPU acceleration (e.g. after a driver update or suspend), fully restart VS Code and re-open this view.")}</div>
       )}
     </div>
   );

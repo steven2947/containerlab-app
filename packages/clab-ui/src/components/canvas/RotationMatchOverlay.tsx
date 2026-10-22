@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -37,7 +38,7 @@ function getCandidate(target: EventTarget | null, targetId: string): Candidate |
   if (element.classList.contains("react-flow__edge")) {
     const path = element.querySelector<SVGPathElement>(".react-flow__edge-path");
     const angle = path ? getPathRotation(path) : null;
-    return angle === null ? null : { element, angle, label: "Link direction" };
+    return angle === null ? null : { element, angle, label: uiText("Link direction") };
   }
   const node = useGraphStore.getState().nodes.find((item) => item.id === id);
   if (!node) return null;
@@ -45,14 +46,14 @@ function getCandidate(target: EventTarget | null, targetId: string): Candidate |
     return {
       element,
       angle: getShapeRotation(nodeToFreeShape(node)),
-      label: node.data.shapeType === "line" ? "Line direction" : "Shape rotation"
+      label: node.data.shapeType === "line" ? uiText("Line direction") : uiText("Shape rotation")
     };
   }
   if (node.type === FREE_TEXT_NODE_TYPE) {
     return {
       element,
       angle: typeof node.data.rotation === "number" ? node.data.rotation : 0,
-      label: "Text rotation"
+      label: uiText("Text rotation")
     };
   }
   return null;
@@ -158,10 +159,10 @@ export function RotationMatchOverlay({
       <ColorizeIcon color="primary" fontSize="small" />
       <Box sx={{ minWidth: 0 }}>
         <Typography variant="body2" sx={{ fontWeight: 500, whiteSpace: "nowrap" }}>
-          {preview ? `${preview.label} · ${formatRotation(preview.angle)}°` : "Pick a direction"}
+          {preview ? `${preview.label} · ${formatRotation(preview.angle)}°` : uiText("Pick a direction")}
         </Typography>
         <Typography variant="caption" sx={{ color: "text.secondary", whiteSpace: "nowrap" }}>
-          {preview ? "Click to match rotation" : "Choose a link, line, text or shape"}
+          {preview ? uiText("Click to match rotation") : uiText("Choose a link, line, text or shape")}
         </Typography>
       </Box>
       <Button size="small" onClick={useRotationStore.getState().cancelPick} sx={{ minWidth: 36 }}>

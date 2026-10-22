@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Login credentials (`credentials`) of a node.
 import React from "react";
 
@@ -7,9 +8,9 @@ import type { NodeCredentials } from "../../../core/parsing/NodeCredentials";
 import type { TabProps } from "./types";
 
 const LEVEL_LABELS: Record<string, string> = {
-  defaults: "topology defaults",
-  kind: "kind settings",
-  group: "group settings"
+  defaults: uiText("topology defaults"),
+  kind: uiText("kind settings"),
+  group: uiText("group settings")
 };
 
 function levelLabel(level: string): string {
@@ -23,12 +24,12 @@ function isSet(value: string | undefined): boolean {
 /** Note under the username and password, saying where the login comes from */
 function describeLogin(ownLogin: boolean, inheritedSource: string | undefined): string {
   if (inheritedSource === undefined) {
-    return "Used for SSH logins and the generated inventories. Empty fields use the kind default.";
+    return uiText("Used for SSH logins and the generated inventories. Empty fields use the kind default.");
   }
   if (ownLogin) {
-    return `Replaces the login from the ${levelLabel(inheritedSource)} as a whole. Empty fields use the kind default.`;
+    return uiText("Replaces the login from the {0} as a whole. Empty fields use the kind default.", { "0": (levelLabel(inheritedSource)) });
   }
-  return `Inherited from the ${levelLabel(inheritedSource)}. Typing here sets a login for this node only.`;
+  return uiText("Inherited from the {0}. Typing here sets a login for this node only.", { "0": (levelLabel(inheritedSource)) });
 }
 
 export const CredentialsSection: React.FC<TabProps> = ({ data, onChange }) => {
@@ -46,33 +47,33 @@ export const CredentialsSection: React.FC<TabProps> = ({ data, onChange }) => {
   };
 
   return (
-    <PanelSection title="Login Credentials">
+    <PanelSection title={uiText("Login Credentials")}>
       <InputField
         id="node-credentials-username"
-        label="Username"
+        label={uiText("Username")}
         value={own.username ?? ""}
         onChange={(value) => update({ username: value })}
-        placeholder={fallback.username ?? "Kind default"}
+        placeholder={fallback.username ?? uiText("Kind default")}
       />
       <InputField
         id="node-credentials-password"
-        label="Password"
+        label={uiText("Password")}
         type="password"
         value={own.password ?? ""}
         onChange={(value) => update({ password: value })}
-        placeholder={isSet(fallback.password) ? "Inherited password" : "Kind default"}
+        placeholder={isSet(fallback.password) ? uiText("Inherited password") : uiText("Kind default")}
         helperText={describeLogin(ownLogin, inherited.source)}
       />
       <InputField
         id="node-credentials-identity-file"
-        label="SSH Identity File"
+        label={uiText("SSH Identity File")}
         value={own.identityFile ?? ""}
         onChange={(value) => update({ identityFile: value })}
         placeholder={inherited.identityFile ?? "~/.ssh/id_ed25519"}
         helperText={
           inheritsIdentityFile
-            ? `Inherited from the ${levelLabel(inherited.identityFileSource ?? "")}`
-            : "Private key for SSH. A relative path starts at the topology folder."
+            ? uiText("Inherited from the {0}", { "0": (levelLabel(inherited.identityFileSource ?? "")) })
+            : uiText("Private key for SSH. A relative path starts at the topology folder.")
         }
       />
     </PanelSection>

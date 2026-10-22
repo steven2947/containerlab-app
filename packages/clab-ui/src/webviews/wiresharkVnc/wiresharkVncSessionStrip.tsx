@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 // Tab strip of the multi-session Wireshark page: a tab per session and the layout toggle.
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import TabOutlinedIcon from "@mui/icons-material/TabOutlined";
@@ -105,7 +106,7 @@ const LayoutToggle: React.FC<{
     onChange={(_event, value: unknown) => {
       if (value === "tabs" || value === "side-by-side") onChange(value);
     }}
-    aria-label="Layout"
+    aria-label={uiText("Layout")}
     data-testid="wireshark-layout"
     sx={{
       flexShrink: 0,
@@ -120,21 +121,17 @@ const LayoutToggle: React.FC<{
       }
     }}
   >
-    <ToggleButton value="tabs" aria-label="Tabs" data-testid="wireshark-layout-tabs">
+    <ToggleButton value="tabs" aria-label={uiText("Tabs")} data-testid="wireshark-layout-tabs">
       <TabOutlinedIcon sx={{ fontSize: 14 }} />
-      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
-        Tabs
-      </Box>
+      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>{uiText("Tabs")}</Box>
     </ToggleButton>
     <ToggleButton
       value="side-by-side"
-      aria-label="Side by side"
+      aria-label={uiText("Side by side")}
       data-testid="wireshark-layout-side-by-side"
     >
       <GridViewOutlinedIcon sx={{ fontSize: 14 }} />
-      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
-        Side by side
-      </Box>
+      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>{uiText("Side by side")}</Box>
     </ToggleButton>
   </ToggleButtonGroup>
 );
@@ -153,8 +150,7 @@ const SessionCount: React.FC<{ count: number }> = ({ count }) => (
   >
     <WiresharkIcon sx={{ fontSize: 14, flexShrink: 0 }} />
     <Typography component="span" noWrap sx={{ fontSize: 12 }}>
-      {count} captures
-    </Typography>
+      {count}{uiText(" captures")}</Typography>
   </Box>
 );
 
@@ -207,7 +203,7 @@ export function WiresharkVncSessionStrip({
       {layout === "tabs" ? (
         <Box
           role="tablist"
-          aria-label="Capture sessions"
+          aria-label={uiText("Capture sessions")}
           sx={{
             display: "flex",
             alignSelf: "stretch",

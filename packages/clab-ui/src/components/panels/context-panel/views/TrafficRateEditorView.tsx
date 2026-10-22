@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 import React, { useCallback, useMemo } from "react";
 import { shallow } from "zustand/shallow";
 import Box from "@mui/material/Box";
@@ -243,7 +244,7 @@ function resolveModeFieldOverrides(
 
 function buildNodeSelectOptions(nodeOptions: string[]): Array<{ value: string; label: string }> {
   return [
-    { value: "", label: "Select node" },
+    { value: "", label: uiText("Select node") },
     ...nodeOptions.map((nodeId) => ({
       value: nodeId,
       label: nodeId
@@ -257,7 +258,7 @@ function buildInterfaceSelectOptions(
 ): Array<{ value: string; label: string }> {
   const hasNodeId = nodeId !== undefined && nodeId.length > 0;
   return [
-    { value: "", label: hasNodeId ? "Select interface" : "Select node first" },
+    { value: "", label: hasNodeId ? uiText("Select interface") : uiText("Select node first") },
     ...interfaceOptions.map((interfaceName) => ({
       value: interfaceName,
       label: interfaceName
@@ -389,43 +390,43 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
     <Box sx={{ flex: 1, overflow: "auto" }}>
       <ReadOnlyFieldset readOnly={readOnly}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <PanelSection title="Monitor">
+          <PanelSection title={uiText("Monitor")}>
             <>
               <SelectField
                 id="traffic-rate-mode"
-                label="Mode"
+                label={uiText("Mode")}
                 value={mode}
                 onChange={handleModeChange}
                 options={[
-                  { value: "chart", label: "Chart" },
-                  { value: "text", label: "Text" }
+                  { value: "chart", label: uiText("Chart") },
+                  { value: "text", label: uiText("Text") }
                 ]}
               />
               {mode === "text" && (
                 <SelectField
                   id="traffic-rate-text-metric"
-                  label="Text value"
+                  label={uiText("Text value")}
                   value={textMetric}
                   onChange={(value) =>
                     updateField("textMetric", resolveTrafficRateTextMetric(value))
                   }
                   options={[
-                    { value: "combined", label: "Combined (RX + TX)" },
-                    { value: "rx", label: "RX only" },
-                    { value: "tx", label: "TX only" }
+                    { value: "combined", label: uiText("Combined (RX + TX)") },
+                    { value: "rx", label: uiText("RX only") },
+                    { value: "tx", label: uiText("TX only") }
                   ]}
                 />
               )}
               <SelectField
                 id="traffic-rate-node"
-                label="Node"
+                label={uiText("Node")}
                 value={resolvedFields.nodeIdValue}
                 onChange={handleNodeChange}
                 options={nodeSelectOptions}
               />
               <SelectField
                 id="traffic-rate-interface"
-                label="Interface"
+                label={uiText("Interface")}
                 value={resolvedFields.interfaceNameValue}
                 onChange={(value) => updateField("interfaceName", value)}
                 options={interfaceSelectOptions}
@@ -434,11 +435,11 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
             </>
           </PanelSection>
 
-          <PanelSection title="Size">
+          <PanelSection title={uiText("Size")}>
             <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
               <InputField
                 id="traffic-rate-width"
-                label="Width"
+                label={uiText("Width")}
                 type="number"
                 value={String(sizeConfig.width)}
                 onChange={(value) => {
@@ -458,7 +459,7 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
               />
               <InputField
                 id="traffic-rate-height"
-                label="Height"
+                label={uiText("Height")}
                 type="number"
                 value={String(sizeConfig.height)}
                 onChange={(value) => {
@@ -480,18 +481,18 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
           </PanelSection>
 
           <PanelSection
-            title="Background"
+            title={uiText("Background")}
             bodySx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}
           >
             <>
               <ColorField
-                label="Color"
+                label={uiText("Color")}
                 value={resolvedFields.backgroundColorValue}
                 onChange={(value) => updateField("backgroundColor", value)}
               />
               <InputField
                 id="traffic-rate-bg-opacity"
-                label="Opacity"
+                label={uiText("Opacity")}
                 type="number"
                 value={resolvedFields.opacityValue}
                 onChange={(value) => {
@@ -508,16 +509,16 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
             </>
           </PanelSection>
 
-          <PanelSection title="Border">
+          <PanelSection title={uiText("Border")}>
             <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
               <ColorField
-                label="Color"
+                label={uiText("Color")}
                 value={resolvedFields.borderColorValue}
                 onChange={(value) => updateField("borderColor", value)}
               />
               <InputField
                 id="traffic-rate-border-width"
-                label="Width"
+                label={uiText("Width")}
                 type="number"
                 value={resolvedFields.borderWidthValue}
                 onChange={(value) => {
@@ -536,19 +537,19 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
             <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
               <SelectField
                 id="traffic-rate-border-style"
-                label="Style"
+                label={uiText("Style")}
                 value={resolvedFields.borderStyleValue}
                 onChange={(value) => updateField("borderStyle", resolveBorderStyle(value))}
                 options={[
-                  { value: "solid", label: "Solid" },
-                  { value: "dashed", label: "Dashed" },
-                  { value: "dotted", label: "Dotted" },
-                  { value: "double", label: "Double" }
+                  { value: "solid", label: uiText("Solid") },
+                  { value: "dashed", label: uiText("Dashed") },
+                  { value: "dotted", label: uiText("Dotted") },
+                  { value: "double", label: uiText("Double") }
                 ]}
               />
               <InputField
                 id="traffic-rate-border-radius"
-                label="Corner Radius"
+                label={uiText("Corner Radius")}
                 type="number"
                 value={resolvedFields.borderRadiusValue}
                 onChange={(value) => {
@@ -565,19 +566,19 @@ export const TrafficRateEditorView: React.FC<TrafficRateEditorViewProps> = ({
             </Box>
           </PanelSection>
 
-          <PanelSection title="Text">
+          <PanelSection title={uiText("Text")}>
             <ColorField
-              label="Text Color"
+              label={uiText("Text Color")}
               value={resolvedFields.textColorValue}
               onChange={(value) => updateField("textColor", value)}
             />
           </PanelSection>
 
           {mode === "chart" && (
-            <PanelSection title="Chart">
+            <PanelSection title={uiText("Chart")}>
               <CheckboxField
                 id="traffic-rate-show-legend"
-                label="Show legend"
+                label={uiText("Show legend")}
                 checked={resolvedFields.showLegendChecked}
                 onChange={(checked) => updateField("showLegend", resolveShowLegendValue(checked))}
               />

@@ -2,7 +2,7 @@ import type { TypographyVariantsOptions } from "@mui/material/styles";
 
 /** The host font: VS Code's UI font in the extension, the platform UI font in standalone apps. */
 export const UI_FONT_FAMILY =
-  "var(--clab-ui-font-family, var(--vscode-font-family, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif))";
+  "var(--clab-ui-font-family, var(--vscode-font-family, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', Roboto, sans-serif))";
 
 /** Monospace for YAML, interface names, images and other literal values. */
 export const MONO_FONT_FAMILY =

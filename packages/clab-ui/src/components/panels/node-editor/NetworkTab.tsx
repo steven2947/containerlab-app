@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Network tab for node editor.
 import React, { useMemo } from "react";
 import Box from "@mui/material/Box";
@@ -33,10 +34,10 @@ const CONTAINER_MODE = "container";
 
 // Default is the lab management network; "container" picks the target below
 const NETWORK_MODE_OPTIONS = [
-  { value: "", label: "Default" },
-  { value: "host", label: "Host" },
-  { value: "none", label: "None" },
-  { value: CONTAINER_MODE, label: "Container" }
+  { value: "", label: uiText("Default") },
+  { value: "host", label: uiText("Host") },
+  { value: "none", label: uiText("None") },
+  { value: CONTAINER_MODE, label: uiText("Container") }
 ];
 
 /** Mode shown in the select for a network-mode value */
@@ -86,7 +87,7 @@ const NetworkModeFields: React.FC<TabProps> = (props) => {
     <>
       <SelectField
         id="node-network-mode"
-        label="Network Mode"
+        label={uiText("Network Mode")}
         value={selection}
         onChange={handleModeChange}
         options={withCurrentOption(NETWORK_MODE_OPTIONS, selection)}
@@ -95,19 +96,19 @@ const NetworkModeFields: React.FC<TabProps> = (props) => {
       {selection === CONTAINER_MODE && (
         <FilterableDropdown
           id="node-network-mode-container"
-          label="Container"
+          label={uiText("Container")}
           value={target}
           onChange={(value) =>
             onChange({ networkMode: `${CONTAINER_NETWORK_MODE_PREFIX}${value.trim()}` })
           }
           options={targetOptions}
-          placeholder="Node name or external container"
+          placeholder={uiText("Node name or external container")}
           allowFreeText
           required
           helperText={
             target === ""
-              ? "Pick a node or type an external container name"
-              : "Shares the network namespace of this container"
+              ? uiText("Pick a node or type an external container name")
+              : uiText("Shares the network namespace of this container")
           }
         />
       )}
@@ -116,15 +117,15 @@ const NetworkModeFields: React.FC<TabProps> = (props) => {
 };
 
 const INHERITANCE_LABELS: Record<string, string> = {
-  defaults: "topology defaults",
-  kind: "kind settings",
-  group: "group settings"
+  defaults: uiText("topology defaults"),
+  kind: uiText("kind settings"),
+  group: uiText("group settings")
 };
 
 function describeInheritance(data: TabProps["data"], inheritedProps: string[]): string | undefined {
   if (!inheritedProps.includes(MGMT_NET_KEY)) return undefined;
   const level = data.inheritedFrom?.[MGMT_NET_KEY];
-  return `Inherited from ${level !== undefined ? (INHERITANCE_LABELS[level] ?? level) : "defaults"}`;
+  return uiText("Inherited from {0}", { "0": (level !== undefined ? (INHERITANCE_LABELS[level] ?? level) : "defaults") });
 }
 
 function useMgmtNetworks(): MgmtSettings[] {
@@ -152,24 +153,24 @@ function describeMgmtNet(
     const name = data.mgmtNet ?? "";
     const known = name === "" || networks.some((network) => getMgmtNetworkName(network) === name);
     return known
-      ? { text: name === "" ? "Not set here" : undefined, error: false }
-      : { text: `${name} is not a management network of this lab`, error: true };
+      ? { text: name === "" ? uiText("Not set here") : undefined, error: false }
+      : { text: uiText("{0} is not a management network of this lab", { "0": (name) }), error: true };
   }
   if (isMgmtNetExempt(undefined, data.networkMode)) {
-    return { text: "Ignored: the node uses a network mode", error: false };
+    return { text: uiText("Ignored: the node uses a network mode"), error: false };
   }
   const resolved = resolveNodeMgmtNetwork(data.mgmtNet, networks, { kind: data.kind });
   if (resolved.status === "exempt") {
-    return { text: `Not used by ${data.kind ?? ""} nodes`, error: false };
+    return { text: uiText("Not used by {0} nodes", { "0": (data.kind ?? "") }), error: false };
   }
   if (resolved.status === "missing") {
-    return { text: "Required: this lab has several management networks", error: true };
+    return { text: uiText("Required: this lab has several management networks"), error: true };
   }
   if (resolved.status === "unknown") {
-    return { text: `${resolved.name} is not a management network of this lab`, error: true };
+    return { text: uiText("{0} is not a management network of this lab", { "0": (resolved.name) }), error: true };
   }
   if (networks.length > 1 && data.runtime === "podman") {
-    return { text: "Several management networks need the Docker runtime", error: true };
+    return { text: uiText("Several management networks need the Docker runtime"), error: true };
   }
   return {
     text: inheritedFieldHint(props, "mgmtNet") ?? describeInheritance(data, inheritedProps),
@@ -186,7 +187,7 @@ const MgmtNetworkField: React.FC<TabProps> = (props) => {
     const names = networks.length > 0 ? networks.map(getMgmtNetworkName) : [getMgmtNetworkName({})];
     return withCurrentOption(
       [
-        { value: "", label: "Not set" },
+        { value: "", label: uiText("Not set") },
         ...names.map((name, index) => ({
           value: name,
           label: index === 0 ? `${name} (default)` : name,
@@ -202,7 +203,7 @@ const MgmtNetworkField: React.FC<TabProps> = (props) => {
   return (
     <SelectField
       id="node-mgmt-net"
-      label="Management Network"
+      label={uiText("Management Network")}
       value={value}
       onChange={(next) => onChange({ mgmtNet: next })}
       options={options}
@@ -228,7 +229,7 @@ function useAddressWarning(
   if (resolved.status !== "ok") return undefined;
   const subnet = getMgmtNetworkSubnet(networks[resolved.index], resolved.index === 0, family);
   if (subnet === undefined || isAddressInSubnet(address, subnet) !== false) return undefined;
-  return `Outside ${resolved.name} (${subnet})`;
+  return uiText("Outside {0} ({1})", { "0": (resolved.name), "1": (subnet) });
 }
 
 /** Where a list that is replaced as a whole (ports, DNS) comes from */
@@ -268,13 +269,13 @@ export const NetworkTab: React.FC<TabProps> = (props) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Management Network">
+      <PanelSection title={uiText("Management Network")}>
         <MgmtNetworkField {...props} />
         {!isSection && (
           <>
             <InputField
               id="node-mgmt-ipv4"
-              label="Management IPv4"
+              label={uiText("Management IPv4")}
               value={data.mgmtIpv4 ?? ""}
               onChange={(value) => onChange({ mgmtIpv4: value })}
               placeholder="e.g., 172.20.20.100"
@@ -283,10 +284,10 @@ export const NetworkTab: React.FC<TabProps> = (props) => {
             />
             <InputField
               id="node-mgmt-ipv6"
-              label="Management IPv6"
+              label={uiText("Management IPv6")}
               value={data.mgmtIpv6 ?? ""}
               onChange={(value) => onChange({ mgmtIpv6: value })}
-              placeholder="e.g., 2001:db8::100"
+              placeholder={uiText("e.g., 2001:db8::100")}
               error={ipv6Warning !== undefined}
               helperText={ipv6Warning}
             />
@@ -295,50 +296,50 @@ export const NetworkTab: React.FC<TabProps> = (props) => {
         <NetworkModeFields {...props} />
       </PanelSection>
 
-      <PanelAddSection title="Port Mappings" onAdd={handleAddPort}>
+      <PanelAddSection title={uiText("Port Mappings")} onAdd={handleAddPort}>
         <DynamicList
           items={data.ports ?? []}
           onChange={(items) => onChange({ ports: items })}
-          placeholder="host:container[/protocol]"
+          placeholder={uiText("host:container[/protocol]")}
           hideAddButton
         />
         <InheritedListHint hint={inheritedFieldHint(props, "ports")} />
       </PanelAddSection>
 
-      <PanelAddSection title="DNS Servers" onAdd={handleAddDns}>
+      <PanelAddSection title={uiText("DNS Servers")} onAdd={handleAddDns}>
         <DynamicList
           items={data.dnsServers ?? []}
           onChange={(items) => onChange({ dnsServers: items })}
-          placeholder="DNS server address"
+          placeholder={uiText("DNS server address")}
           hideAddButton
         />
         <InheritedListHint hint={inheritedFieldHint(props, "dnsServers")} />
       </PanelAddSection>
 
-      <PanelAddSection title="DNS Search Domains" onAdd={handleAddDnsSearch}>
+      <PanelAddSection title={uiText("DNS Search Domains")} onAdd={handleAddDnsSearch}>
         <DynamicList
           items={data.dnsSearch ?? []}
           onChange={(items) => onChange({ dnsSearch: items })}
-          placeholder="e.g., example.com"
+          placeholder={uiText("e.g., example.com")}
           hideAddButton
         />
       </PanelAddSection>
 
-      <PanelAddSection title="DNS Options" onAdd={handleAddDnsOption}>
+      <PanelAddSection title={uiText("DNS Options")} onAdd={handleAddDnsOption}>
         <DynamicList
           items={data.dnsOptions ?? []}
           onChange={(items) => onChange({ dnsOptions: items })}
-          placeholder="e.g., ndots:2"
+          placeholder={uiText("e.g., ndots:2")}
           hideAddButton
         />
       </PanelAddSection>
 
       {!isSection && (
-        <PanelAddSection title="Network Aliases" onAdd={handleAddAlias}>
+        <PanelAddSection title={uiText("Network Aliases")} onAdd={handleAddAlias}>
           <DynamicList
             items={data.aliases ?? []}
             onChange={(items) => onChange({ aliases: items })}
-            placeholder="Alias name"
+            placeholder={uiText("Alias name")}
             hideAddButton
           />
         </PanelAddSection>

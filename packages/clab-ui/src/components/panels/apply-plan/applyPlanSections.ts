@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Group an apply plan into the sections the plan dialog lists.
 import type { ApplyPlan } from "../../../host/applyPlan";
 
@@ -37,44 +38,44 @@ interface SectionSpec {
 const SECTION_SPECS: readonly SectionSpec[] = [
   {
     id: "addedNodes",
-    title: "Create",
-    description: "New nodes are deployed.",
+    title: uiText("Create"),
+    description: uiText("New nodes are deployed."),
     tone: "success"
   },
   {
     id: "startedNodes",
-    title: "Start",
-    description: "Stopped nodes are started.",
+    title: uiText("Start"),
+    description: uiText("Stopped nodes are started."),
     tone: "success"
   },
   {
     id: "restartedNodes",
-    title: "Restart",
-    description: "The container restarts and keeps its filesystem.",
+    title: uiText("Restart"),
+    description: uiText("The container restarts and keeps its filesystem."),
     tone: "info"
   },
   {
     id: "recreatedNodes",
-    title: "Recreate",
-    description: "The container is removed and created again.",
+    title: uiText("Recreate"),
+    description: uiText("The container is removed and created again."),
     tone: "warning"
   },
   {
     id: "deletedNodes",
-    title: "Remove",
-    description: "Nodes no longer in the topology are removed.",
+    title: uiText("Remove"),
+    description: uiText("Nodes no longer in the topology are removed."),
     tone: "error"
   },
   {
     id: "addedLinks",
-    title: "Connect links",
-    description: "New links are wired between running nodes.",
+    title: uiText("Connect links"),
+    description: uiText("New links are wired between running nodes."),
     tone: "success"
   },
   {
     id: "deletedEndpoints",
-    title: "Disconnect link ends",
-    description: "Interfaces of removed links are deleted.",
+    title: uiText("Disconnect link ends"),
+    description: uiText("Interfaces of removed links are deleted."),
     tone: "error"
   }
 ];

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Box section of the node editor, shown in the boxed node style.
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import Box from "@mui/material/Box";
@@ -33,7 +34,7 @@ const BORDER_WIDTH_OPTIONS = Array.from(
   { length: NODE_BOX_BORDER_WIDTH_RANGE.max - NODE_BOX_BORDER_WIDTH_RANGE.min + 1 },
   (_, index) => {
     const width = NODE_BOX_BORDER_WIDTH_RANGE.min + index;
-    return { value: String(width), label: width === 0 ? "None" : `${width} px` };
+    return { value: String(width), label: width === 0 ? uiText("None") : `${width} px` };
   }
 );
 
@@ -134,11 +135,11 @@ const BoxColorField = memo(function BoxColorField({
           onChange={handleChange}
         />
       </Box>
-      <Tooltip title={isThemed ? "Follows the theme" : "Use theme color"}>
+      <Tooltip title={isThemed ? uiText("Follows the theme") : uiText("Use theme color")}>
         <span>
           <IconButton
             size="small"
-            aria-label={`Use theme ${label.toLowerCase()}`}
+            aria-label={uiText("Use theme {0}", { "0": (label.toLowerCase()) })}
             data-testid={`${testId}-reset`}
             edge="end"
             disabled={isThemed}
@@ -270,7 +271,7 @@ const BoxShapeFields = memo(function BoxShapeFields({
       <Box data-testid="node-box-border-width">
         <SelectField
           id="node-box-border-width-select"
-          label="Border Width"
+          label={uiText("Border Width")}
           value={String(borderWidth)}
           onChange={(value) => onUpdate({ borderWidth: Number(value) })}
           options={BORDER_WIDTH_OPTIONS}
@@ -279,11 +280,11 @@ const BoxShapeFields = memo(function BoxShapeFields({
       <Box data-testid="node-box-radius">
         <InputField
           id="node-box-radius-input"
-          label="Corner Radius"
+          label={uiText("Corner Radius")}
           type="number"
           value={cornerRadius === undefined ? "" : String(cornerRadius)}
           onChange={(value) => onUpdate({ cornerRadius: parseCornerRadius(value) })}
-          placeholder="Auto"
+          placeholder={uiText("Auto")}
           clearable
           min={NODE_BOX_CORNER_RADIUS_RANGE.min}
           max={NODE_BOX_CORNER_RADIUS_RANGE.max}
@@ -341,7 +342,7 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
   return (
     <>
       <PanelSectionHeader
-        title="Box"
+        title={uiText("Box")}
         action={
           <Button
             variant="text"
@@ -350,16 +351,14 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
             disabled={!hasCustomBox}
             onClick={() => onChange({ box: undefined })}
             sx={{ minHeight: 24, py: 0, mr: -1 }}
-          >
-            Reset to theme
-          </Button>
+          >{uiText("Reset to theme")}</Button>
         }
       />
       <Box sx={BODY_SX}>
         <Box sx={GROUP_SX}>
           <BoxColorField
             testId="node-box-color"
-            label="Fill Color"
+            label={uiText("Fill Color")}
             field="color"
             value={box.color}
             themeValue={themeColors.fill}
@@ -368,7 +367,7 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
           <Box sx={{ mt: 0.5 }}>
             <SliderRow
               testId="node-box-opacity"
-              label="Opacity"
+              label={uiText("Opacity")}
               field="opacity"
               value={opacity}
               min={NODE_BOX_OPACITY_RANGE.min}
@@ -379,14 +378,14 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
             />
             <SwitchRow
               testId="node-box-glass"
-              label="Frosted glass"
+              label={uiText("Frosted glass")}
               checked={isGlass}
               onChange={handleGlassChange}
             />
             {isGlass && (
               <SliderRow
                 testId="node-box-blur"
-                label="Blur"
+                label={uiText("Blur")}
                 field="blur"
                 value={blur}
                 min={GLASS_MIN_BLUR}
@@ -402,7 +401,7 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
         <Box sx={GROUP_SX}>
           <BoxColorField
             testId="node-box-border-color"
-            label="Border Color"
+            label={uiText("Border Color")}
             field="borderColor"
             value={box.borderColor}
             themeValue={themeColors.border}
@@ -418,7 +417,7 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
         <Box sx={GROUP_SX}>
           <BoxColorField
             testId="node-box-text-color"
-            label="Name Color"
+            label={uiText("Name Color")}
             field="textColor"
             value={box.textColor}
             themeValue={themeColors.text}
@@ -427,7 +426,7 @@ export const BoxAppearanceFields: React.FC<TabProps> = ({ data, onChange, onPrev
           <Box sx={{ mt: 0.5 }}>
             <SwitchRow
               testId="node-box-shadow"
-              label="Shadow"
+              label={uiText("Shadow")}
               checked={box.shadow !== false}
               onChange={handleShadowChange}
             />

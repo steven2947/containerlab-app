@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 import React, { useMemo, useState } from "react";
 import type { Edge } from "@xyflow/react";
@@ -153,9 +154,9 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
 
   return (
     <>
-      <SettingsField title="Style" description="Default link labels or telemetry-style appearance.">
+      <SettingsField title={uiText("Style")} description={uiText("Default link labels or telemetry-style appearance.")}>
         <TextField
-          slotProps={{ select: { inputProps: { "aria-label": "Style" } } }}
+          slotProps={{ select: { inputProps: { "aria-label": uiText("Style") } } }}
           select
           size="small"
           value={telemetryStyleValue}
@@ -169,16 +170,16 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
           }}
           data-testid="lab-settings-telemetry-style"
         >
-          <MenuItem value="default">Default</MenuItem>
-          <MenuItem value="telemetry-style">Telemetry Style</MenuItem>
+          <MenuItem value="default">{uiText("Default")}</MenuItem>
+          <MenuItem value="telemetry-style">{uiText("Telemetry Style")}</MenuItem>
         </TextField>
       </SettingsField>
       <SettingsField
-        title="Node style"
-        description="Show nodes as icons, or as boxes with the node name inside."
+        title={uiText("Node style")}
+        description={uiText("Show nodes as icons, or as boxes with the node name inside.")}
       >
         <TextField
-          slotProps={{ select: { inputProps: { "aria-label": "Node style" } } }}
+          slotProps={{ select: { inputProps: { "aria-label": uiText("Node style") } } }}
           select
           size="small"
           value={nodeStyle}
@@ -189,17 +190,17 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
           }}
           data-testid="lab-settings-node-style"
         >
-          <MenuItem value="icon">Icon</MenuItem>
-          <MenuItem value="boxed">Boxed</MenuItem>
+          <MenuItem value="icon">{uiText("Icon")}</MenuItem>
+          <MenuItem value="boxed">{uiText("Boxed")}</MenuItem>
         </TextField>
       </SettingsField>
       {nodeStyle === "boxed" ? (
         <SettingsField
-          title="Box spacing"
-          description="Room between each box outline and its icon and name."
+          title={uiText("Box spacing")}
+          description={uiText("Room between each box outline and its icon and name.")}
         >
           <TextField
-            slotProps={{ select: { inputProps: { "aria-label": "Box spacing" } } }}
+            slotProps={{ select: { inputProps: { "aria-label": uiText("Box spacing") } } }}
             select
             size="small"
             value={nodeBoxSpacing}
@@ -210,17 +211,17 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
             }}
             data-testid="lab-settings-node-box-spacing"
           >
-            <MenuItem value="default">Default</MenuItem>
-            <MenuItem value="narrow">Narrow</MenuItem>
+            <MenuItem value="default">{uiText("Default")}</MenuItem>
+            <MenuItem value="narrow">{uiText("Narrow")}</MenuItem>
           </TextField>
         </SettingsField>
       ) : null}
       <SettingsField
-        title="Link style"
-        description="Draw links as straight lines, or as elbows with right-angle bends."
+        title={uiText("Link style")}
+        description={uiText("Draw links as straight lines, or as elbows with right-angle bends.")}
       >
         <TextField
-          slotProps={{ select: { inputProps: { "aria-label": "Link style" } } }}
+          slotProps={{ select: { inputProps: { "aria-label": uiText("Link style") } } }}
           select
           size="small"
           value={linkStyle}
@@ -231,17 +232,17 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
           }}
           data-testid="lab-settings-link-style"
         >
-          <MenuItem value="straight">Straight</MenuItem>
-          <MenuItem value="elbow">Elbow</MenuItem>
+          <MenuItem value="straight">{uiText("Straight")}</MenuItem>
+          <MenuItem value="elbow">{uiText("Elbow")}</MenuItem>
         </TextField>
       </SettingsField>
       {hasSeveralMgmtNetworks ? (
         <SettingsField
-          title="Management network badge"
-          description="Colored dot on each node for its management network. Nodes without a valid network are always marked."
+          title={uiText("Management network badge")}
+          description={uiText("Colored dot on each node for its management network. Nodes without a valid network are always marked.")}
         >
           <TextField
-            slotProps={{ select: { inputProps: { "aria-label": "Management network badge" } } }}
+            slotProps={{ select: { inputProps: { "aria-label": uiText("Management network badge") } } }}
             select
             size="small"
             value={mgmtNetworkBadge}
@@ -252,12 +253,12 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
             }}
             data-testid="lab-settings-mgmt-network-badge"
           >
-            <MenuItem value="hover">On hover</MenuItem>
-            <MenuItem value="always">Always</MenuItem>
+            <MenuItem value="hover">{uiText("On hover")}</MenuItem>
+            <MenuItem value="always">{uiText("Always")}</MenuItem>
           </TextField>
         </SettingsField>
       ) : null}
-      <SettingsField title="Node size" description="Telemetry node marker size in pixels.">
+      <SettingsField title={uiText("Node size")} description={uiText("Telemetry node marker size in pixels.")}>
         <TextField
           id="telemetry-node-size"
           size="small"
@@ -273,12 +274,12 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
             );
           }}
           slotProps={{
-            htmlInput: { "aria-label": "Node size", min: 12, max: 240, step: 1 },
+            htmlInput: { "aria-label": uiText("Node size"), min: 12, max: 240, step: 1 },
             input: { endAdornment: <InputAdornment position="end">px</InputAdornment> }
           }}
         />
       </SettingsField>
-      <SettingsField title="Interface size" description="Telemetry interface label size as a percent of node size.">
+      <SettingsField title={uiText("Interface size")} description={uiText("Telemetry interface label size as a percent of node size.")}>
         <TextField
           id="telemetry-interface-size"
           size="small"
@@ -294,17 +295,17 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
             );
           }}
           slotProps={{
-            htmlInput: { "aria-label": "Interface size", min: 40, max: 400, step: 5 },
+            htmlInput: { "aria-label": uiText("Interface size"), min: 40, max: 400, step: 5 },
             input: { endAdornment: <InputAdornment position="end">%</InputAdornment> }
           }}
         />
       </SettingsField>
-      <SettingsField title="Show rate labels" description="Show traffic rate labels on links.">
+      <SettingsField title={uiText("Show rate labels")} description={uiText("Show traffic rate labels on links.")}>
         <Switch
           size="small"
           checked={showRateLabels}
           disabled={isReadOnly}
-          slotProps={{ input: { "aria-label": "Show rate labels" } }}
+          slotProps={{ input: { "aria-label": uiText("Show rate labels") } }}
           onChange={(e) => {
             if (isReadOnly) return;
             onShowRateLabelsChange(e.target.checked);
@@ -314,11 +315,11 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
       {isTelemetryStyleEnabled ? (
         <>
           <SettingsField
-            title="Global override"
-            description="Interface label format applied to every link."
+            title={uiText("Global override")}
+            description={uiText("Interface label format applied to every link.")}
           >
             <TextField
-              slotProps={{ select: { inputProps: { "aria-label": "Global override" } } }}
+              slotProps={{ select: { inputProps: { "aria-label": uiText("Global override") } } }}
               select
               size="small"
               value={globalInterfaceOverrideSelection}
@@ -328,36 +329,35 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
                 setTelemetryGlobalInterfaceOverrideSelection(e.target.value);
               }}
             >
-              <MenuItem value={INTERFACE_SELECT_AUTO}>Auto</MenuItem>
-              <MenuItem value={INTERFACE_SELECT_FULL}>Full interface name</MenuItem>
+              <MenuItem value={INTERFACE_SELECT_AUTO}>{uiText("Auto")}</MenuItem>
+              <MenuItem value={INTERFACE_SELECT_FULL}>{uiText("Full interface name")}</MenuItem>
               {Array.from({ length: maxInterfacePartCount }, (_, index) => index + 1).map(
                 (partIndex) => (
                   <MenuItem
                     key={`global-interface-part-${partIndex}`}
                     value={`${GLOBAL_INTERFACE_PART_INDEX_PREFIX}${partIndex}`}
-                  >
-                    Part {partIndex}
+                  >{uiText("Part ")}{partIndex}
                   </MenuItem>
                 )
               )}
             </TextField>
           </SettingsField>
           <SettingsField
-            title="Filter links"
-            description={`${filteredInterfaceRows.length} of ${interfaceRows.length} links shown.`}
+            title={uiText("Filter links")}
+            description={uiText("{0} of {1} links shown.", { "0": (filteredInterfaceRows.length), "1": (interfaceRows.length) })}
           >
             <TextField
-              slotProps={{ htmlInput: { "aria-label": "Filter links" } }}
+              slotProps={{ htmlInput: { "aria-label": uiText("Filter links") } }}
               size="small"
-              placeholder="Search node or interface name"
+              placeholder={uiText("Search node or interface name")}
               value={interfaceLinkFilter}
               disabled={isReadOnly}
               onChange={(e) => setInterfaceLinkFilter(e.target.value)}
             />
           </SettingsField>
           <SettingsField
-            title="Interface labels"
-            description="Override the label format per link endpoint."
+            title={uiText("Interface labels")}
+            description={uiText("Override the label format per link endpoint.")}
             wide
           >
             <Box
@@ -370,9 +370,7 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
               }}
             >
               {filteredInterfaceRows.length === 0 ? (
-                <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                  No links match the current filter.
-                </Typography>
+                <Typography variant="caption" sx={{ color: "text.secondary" }}>{uiText("No links match the current filter.")}</Typography>
               ) : (
                 filteredInterfaceRows.map((row) => {
                   const sourceParts = splitInterfaceParts(row.sourceEndpoint);
@@ -406,16 +404,14 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
                             );
                           }}
                         >
-                          <MenuItem value={INTERFACE_SELECT_AUTO}>Auto (use global)</MenuItem>
-                          <MenuItem value={INTERFACE_SELECT_FULL}>
-                            Full: {row.sourceEndpoint}
+                          <MenuItem value={INTERFACE_SELECT_AUTO}>{uiText("Auto (use global)")}</MenuItem>
+                          <MenuItem value={INTERFACE_SELECT_FULL}>{uiText("Full: ")}{row.sourceEndpoint}
                           </MenuItem>
                           {sourceParts.map((part, idx) => (
                             <MenuItem
                               key={`${row.edgeId}-source-${idx}-${part}`}
                               value={`${INTERFACE_SELECT_TOKEN_PREFIX}${part}`}
-                            >
-                              Part {idx + 1}: {part}
+                            >{uiText("Part ")}{idx + 1}: {part}
                             </MenuItem>
                           ))}
                         </TextField>
@@ -436,16 +432,14 @@ export const AppearanceTab: React.FC<AppearanceTabProps> = ({
                             );
                           }}
                         >
-                          <MenuItem value={INTERFACE_SELECT_AUTO}>Auto (use global)</MenuItem>
-                          <MenuItem value={INTERFACE_SELECT_FULL}>
-                            Full: {row.targetEndpoint}
+                          <MenuItem value={INTERFACE_SELECT_AUTO}>{uiText("Auto (use global)")}</MenuItem>
+                          <MenuItem value={INTERFACE_SELECT_FULL}>{uiText("Full: ")}{row.targetEndpoint}
                           </MenuItem>
                           {targetParts.map((part, idx) => (
                             <MenuItem
                               key={`${row.edgeId}-target-${idx}-${part}`}
                               value={`${INTERFACE_SELECT_TOKEN_PREFIX}${part}`}
-                            >
-                              Part {idx + 1}: {part}
+                            >{uiText("Part ")}{idx + 1}: {part}
                             </MenuItem>
                           ))}
                         </TextField>

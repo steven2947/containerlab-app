@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Keyboard shortcuts section for the settings drawer.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -97,37 +98,37 @@ export const ShortcutsSection: React.FC = () => {
   return (
     <Box sx={{ px: 2.5, py: 2 }}>
       {/* Viewer Mode */}
-      <ShortcutSection title="Viewer Mode">
-        <ShortcutRow label="Select node/link" shortcut="Left Click" />
-        <ShortcutRow label="Node actions" shortcut="Right Click" />
-        <ShortcutRow label="Capture packets" shortcut="Right Click + Link" />
-        <ShortcutRow label="Move nodes" shortcut="Drag" />
+      <ShortcutSection title={uiText("Viewer Mode")}>
+        <ShortcutRow label={uiText("Select node/link")} shortcut="Left Click" />
+        <ShortcutRow label={uiText("Node actions")} shortcut="Right Click" />
+        <ShortcutRow label={uiText("Capture packets")} shortcut="Right Click + Link" />
+        <ShortcutRow label={uiText("Move nodes")} shortcut="Drag" />
       </ShortcutSection>
 
       {/* Editor Mode */}
-      <ShortcutSection title="Editor Mode">
-        <ShortcutRow label="Add node" shortcut="Shift + Click" />
-        <ShortcutRow label="Create link" shortcut="Shift + Click node" />
-        <ShortcutRow label="Delete element" shortcut="Alt + Click" />
-        <ShortcutRow label="Context menu" shortcut="Right Click" />
-        <ShortcutRow label="Select all" shortcut="Ctrl + A" />
-        <ShortcutRow label="Multi-select" shortcut="Shift + Click" />
-        <ShortcutRow label="Copy selected" shortcut="Ctrl + C" />
-        <ShortcutRow label="Paste" shortcut="Ctrl + V" />
-        <ShortcutRow label="Duplicate selected" shortcut="Ctrl + D" />
-        <ShortcutRow label="Undo" shortcut="Ctrl + Z" />
-        <ShortcutRow label="Redo" shortcut="Ctrl + Y" />
-        <ShortcutRow label="Create group" shortcut="Ctrl + G" />
-        <ShortcutRow label="Delete selected" shortcut="Del" />
+      <ShortcutSection title={uiText("Editor Mode")}>
+        <ShortcutRow label={uiText("Add node")} shortcut="Shift + Click" />
+        <ShortcutRow label={uiText("Create link")} shortcut="Shift + Click node" />
+        <ShortcutRow label={uiText("Delete element")} shortcut="Alt + Click" />
+        <ShortcutRow label={uiText("Context menu")} shortcut="Right Click" />
+        <ShortcutRow label={uiText("Select all")} shortcut="Ctrl + A" />
+        <ShortcutRow label={uiText("Multi-select")} shortcut="Shift + Click" />
+        <ShortcutRow label={uiText("Copy selected")} shortcut="Ctrl + C" />
+        <ShortcutRow label={uiText("Paste")} shortcut="Ctrl + V" />
+        <ShortcutRow label={uiText("Duplicate selected")} shortcut="Ctrl + D" />
+        <ShortcutRow label={uiText("Undo")} shortcut="Ctrl + Z" />
+        <ShortcutRow label={uiText("Redo")} shortcut="Ctrl + Y" />
+        <ShortcutRow label={uiText("Create group")} shortcut="Ctrl + G" />
+        <ShortcutRow label={uiText("Delete selected")} shortcut="Del" />
       </ShortcutSection>
 
       {/* Navigation */}
-      <ShortcutSection title="Navigation">
-        <ShortcutRow label="Deselect all" shortcut="Esc" />
+      <ShortcutSection title={uiText("Navigation")}>
+        <ShortcutRow label={uiText("Deselect all")} shortcut="Esc" />
       </ShortcutSection>
 
       {/* Tips */}
-      <ShortcutSection title="Tips">
+      <ShortcutSection title={uiText("Tips")}>
         <Typography
           variant="body2"
           component="ul"
@@ -139,12 +140,10 @@ export const ShortcutsSection: React.FC = () => {
             "& code": { fontFamily: MONO_FONT_FAMILY, fontSize: 12, color: "text.primary" }
           }}
         >
-          <li>Use layout algorithms to auto-arrange</li>
-          <li>
-            Box select nodes, then <code>Ctrl+G</code> to group or <code>Del</code> to delete
-          </li>
-          <li>Double-click any item to directly edit</li>
-          <li>Shift+Click a node to start creating a link</li>
+          <li>{uiText("Use layout algorithms to auto-arrange")}</li>
+          <li>{uiText("Box select nodes, then ")}<code>Ctrl+G</code>{uiText(" to group or ")}<code>Del</code>{uiText(" to delete")}</li>
+          <li>{uiText("Double-click any item to directly edit")}</li>
+          <li>{uiText("Shift+Click a node to start creating a link")}</li>
         </Typography>
       </ShortcutSection>
     </Box>

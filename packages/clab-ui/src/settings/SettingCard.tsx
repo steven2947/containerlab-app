@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import React, { useEffect, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -102,9 +103,9 @@ export function SettingCard({
   };
   // Picking a color scheme is the change itself, as its description promises, so it skips the draft.
   const appliesOnPick = definition.key === "containerlab.appearance.colorScheme";
-  let sourceLabel = target === "user" ? "Default" : "Inherited";
+  let sourceLabel = target === "user" ? uiText("Default") : uiText("Inherited");
   if (current.overridden)
-    sourceLabel = target === "user" ? "User" : "Workspace";
+    sourceLabel = target === "user" ? uiText("User") : uiText("Workspace");
   const description = (
     definition.description ??
     definition.markdownDescription ??
@@ -129,9 +130,7 @@ export function SettingCard({
             setBaseline(current);
             setError("");
           }}
-        >
-          Discard
-        </Button>
+        >{uiText("Discard")}</Button>
       )}
       {!dirty && current.overridden && (
         <Button
@@ -142,9 +141,7 @@ export function SettingCard({
           onClick={() => {
             void save(true);
           }}
-        >
-          Reset
-        </Button>
+        >{uiText("Reset")}</Button>
       )}
       {dirty && (
         <Button
@@ -154,7 +151,7 @@ export function SettingCard({
             void save();
           }}
         >
-          {busy ? "Saving…" : "Save"}
+          {busy ? uiText("Saving…") : uiText("Save")}
         </Button>
       )}
     </Stack>
@@ -162,10 +159,7 @@ export function SettingCard({
   const feedback = (
     <Stack spacing={1}>
       {current.workspaceOverride && (
-        <Alert severity="info" sx={{ py: 0 }}>
-          This workspace overrides the User value. Select Workspace to change
-          the value used here.
-        </Alert>
+        <Alert severity="info" sx={{ py: 0 }}>{uiText("This workspace overrides the User value. Select Workspace to change the value used here.")}</Alert>
       )}
       {dirty &&
         validation &&
@@ -183,13 +177,9 @@ export function SettingCard({
                 setText(asText(current.value));
                 setBaseline(current);
               }}
-            >
-              Use latest
-            </Button>
+            >{uiText("Use latest")}</Button>
           }
-        >
-          The saved value changed elsewhere. Your draft is preserved.
-        </Alert>
+        >{uiText("The saved value changed elsewhere. Your draft is preserved.")}</Alert>
       )}
       {error && (
         <Alert
@@ -201,9 +191,7 @@ export function SettingCard({
               onClick={() => {
                 void onRefresh().catch(() => undefined);
               }}
-            >
-              Refresh
-            </Button>
+            >{uiText("Refresh")}</Button>
           }
         >
           {error}
@@ -257,9 +245,7 @@ export function SettingCard({
             />
           )}
           {definition.reloadRequired && (
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>
-              Reload to apply
-            </Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>{uiText("Reload to apply")}</Typography>
           )}
         </>
       }

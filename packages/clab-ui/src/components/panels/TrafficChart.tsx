@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 // Real-time traffic chart for link endpoints.
 import React, { useRef, useMemo } from "react";
 import Box from "@mui/material/Box";
@@ -363,7 +364,7 @@ export const TrafficChart: React.FC<TrafficChartProps> = ({
   compact = false,
   showLegend = !compact,
   scale = 1,
-  emptyMessage = "No traffic data available"
+  emptyMessage = uiText("No traffic data available")
 }) => {
   const resolvedHeight = height ?? (compact ? "100%" : 240);
   // Track last-seen stats to avoid double-push in Strict Mode

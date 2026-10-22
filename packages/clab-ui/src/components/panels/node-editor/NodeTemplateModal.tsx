@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Modal for creating and editing custom node templates.
 import React, { useCallback, useRef, useState } from "react";
 import Box from "@mui/material/Box";
@@ -27,7 +28,7 @@ export const NodeTemplateModal: React.FC = () => {
 
   const isOpen = !!editingCustomTemplate;
   const isNew = editingCustomTemplate?.id !== "edit-custom-node";
-  const title = isNew ? "Create Node Template" : "Edit Node Template";
+  const title = isNew ? uiText("Create Node Template") : uiText("Edit Node Template");
 
   return (
     <Dialog
