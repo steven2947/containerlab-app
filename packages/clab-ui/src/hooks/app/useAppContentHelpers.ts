@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * AppContent helpers.
  */
@@ -62,7 +63,7 @@ export function useCustomNodeErrorToast(
 ): void {
   React.useEffect(() => {
     if (customNodeError === null || customNodeError === undefined) return;
-    const errorMsg = typeof customNodeError === "string" ? customNodeError : "Unknown error";
+    const errorMsg = typeof customNodeError === "string" ? customNodeError : uiText("Unknown error");
     addToast(`Failed to save custom node: ${errorMsg}`, "error", 5000);
     clearCustomNodeError();
   }, [customNodeError, addToast, clearCustomNodeError]);

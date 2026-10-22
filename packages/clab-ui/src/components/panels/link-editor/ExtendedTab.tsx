@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Extended link configuration tab.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -27,21 +28,21 @@ const VethLinkFields: React.FC<LinkTabProps> = ({ data, onChange }) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Endpoint Properties">
+      <PanelSection title={uiText("Endpoint Properties")}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <InputField
             id="link-source-mac"
             label={`${sourceName} MAC`}
             value={data.sourceMac ?? ""}
             onChange={(value) => onChange({ sourceMac: value })}
-            placeholder="e.g., 02:42:ac:11:00:01"
+            placeholder={uiText("e.g., 02:42:ac:11:00:01")}
           />
           <InputField
             id="link-target-mac"
             label={`${targetName} MAC`}
             value={data.targetMac ?? ""}
             onChange={(value) => onChange({ targetMac: value })}
-            placeholder="e.g., 02:42:ac:11:00:02"
+            placeholder={uiText("e.g., 02:42:ac:11:00:02")}
           />
         </Box>
 
@@ -68,14 +69,14 @@ const VethLinkFields: React.FC<LinkTabProps> = ({ data, onChange }) => {
             label={`${sourceName} IPv6`}
             value={data.sourceIpv6 ?? ""}
             onChange={(value) => onChange({ sourceIpv6: value })}
-            placeholder="e.g., 2001:db8::1/64"
+            placeholder={uiText("e.g., 2001:db8::1/64")}
           />
           <InputField
             id="link-target-ipv6"
             label={`${targetName} IPv6`}
             value={data.targetIpv6 ?? ""}
             onChange={(value) => onChange({ targetIpv6: value })}
-            placeholder="e.g., 2001:db8::2/64"
+            placeholder={uiText("e.g., 2001:db8::2/64")}
           />
         </Box>
 
@@ -89,7 +90,7 @@ const VethLinkFields: React.FC<LinkTabProps> = ({ data, onChange }) => {
         />
       </PanelSection>
 
-      <PanelAddSection title="Variables" onAdd={handleAddVar}>
+      <PanelAddSection title={uiText("Variables")} onAdd={handleAddVar}>
         <KeyValueList
           items={data.vars ?? {}}
           onChange={(vars) => onChange({ vars })}
@@ -99,7 +100,7 @@ const VethLinkFields: React.FC<LinkTabProps> = ({ data, onChange }) => {
         />
       </PanelAddSection>
 
-      <PanelAddSection title="Labels" onAdd={handleAddLabel}>
+      <PanelAddSection title={uiText("Labels")} onAdd={handleAddLabel}>
         <KeyValueList
           items={data.labels ?? {}}
           onChange={(labels) => onChange({ labels })}
@@ -118,9 +119,7 @@ const VethLinkFields: React.FC<LinkTabProps> = ({ data, onChange }) => {
 const NonVethInfo: React.FC = () => (
   <Paper variant="outlined" sx={{ p: 1.5, bgcolor: "action.hover" }}>
     <Typography variant="body2">
-      <strong>Note:</strong> This link connects to a network node. Configure extended properties on
-      the network node itself.
-    </Typography>
+      <strong>{uiText("Note:")}</strong>{uiText(" This link connects to a network node. Configure extended properties on the network node itself.")}</Typography>
   </Paper>
 );
 

@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * usePanelTabVisibility - Centralizes mode-based tab visibility rules.
  *
@@ -52,9 +53,9 @@ export function usePanelTabVisibility(): PanelTabVisibility {
   const showInfoTab = panelView.kind === "nodeInfo" || panelView.kind === "linkInfo";
   let infoTabTitle: string | undefined;
   if (panelView.kind === "nodeInfo") {
-    infoTabTitle = "Node Properties";
+    infoTabTitle = uiText("Node Properties");
   } else if (panelView.kind === "linkInfo") {
-    infoTabTitle = "Link Properties";
+    infoTabTitle = uiText("Link Properties");
   }
 
   // Edit tab: visible whenever an editor is active (any mode).
@@ -72,7 +73,7 @@ export function usePanelTabVisibility(): PanelTabVisibility {
   if (hasEditor) {
     editTabTitle = panelView.title;
   } else if (canEditSelectedNode) {
-    editTabTitle = "Node Editor";
+    editTabTitle = uiText("Node Editor");
   }
 
   return {

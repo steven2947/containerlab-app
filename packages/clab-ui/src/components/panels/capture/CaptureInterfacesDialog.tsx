@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Interface picker for packet capture: one, several or all interfaces of a node.
 import React from "react";
@@ -70,10 +71,10 @@ function selectAllState(
 
 function footerHint(selectedCount: number, summary: CaptureSummary, separate: boolean): string {
   if (summary.hint !== undefined) return summary.hint;
-  if (selectedCount === 0) return "Pick the interfaces to capture.";
-  if (selectedCount === 1) return "Tick more interfaces to capture them together.";
-  if (separate) return "Each interface in its own Wireshark.";
-  return `All ${selectedCount} interfaces in one Wireshark.`;
+  if (selectedCount === 0) return uiText("Pick the interfaces to capture.");
+  if (selectedCount === 1) return uiText("Tick more interfaces to capture them together.");
+  if (separate) return uiText("Each interface in its own Wireshark.");
+  return uiText("All {0} interfaces in one Wireshark.", { "0": (selectedCount) });
 }
 
 const CaptureDialogTitle: React.FC<{ nodeLabel: string; containerName?: string }> = ({
@@ -96,8 +97,7 @@ const CaptureDialogTitle: React.FC<{ nodeLabel: string; containerName?: string }
       <WiresharkIcon sx={{ fontSize: 18 }} />
     </Box>
     <Box sx={{ minWidth: 0 }}>
-      <Typography component="span" sx={{ display: "block", fontSize: 15, fontWeight: 600 }}>
-        Capture packets on {nodeLabel}
+      <Typography component="span" sx={{ display: "block", fontSize: 15, fontWeight: 600 }}>{uiText("Capture packets on ")}{nodeLabel}
       </Typography>
       {containerName !== undefined && containerName !== nodeLabel ? (
         <Typography
@@ -126,12 +126,12 @@ const FilterField: React.FC<{
   <TextField
     fullWidth
     size="small"
-    placeholder="Filter by interface, alias or peer"
+    placeholder={uiText("Filter by interface, alias or peer")}
     value={value}
     onChange={(event) => onChange(event.target.value)}
     inputRef={inputRef}
     slotProps={{
-      htmlInput: { "aria-label": "Filter interfaces", "data-testid": "capture-interfaces-filter" },
+      htmlInput: { "aria-label": uiText("Filter interfaces"), "data-testid": "capture-interfaces-filter" },
       input: {
         startAdornment: (
           <InputAdornment position="start">
@@ -141,7 +141,7 @@ const FilterField: React.FC<{
         endAdornment:
           value.length > 0 ? (
             <InputAdornment position="end">
-              <IconButton size="small" aria-label="Clear filter" onClick={() => onChange("")}>
+              <IconButton size="small" aria-label={uiText("Clear filter")} onClick={() => onChange("")}>
                 <ClearIcon sx={{ fontSize: 16 }} />
               </IconButton>
             </InputAdornment>
@@ -200,15 +200,14 @@ const ListHeader: React.FC<ListHeaderProps> = ({
         data-testid="capture-interfaces-select-all"
       />
       <Typography sx={{ fontSize: 12, fontWeight: 600, color: "text.secondary" }}>
-        {isFiltered ? `${visibleCount} of ${totalCount} shown` : `All interfaces (${totalCount})`}
+        {isFiltered ? `${visibleCount} of ${totalCount} shown` : uiText("All interfaces ({0})", { "0": (totalCount) })}
       </Typography>
       {isFiltered && hiddenSelectedCount > 0 ? (
         <Typography
           sx={{ fontSize: 12, color: "text.secondary", ml: 1 }}
           data-testid="capture-interfaces-hidden-selected"
         >
-          · {hiddenSelectedCount} more selected
-        </Typography>
+          · {hiddenSelectedCount}{uiText(" more selected")}</Typography>
       ) : null}
     </Box>
     {onSelectLinked ? (
@@ -219,8 +218,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
         disabled={linkedOnlySelected}
         data-testid="capture-interfaces-select-linked"
         sx={{ minWidth: 0, fontSize: 12, py: 0.25 }}
-      >
-        Linked only ({linkedCount})
+      >{uiText("Linked only (")}{linkedCount})
       </Button>
     ) : null}
   </Box>
@@ -235,9 +233,7 @@ const OpenAsToggle: React.FC<{
     <Typography
       id="capture-open-as-label"
       sx={{ fontSize: 12, color: disabled ? "text.disabled" : "text.secondary" }}
-    >
-      Open as
-    </Typography>
+    >{uiText("Open as")}</Typography>
     <ToggleButtonGroup
       exclusive
       size="small"
@@ -250,13 +246,9 @@ const OpenAsToggle: React.FC<{
       data-testid="capture-interfaces-mode"
     >
       <ToggleButton value="combined" data-testid="capture-interfaces-mode-combined">
-        <LayersOutlinedIcon sx={{ fontSize: 16 }} />
-        One Wireshark
-      </ToggleButton>
+        <LayersOutlinedIcon sx={{ fontSize: 16 }} />{uiText("One Wireshark")}</ToggleButton>
       <ToggleButton value="separate" data-testid="capture-interfaces-mode-separate">
-        <FilterNoneOutlinedIcon sx={{ fontSize: 14 }} />
-        One per interface
-      </ToggleButton>
+        <FilterNoneOutlinedIcon sx={{ fontSize: 14 }} />{uiText("One per interface")}</ToggleButton>
     </ToggleButtonGroup>
   </Box>
 );
@@ -279,9 +271,7 @@ const CaptureFooter: React.FC<{
         </Typography>
       </Box>
       <Box sx={{ display: "flex", gap: 1, flexShrink: 0 }}>
-        <Button variant="text" size="small" onClick={onClose}>
-          Cancel
-        </Button>
+        <Button variant="text" size="small" onClick={onClose}>{uiText("Cancel")}</Button>
         <Button
           size="small"
           variant="contained"
@@ -422,7 +412,7 @@ export const CaptureInterfacesDialog: React.FC<CaptureInterfacesDialogProps> = (
           />
           <Box
             role="group"
-            aria-label="Interfaces"
+            aria-label={uiText("Interfaces")}
             sx={{
               maxHeight: LIST_MAX_HEIGHT,
               overflowY: "auto",
@@ -447,8 +437,8 @@ export const CaptureInterfacesDialog: React.FC<CaptureInterfacesDialogProps> = (
                 data-testid="capture-interfaces-empty"
               >
                 {options.length === 0
-                  ? "No interfaces found. Start the node to capture its traffic."
-                  : `No interface matches "${filter.trim()}".`}
+                  ? uiText("No interfaces found. Start the node to capture its traffic.")
+                  : uiText("No interface matches \"{0}\".", { "0": (filter.trim()) })}
               </Typography>
             ) : null}
           </Box>

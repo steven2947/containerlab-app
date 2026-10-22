@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Rows and add controls of the Defaults & Groups section in Lab Settings.
 import React, { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
@@ -22,7 +23,7 @@ function plural(count: number, word: string): string {
 /** e.g. "image, env, exec +2 more" */
 function describeKeys(config: ClabNode): string {
   const keys = Object.keys(config);
-  if (keys.length === 0) return "Nothing set yet";
+  if (keys.length === 0) return uiText("Nothing set yet");
   const shown = keys.slice(0, 4).join(", ");
   return keys.length > 4 ? `${shown} +${keys.length - 4} more` : shown;
 }
@@ -71,8 +72,8 @@ export const SectionRow: React.FC<SectionRowProps> = ({
         </Typography>
       </Box>
       <Box sx={{ display: "flex", flexShrink: 0 }}>
-        <Tooltip title={isViewMode ? "View" : "Edit"}>
-          <IconButton size="small" aria-label={`${isViewMode ? "View" : "Edit"} ${title}`} onClick={onEdit}>
+        <Tooltip title={isViewMode ? uiText("View") : uiText("Edit")}>
+          <IconButton size="small" aria-label={`${isViewMode ? uiText("View") : uiText("Edit")} ${title}`} onClick={onEdit}>
             {isViewMode ? (
               <VisibilityOutlinedIcon fontSize="small" />
             ) : (
@@ -81,8 +82,8 @@ export const SectionRow: React.FC<SectionRowProps> = ({
           </IconButton>
         </Tooltip>
         {onRemove && !isViewMode ? (
-          <Tooltip title="Remove">
-            <IconButton size="small" aria-label={`Remove ${title}`} onClick={onRemove}>
+          <Tooltip title={uiText("Remove")}>
+            <IconButton size="small" aria-label={uiText("Remove {0}", { "0": (title) })} onClick={onRemove}>
               <DeleteOutlineIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -141,18 +142,18 @@ export const AddSection: React.FC<AddSectionProps> = ({ level, existing, onAdd }
         {level === "kind" ? (
           <FilterableDropdown
             id="lab-inheritance-add-kind"
-            label="Kind"
+            label={uiText("Kind")}
             options={kindOptions}
             value={name}
             onChange={setName}
-            placeholder="Search or type kind..."
+            placeholder={uiText("Search or type kind...")}
             allowFreeText={true}
-            helperText={isTaken ? "This kind already has settings" : undefined}
+            helperText={isTaken ? uiText("This kind already has settings") : undefined}
           />
         ) : (
           <TextField
             id="lab-inheritance-add-group"
-            label="Group name"
+            label={uiText("Group name")}
             size="small"
             fullWidth
             value={name}
@@ -161,7 +162,7 @@ export const AddSection: React.FC<AddSectionProps> = ({ level, existing, onAdd }
               if (event.key === "Enter") add();
             }}
             error={isTaken}
-            helperText={isTaken ? "A group with this name exists" : undefined}
+            helperText={isTaken ? uiText("A group with this name exists") : undefined}
           />
         )}
       </Box>
@@ -173,8 +174,7 @@ export const AddSection: React.FC<AddSectionProps> = ({ level, existing, onAdd }
         disabled={trimmed === "" || isTaken}
         data-testid={`lab-inheritance-add-${level}`}
         sx={{ mt: 0.25, flexShrink: 0 }}
-      >
-        Add {level}
+      >{uiText("Add ")}{level}
       </Button>
     </Box>
   );

@@ -1,5 +1,7 @@
 # Containerlab Apps
 
+> **简体中文界面分支**：此 fork 为共享图形界面增加简体中文和中英文切换。构建、启动和翻译维护请阅读 [中文说明](README.zh-CN.md)。本仓库保留上游署名与许可证。
+
 Build, run, and explore your [containerlab](https://containerlab.dev/) network labs in **VS Code**, **a web browser**, or **a desktop app**. Create topologies visually, work with your existing lab files, and go from a network diagram to running devices you can inspect and troubleshoot.
 
 All three apps share the same topology editor, so you can choose the environment that fits how you work.

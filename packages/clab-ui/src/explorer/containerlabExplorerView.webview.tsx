@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import Alert from "@mui/material/Alert";
@@ -519,7 +520,7 @@ export function ContainerlabExplorerView({
           size="small"
           fullWidth
           value={filterText}
-          placeholder="Filter labs, nodes, interfaces"
+          placeholder={uiText("Filter labs, nodes, interfaces")}
           onChange={(event) => handleFilterChange(event.target.value)}
           sx={(theme) => ({
             "& .MuiOutlinedInput-root": {
@@ -546,7 +547,7 @@ export function ContainerlabExplorerView({
                   <InputAdornment position="end" sx={{ ml: 0 }}>
                     <IconButton
                       size="small"
-                      aria-label="Clear filter"
+                      aria-label={uiText("Clear filter")}
                       onClick={() => handleFilterChange("")}
                       sx={{ p: "2px", mr: "-4px", color: "text.secondary" }}
                     >

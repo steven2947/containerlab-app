@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { floatingRadius, floatingSurfaceSx, lockedButtonSx } from "../../theme/surfaces";
 // Floating action bar for React TopoViewer.
 import React from "react";
@@ -98,9 +99,9 @@ function isGeneratedLayoutOption(layout: LayoutOption): boolean {
 }
 
 function getApplyTooltip(isInSync: boolean, isDeployed: boolean): string {
-  if (isInSync) return "Topology in sync — nothing to apply";
-  if (!isDeployed) return "Apply Topology (deploys the lab)";
-  return "Apply Topology Changes";
+  if (isInSync) return uiText("Topology in sync — nothing to apply");
+  if (!isDeployed) return uiText("Apply Topology (deploys the lab)");
+  return uiText("Apply Topology Changes");
 }
 
 function floatingDockSx(barSide: "left" | "right", edge: "top" | "bottom") {
@@ -145,24 +146,24 @@ function CanvasZoomControls({
         gap: 0.5
       }}
     >
-      <Tooltip title="Zoom in" placement={tooltipPlacement}>
+      <Tooltip title={uiText("Zoom in")} placement={tooltipPlacement}>
         <span>
-          <IconButton aria-label="Zoom in" size="small" onClick={onZoomIn} disabled={zoomDisabled}>
+          <IconButton aria-label={uiText("Zoom in")} size="small" onClick={onZoomIn} disabled={zoomDisabled}>
             <AddIcon fontSize="small" />
           </IconButton>
         </span>
       </Tooltip>
-      <Tooltip title="Zoom out" placement={tooltipPlacement}>
+      <Tooltip title={uiText("Zoom out")} placement={tooltipPlacement}>
         <span>
-          <IconButton aria-label="Zoom out" size="small" onClick={onZoomOut} disabled={zoomDisabled}>
+          <IconButton aria-label={uiText("Zoom out")} size="small" onClick={onZoomOut} disabled={zoomDisabled}>
             <RemoveIcon fontSize="small" />
           </IconButton>
         </span>
       </Tooltip>
-      <Tooltip title="Fit to Viewport" placement={tooltipPlacement}>
+      <Tooltip title={uiText("Fit to Viewport")} placement={tooltipPlacement}>
         <span>
           <IconButton
-            aria-label="Fit to Viewport"
+            aria-label={uiText("Fit to Viewport")}
             size="small"
             onClick={onFit}
             disabled={fitDisabled}
@@ -611,7 +612,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <PlayArrowRoundedIcon sx={{ color: SUCCESS_MAIN }} />
                 </ListItemIcon>
-                <ListItemText>Apply</ListItemText>
+                <ListItemText>{uiText("Apply")}</ListItemText>
               </MenuItem>
               <MenuItem
                 onClick={handleDeployCleanup}
@@ -621,7 +622,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <CleaningServicesOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText>Deploy (cleanup)</ListItemText>
+                <ListItemText>{uiText("Deploy (cleanup)")}</ListItemText>
               </MenuItem>
               <Divider />
               <MenuItem
@@ -632,7 +633,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <ReplayRoundedIcon />
                 </ListItemIcon>
-                <ListItemText>Redeploy</ListItemText>
+                <ListItemText>{uiText("Redeploy")}</ListItemText>
               </MenuItem>
               <MenuItem
                 onClick={handleRedeployCleanup}
@@ -642,7 +643,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <CleaningServicesOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText>Redeploy (cleanup)</ListItemText>
+                <ListItemText>{uiText("Redeploy (cleanup)")}</ListItemText>
               </MenuItem>
               <Divider />
               <MenuItem
@@ -654,7 +655,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <StopRoundedIcon />
                 </ListItemIcon>
-                <ListItemText>Destroy</ListItemText>
+                <ListItemText>{uiText("Destroy")}</ListItemText>
               </MenuItem>
               <MenuItem
                 onClick={handleDestroyCleanup}
@@ -665,7 +666,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <CleaningServicesOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText>Destroy (cleanup)</ListItemText>
+                <ListItemText>{uiText("Destroy (cleanup)")}</ListItemText>
               </MenuItem>
               <Divider />
               <MenuItem
@@ -676,7 +677,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <PlayArrowRoundedIcon sx={{ color: SUCCESS_MAIN }} />
                 </ListItemIcon>
-                <ListItemText>Start Nodes</ListItemText>
+                <ListItemText>{uiText("Start Nodes")}</ListItemText>
               </MenuItem>
               <MenuItem
                 onClick={handleStopLab}
@@ -686,7 +687,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <StopRoundedIcon sx={{ color: ERROR_MAIN }} />
                 </ListItemIcon>
-                <ListItemText>Stop Nodes</ListItemText>
+                <ListItemText>{uiText("Stop Nodes")}</ListItemText>
               </MenuItem>
               <MenuItem
                 onClick={handleRestartLab}
@@ -696,7 +697,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <ReplayRoundedIcon />
                 </ListItemIcon>
-                <ListItemText>Restart Nodes</ListItemText>
+                <ListItemText>{uiText("Restart Nodes")}</ListItemText>
               </MenuItem>
               <Divider />
               <MenuItem
@@ -707,7 +708,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ListItemIcon>
                   <TuneRoundedIcon />
                 </ListItemIcon>
-                <ListItemText>Run with options…</ListItemText>
+                <ListItemText>{uiText("Run with options…")}</ListItemText>
               </MenuItem>
               {extraDeployMenuItems ? <Divider /> : null}
               {extraDeployMenuItems}
@@ -737,11 +738,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </>
         )}
         {/* Lock / Unlock */}
-        <Tooltip title={isLocked ? "Unlock lab to edit" : "Lock Lab"}>
+        <Tooltip title={isLocked ? uiText("Unlock lab to edit") : uiText("Lock Lab")}>
           <span>
             <IconButton
               ref={lockButtonRef}
-              aria-label={isLocked ? "Unlock lab to edit" : "Lock Lab"}
+              aria-label={isLocked ? uiText("Unlock lab to edit") : uiText("Lock Lab")}
               size="small"
               onClick={toggleLock}
               disabled={isProcessing || !isTopologyActive}
@@ -762,10 +763,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Undo - only show in edit mode */}
         {isEditMode && (
-          <Tooltip title="Undo (Ctrl+Z)">
+          <Tooltip title={uiText("Undo (Ctrl+Z)")}>
             <span>
               <IconButton
-                aria-label="Undo (Ctrl+Z)"
+                aria-label={uiText("Undo (Ctrl+Z)")}
                 size="small"
                 onClick={onUndo}
                 disabled={!isTopologyActive || !canUndo}
@@ -779,10 +780,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Redo - only show in edit mode */}
         {isEditMode && (
-          <Tooltip title="Redo (Ctrl+Y)">
+          <Tooltip title={uiText("Redo (Ctrl+Y)")}>
             <span>
               <IconButton
-                aria-label="Redo (Ctrl+Y)"
+                aria-label={uiText("Redo (Ctrl+Y)")}
                 size="small"
                 onClick={onRedo}
                 disabled={!isTopologyActive || !canRedo}
@@ -798,10 +799,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Bulk Link - only show in edit mode */}
         {isEditMode && (
-          <Tooltip title="Bulk Link Devices">
+          <Tooltip title={uiText("Bulk Link Devices")}>
             <span>
               <IconButton
-                aria-label="Bulk Link Devices"
+                aria-label={uiText("Bulk Link Devices")}
                 size="small"
                 onClick={onShowBulkLink}
                 disabled={!isTopologyActive || isLocked}
@@ -814,10 +815,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         )}
 
         {/* Toggle YAML Split View */}
-        <Tooltip title="Toggle YAML Split View">
+        <Tooltip title={uiText("Toggle YAML Split View")}>
           <span>
             <IconButton
-              aria-label="Toggle YAML Split View"
+              aria-label={uiText("Toggle YAML Split View")}
               size="small"
               onClick={onToggleSplit}
               disabled={!isTopologyActive}
@@ -829,10 +830,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </Tooltip>
 
         {/* Layout Manager */}
-        <Tooltip title="Layout">
+        <Tooltip title={uiText("Layout")}>
           <span>
             <IconButton
-              aria-label="Layout"
+              aria-label={uiText("Layout")}
               size="small"
               onClick={handleLayoutClick}
               disabled={!isTopologyActive}
@@ -852,7 +853,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         >
           <MenuItem onClick={() => handleLayoutSelect("preset")} data-testid="navbar-layout-preset">
             <ListItemIcon>{layout === "preset" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Preset</ListItemText>
+            <ListItemText>{uiText("Preset")}</ListItemText>
           </MenuItem>
           <MenuItem
             onClick={() => handleLayoutSelect("force")}
@@ -860,7 +861,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             data-testid="navbar-layout-force"
           >
             <ListItemIcon>{layout === "force" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Force</ListItemText>
+            <ListItemText>{uiText("Force")}</ListItemText>
           </MenuItem>
           <MenuItem
             onClick={() => handleLayoutSelect("auto")}
@@ -868,7 +869,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             data-testid="navbar-layout-auto"
           >
             <ListItemIcon>{layout === "auto" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Auto</ListItemText>
+            <ListItemText>{uiText("Auto")}</ListItemText>
           </MenuItem>
           <MenuItem
             onClick={() => handleLayoutSelect("radial")}
@@ -876,22 +877,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             data-testid="navbar-layout-radial"
           >
             <ListItemIcon>{layout === "radial" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Radial</ListItemText>
+            <ListItemText>{uiText("Radial")}</ListItemText>
           </MenuItem>
           <MenuItem onClick={() => handleLayoutSelect("geo")} data-testid="navbar-layout-geo">
             <ListItemIcon>{layout === "geo" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Geo</ListItemText>
+            <ListItemText>{uiText("Geo")}</ListItemText>
           </MenuItem>
         </Menu>
 
         {/* Links Dropdown */}
-        <Tooltip title="Links">
+        <Tooltip title={uiText("Links")}>
           <span>
             <IconButton
               size="small"
               onClick={handleLinkLabelClick}
               disabled={!isTopologyActive}
-              aria-label="Links"
+              aria-label={uiText("Links")}
               aria-haspopup="menu"
               aria-controls={linkLabelMenuOpen ? "navbar-links-menu" : undefined}
               aria-expanded={linkLabelMenuOpen}
@@ -915,21 +916,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             data-testid="navbar-link-label-show-all"
           >
             <ListItemIcon>{linkLabelMode === "show-all" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Show All Labels</ListItemText>
+            <ListItemText>{uiText("Show All Labels")}</ListItemText>
           </MenuItem>
           <MenuItem
             onClick={() => handleLinkLabelSelect("on-select")}
             data-testid="navbar-link-label-on-select"
           >
             <ListItemIcon>{linkLabelMode === "on-select" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Labels on Select</ListItemText>
+            <ListItemText>{uiText("Labels on Select")}</ListItemText>
           </MenuItem>
           <MenuItem
             onClick={() => handleLinkLabelSelect("hide")}
             data-testid="navbar-link-label-hide"
           >
             <ListItemIcon>{linkLabelMode === "hide" && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Hide Labels</ListItemText>
+            <ListItemText>{uiText("Hide Labels")}</ListItemText>
           </MenuItem>
           <Divider />
           <MenuItem
@@ -943,7 +944,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             data-testid="navbar-hide-dummy-links"
           >
             <ListItemIcon>{!showDummyLinks && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Hide Dummy Links</ListItemText>
+            <ListItemText>{uiText("Hide Dummy Links")}</ListItemText>
           </MenuItem>
           <MenuItem
             role="menuitemcheckbox"
@@ -956,15 +957,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             data-testid="navbar-show-wait-for"
           >
             <ListItemIcon>{showWaitFor && <CheckRoundedIcon />}</ListItemIcon>
-            <ListItemText>Show Wait-for Dependencies</ListItemText>
+            <ListItemText>{uiText("Show Wait-for Dependencies")}</ListItemText>
           </MenuItem>
         </Menu>
 
         {/* Capture Viewport */}
-        <Tooltip title="Capture Viewport as SVG">
+        <Tooltip title={uiText("Capture Viewport as SVG")}>
           <span>
             <IconButton
-              aria-label="Capture Viewport as SVG"
+              aria-label={uiText("Capture Viewport as SVG")}
               size="small"
               onClick={onCaptureViewport}
               disabled={!isTopologyActive}
@@ -977,10 +978,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <Divider orientation="vertical" flexItem sx={TOOLBAR_DIVIDER_SX} />
 
-        <Tooltip title="Lab Settings">
+        <Tooltip title={uiText("Lab Settings")}>
           <span>
             <IconButton
-              aria-label="Lab Settings"
+              aria-label={uiText("Lab Settings")}
               size="small"
               onClick={onLabSettings}
               disabled={!isTopologyActive}
@@ -991,7 +992,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </span>
         </Tooltip>
 
-        <Tooltip title="More">
+        <Tooltip title={uiText("More")}>
           <IconButton
             size="small"
             onClick={handleMoreMenuOpen}
@@ -1016,20 +1017,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             <ListItemIcon>
               <KeyboardOutlinedIcon />
             </ListItemIcon>
-            <ListItemText>Keyboard Shortcuts</ListItemText>
+            <ListItemText>{uiText("Keyboard Shortcuts")}</ListItemText>
           </MenuItem>
           <MenuItem onClick={handleToggleShortcutDisplay} data-testid="navbar-shortcut-display">
             <ListItemIcon>
               {shortcutDisplayEnabled ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
             </ListItemIcon>
-            <ListItemText>Shortcut Display</ListItemText>
+            <ListItemText>{uiText("Shortcut Display")}</ListItemText>
             {/* The state reads at a glance, where a shortcut hint would sit. */}
             <Typography
               variant="body2"
               aria-hidden="true"
               sx={{ ml: 2, color: shortcutDisplayEnabled ? "text.primary" : "text.secondary" }}
             >
-              {shortcutDisplayEnabled ? "On" : "Off"}
+              {shortcutDisplayEnabled ? uiText("On") : uiText("Off")}
             </Typography>
           </MenuItem>
         </Menu>

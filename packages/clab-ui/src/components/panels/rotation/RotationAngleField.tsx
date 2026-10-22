@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React, { useEffect, useState } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
@@ -34,7 +35,7 @@ export function RotationAngleField({
       id={inputId}
       size="small"
       fullWidth
-      label={computed ? "Computed angle" : "Angle"}
+      label={computed ? uiText("Computed angle") : uiText("Angle")}
       value={unavailable ? "—" : (draft ?? formatRotation(displayAngle))}
       onChange={(event) => setDraft(event.target.value)}
       onBlur={commitDraft}
@@ -63,7 +64,7 @@ export function RotationAngleField({
         },
         htmlInput: {
           inputMode: "decimal",
-          "aria-label": computed ? "Computed rotation angle" : "Rotation angle"
+          "aria-label": computed ? uiText("Computed rotation angle") : uiText("Rotation angle")
         }
       }}
       sx={{ "& input": { fontVariantNumeric: "tabular-nums" } }}

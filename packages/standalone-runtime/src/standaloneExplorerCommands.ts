@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import type { TopologyRef } from "@containerlab/clab-ui/session";
 import {
   dispatchEndpointUiAction,
@@ -187,11 +188,11 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       targets: CaptureTargets = resolveCaptureTargets()
     ): Promise<void> => {
       if (!actionTopologyRef) {
-        postExplorerError("No canonical topology reference is available for this item.");
+        postExplorerError(uiText("No canonical topology reference is available for this item."));
         return;
       }
       if (targets.length === 0) {
-        postExplorerError("Capture requires a running interface item.");
+        postExplorerError(uiText("Capture requires a running interface item."));
         return;
       }
 
@@ -205,7 +206,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
         const captures = captureResponse.captures ?? [];
         if (captures.length === 0) {
-          runtimeUiActions.notify("No packet capture targets were returned.", "warning");
+          runtimeUiActions.notify(uiText("No packet capture targets were returned."), "warning");
           return;
         }
 
@@ -219,8 +220,8 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
         runtimeUiActions.notify(
           captures.length > 1
-            ? `Started ${captures.length} Edgeshark capture targets.`
-            : `Started Edgeshark capture for ${captures[0]?.containerName ?? "interface"}.`,
+            ? uiText("Started {0} Edgeshark capture targets.", { "0": (captures.length) })
+            : uiText("Started Edgeshark capture for {0}.", { "0": (captures[0]?.containerName ?? "interface") }),
           "success"
         );
       } catch (error) {
@@ -233,12 +234,12 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       requests: WiresharkCaptureRequest[] = [{ targets: resolveCaptureTargets() }]
     ): Promise<void> => {
       if (!actionTopologyRef) {
-        postExplorerError("No canonical topology reference is available for this item.");
+        postExplorerError(uiText("No canonical topology reference is available for this item."));
         return;
       }
       const captures = requests.filter((request) => request.targets.length > 0);
       if (captures.length === 0) {
-        postExplorerError("Capture requires a running interface item.");
+        postExplorerError(uiText("Capture requires a running interface item."));
         return;
       }
 
@@ -249,7 +250,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       );
       if (opened > 0) {
         runtimeUiActions.notify(
-          opened > 1 ? `Opened ${opened} Wireshark VNC sessions.` : "Opened Wireshark VNC session.",
+          opened > 1 ? uiText("Opened {0} Wireshark VNC sessions.", { "0": (opened) }) : uiText("Opened Wireshark VNC session."),
           "success"
         );
       }
@@ -269,14 +270,14 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const openNodeCaptureDialog = (): void => {
       const containerName = item?.name;
       if (!actionTopologyRef || !containerName) {
-        postExplorerError("Capture requires a running node item.");
+        postExplorerError(uiText("Capture requires a running node item."));
         return;
       }
       runtimeUiActions.openCapture({
         endpointId: actionEndpointId,
         topologyRef: actionTopologyRef,
         nodeName: containerName,
-        title: `Capture: ${item.label || containerName}`,
+        title: uiText("Capture: {0}", { "0": (item.label || containerName) }),
         onCapture: (sessions) => {
           void runPreferredCapture(
             sessions.map(({ interfaceNames, nodeNamespace, label }) => ({
@@ -303,7 +304,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     ): Promise<void> => {
       const topologySourceUrl = sourceUrl.trim();
       if (!topologySourceUrl) {
-        runtimeUiActions.notify("A repository or topology URL is required.", "error");
+        runtimeUiActions.notify(uiText("A repository or topology URL is required."), "error");
         return;
       }
       const target = cloneOptions?.target ?? "deploy";
@@ -313,9 +314,9 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         labNameOverride = cloneOptions.labNameOverride?.trim() || undefined;
       } else {
         const rawLabNameOverride = await promptForTextInput({
-          title: "Lab Name Override",
-          message: "Leave empty to use the default lab name.",
-          label: "Lab name override",
+          title: uiText("Lab Name Override"),
+          message: uiText("Leave empty to use the default lab name."),
+          label: uiText("Lab name override"),
           confirmLabel: "Continue",
           allowEmpty: true
         });
@@ -333,7 +334,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
             labNameOverride
           });
           refreshWorkspaceAfterMutation(endpointId);
-          runtimeUiActions.notify(`Cloned ${response.labName} to undeployed labs.`, "success");
+          runtimeUiActions.notify(uiText("Cloned {0} to undeployed labs.", { "0": (response.labName) }), "success");
           await options.loadTopologyFile(response.topologyRef, {
             deploymentState: "undeployed",
             endpointId
@@ -350,8 +351,8 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         const labNames = response.labNames ?? [];
         runtimeUiActions.notify(
           labNames.length > 0
-            ? `Deployed ${labNames.join(", ")} from source URL.`
-            : "Deployment from source URL finished successfully.",
+            ? uiText("Deployed {0} from source URL.", { "0": (labNames.join(", ")) })
+            : uiText("Deployment from source URL finished successfully."),
           "success"
         );
       } catch (error) {
@@ -371,14 +372,14 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         options.getLabs()
       );
       if (!lab) {
-        postExplorerError("No running lab context is available for this action.");
+        postExplorerError(uiText("No running lab context is available for this action."));
         return;
       }
 
       const topologyRef = topologyRefForNodeActions(lab, actionTopologyRef);
       const containers = sortedRunningContainers(lab);
       if (containers.length === 0) {
-        runtimeUiActions.notify(`No containers were found in lab "${lab.name}".`, "warning");
+        runtimeUiActions.notify(uiText("No containers were found in lab \"{0}\".", { "0": (lab.name) }), "warning");
         return;
       }
 
@@ -450,7 +451,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       successLabel: string
     ): Promise<void> => {
       if (!actionTopologyRef || !item?.name) {
-        postExplorerError("Node action requires a running lab item.");
+        postExplorerError(uiText("Node action requires a running lab item."));
         return;
       }
 
@@ -469,7 +470,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
     const openNodeBrowser = async (): Promise<void> => {
       if (!actionTopologyRef || !item?.name) {
-        postExplorerError("Open Browser requires a running node item.");
+        postExplorerError(uiText("Open Browser requires a running node item."));
         return;
       }
 
@@ -481,7 +482,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         });
         const ports = payload.ports ?? [];
         if (ports.length === 0) {
-          runtimeUiActions.notify(`No exposed ports were found for ${item.name}.`, "warning");
+          runtimeUiActions.notify(uiText("No exposed ports were found for {0}.", { "0": (item.name) }), "warning");
           return;
         }
 
@@ -498,14 +499,14 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
         if (candidates.length === 1) {
           window.open(candidates[0].url, "_blank", "noopener,noreferrer");
-          runtimeUiActions.notify(`Opened ${candidates[0].url}.`, "success");
+          runtimeUiActions.notify(uiText("Opened {0}.", { "0": (candidates[0].url) }), "success");
           return;
         }
 
         const selectedUrl = await promptForOptionSelection({
-          title: "Open Browser Port",
-          message: "Select a port to open in the browser.",
-          label: "Port",
+          title: uiText("Open Browser Port"),
+          message: uiText("Select a port to open in the browser."),
+          label: uiText("Port"),
           confirmLabel: "Open",
           options: candidates.map((candidate) => ({
             label: `${candidate.hostPort}:${candidate.containerPort}/${candidate.protocol || "tcp"}`,
@@ -520,11 +521,11 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
         const target = candidates.find((candidate) => candidate.url === selectedUrl);
         if (!target) {
-          runtimeUiActions.notify("Invalid port selection.", "error");
+          runtimeUiActions.notify(uiText("Invalid port selection."), "error");
           return;
         }
         window.open(target.url, "_blank", "noopener,noreferrer");
-        runtimeUiActions.notify(`Opened ${target.url}.`, "success");
+        runtimeUiActions.notify(uiText("Opened {0}.", { "0": (target.url) }), "success");
       } catch (error) {
         runtimeUiActions.notify(error instanceof Error ? error.message : String(error), "error");
       }
@@ -536,13 +537,13 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     ): Promise<void> => {
       const topologyRef = resolveActionTopologyRef();
       if (!topologyRef) {
-        postExplorerError("Sharing actions require a running lab item.");
+        postExplorerError(uiText("Sharing actions require a running lab item."));
         return;
       }
 
       try {
         runtimeUiActions.notify(
-          `${kind.toUpperCase()} ${action} started. This may take a moment...`,
+          uiText("{0} {1} started. This may take a moment...", { "0": (kind.toUpperCase()), "1": (action) }),
           "info"
         );
 
@@ -576,26 +577,26 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       const link = argLink || storedLink;
       if (!link) {
         runtimeUiActions.notify(
-          `No ${kind.toUpperCase()} link is currently available for this lab.`,
+          uiText("No {0} link is currently available for this lab.", { "0": (kind.toUpperCase()) }),
           "warning"
         );
         return;
       }
 
       await navigator.clipboard.writeText(link).catch(() => {});
-      runtimeUiActions.notify(`${kind.toUpperCase()} link copied to clipboard.`, "success");
+      runtimeUiActions.notify(uiText("{0} link copied to clipboard.", { "0": (kind.toUpperCase()) }), "success");
     };
 
     const runFcli = async (command: string): Promise<void> => {
       const topologyRef = resolveActionTopologyRef();
       if (!topologyRef) {
-        postExplorerError("fcli actions require a running lab item.");
+        postExplorerError(uiText("fcli actions require a running lab item."));
         return;
       }
 
       try {
         runtimeUiActions.notify(
-          `Running fcli "${command}"... image pull may take a while.`,
+          uiText("Running fcli \"{0}\"... image pull may take a while.", { "0": (command) }),
           "info"
         );
         const response = await runFcliCommand({
@@ -607,12 +608,12 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         openCommandOutputTerminal(`fcli: ${command}`, `fcli ${command}`, content, topologyRef);
         if (/\bNo data\.\.\./i.test(content)) {
           runtimeUiActions.notify(
-            `fcli "${command}" returned no data. Check lab state/filter and try a different command (for example sys-info).`,
+            uiText("fcli \"{0}\" returned no data. Check lab state/filter and try a different command (for example sys-info).", { "0": (command) }),
             "warning"
           );
         } else {
           runtimeUiActions.notify(
-            `fcli "${command}" finished. Output opened in terminal.`,
+            uiText("fcli \"{0}\" finished. Output opened in terminal.", { "0": (command) }),
             "success"
           );
         }
@@ -624,12 +625,12 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const runDrawio = async (layout: "horizontal" | "vertical" | "interactive"): Promise<void> => {
       const topologyRef = resolveActionTopologyRef();
       if (!topologyRef) {
-        postExplorerError("Graph actions require a lab item.");
+        postExplorerError(uiText("Graph actions require a lab item."));
         return;
       }
 
       try {
-        runtimeUiActions.notify(`Generating draw.io (${layout})...`, "info");
+        runtimeUiActions.notify(uiText("Generating draw.io ({0})...", { "0": (layout) }), "info");
         const response = await generateDrawioGraph({
           endpointId: actionEndpointId,
           topologyRef,
@@ -681,9 +682,9 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       if (
         action === "uninstall" &&
         !(await confirmRuntimeAction({
-          title: "Uninstall EdgeShark",
-          message: "Uninstall EdgeShark on this endpoint?",
-          confirmLabel: "Uninstall",
+          title: uiText("Uninstall EdgeShark"),
+          message: uiText("Uninstall EdgeShark on this endpoint?"),
+          confirmLabel: uiText("Uninstall"),
           severity: "warning"
         }))
       ) {
@@ -694,7 +695,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
           ? installEdgeShark(endpointId)
           : uninstallEdgeShark(endpointId));
         runtimeUiActions.notify(
-          `${action === "install" ? "Installed" : "Uninstalled"} EdgeShark.`,
+          `${action === "install" ? uiText("Installed") : uiText("Uninstalled")} EdgeShark.`,
           "success"
         );
       } catch (error) {
@@ -705,8 +706,8 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const openTopologyFile = async (): Promise<void> => {
       const topologyRef = requireTopologyRef(
         targetLabel
-          ? `No canonical topology reference is available for running lab "${targetLabel}".`
-          : "No canonical topology reference is available for this item."
+          ? uiText("No canonical topology reference is available for running lab \"{0}\".", { "0": (targetLabel) })
+          : uiText("No canonical topology reference is available for this item.")
       );
       if (!topologyRef) {
         return;
@@ -722,13 +723,13 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const createTopologyFileFlow = async (): Promise<void> => {
       const connectedEndpoints = endpoints.filter((endpoint) => endpoint.status === "connected");
       if (connectedEndpoints.length === 0) {
-        postExplorerError("Connect an endpoint before trying to create a topology file.");
+        postExplorerError(uiText("Connect an endpoint before trying to create a topology file."));
         return;
       }
       const preferredEndpoint = findEndpointConfig(endpoints, actionEndpointId);
       const createTopologyInput = await promptForCreateTopology({
-        title: "Create Topology File",
-        confirmLabel: "Create",
+        title: uiText("Create Topology File"),
+        confirmLabel: uiText("Create"),
         endpointOptions: connectedEndpoints.map((endpoint) => ({
           value: endpoint.id,
           label: endpoint.label,
@@ -750,7 +751,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
           fileName
         });
         refreshWorkspaceAfterMutation(createTopologyInput.endpointId);
-        runtimeUiActions.notify(`Created topology file "${fileName}".`, "success");
+        runtimeUiActions.notify(uiText("Created topology file \"{0}\".", { "0": (fileName) }), "success");
         await options.loadTopologyFile(created.topologyRef, {
           deploymentState: "undeployed",
           endpointId: createTopologyInput.endpointId
@@ -763,14 +764,14 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const cloneRepositoryFlow = async (): Promise<void> => {
       const connectedEndpoints = endpoints.filter((endpoint) => endpoint.status === "connected");
       if (connectedEndpoints.length === 0) {
-        postExplorerError("Connect an endpoint before trying to clone a repository.");
+        postExplorerError(uiText("Connect an endpoint before trying to clone a repository."));
         return;
       }
       const preferredEndpoint = findEndpointConfig(endpoints, actionEndpointId);
       const popularRepos = (await fetchPopularRepos()).slice(0, 12);
       const cloneRepoInput = await promptForCloneRepo({
-        title: "Clone Repository",
-        message: "Choose endpoint, source, and target action.",
+        title: uiText("Clone Repository"),
+        message: uiText("Choose endpoint, source, and target action."),
         confirmLabel: "Continue",
         endpointOptions: connectedEndpoints.map((endpoint) => ({
           value: endpoint.id,
@@ -801,12 +802,12 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
     const clonePopularFlow = async (target: CloneRepoDialogTarget): Promise<void> => {
       const endpointId = await resolveEndpointForAction(
-        target === "undeployed" ? "clone a popular lab" : "deploy a popular lab",
+        target === "undeployed" ? uiText("clone a popular lab") : uiText("deploy a popular lab"),
         actionEndpointId
       );
       const sourceUrl = endpointId
         ? await pickPopularRepo(
-            target === "undeployed" ? "Clone popular lab" : "Deploy popular lab"
+            target === "undeployed" ? uiText("Clone popular lab") : uiText("Deploy popular lab")
           )
         : undefined;
       if (endpointId && sourceUrl) {
@@ -820,7 +821,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     ): Promise<void> => {
       if (!lifecycleActionsAvailable) {
         runtimeUiActions.notify(
-          "This action is not available.",
+          uiText("This action is not available."),
           "warning"
         );
         return;
@@ -861,14 +862,14 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       });
       scheduleSnapshot(0);
       runtimeUiActions.notify(
-        nextFavorite ? "Added lab to favorites." : "Removed lab from favorites.",
+        nextFavorite ? uiText("Added lab to favorites.") : uiText("Removed lab from favorites."),
         "success"
       );
     };
 
     const openNodeAccessTerminal = (): void => {
       if (!actionTopologyRef || !item?.name) {
-        postExplorerError("Node access requires a running lab item.");
+        postExplorerError(uiText("Node access requires a running lab item."));
         return;
       }
       const protocol = nodeAccessProtocol(commandId);
@@ -883,7 +884,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
 
     const openInterfaceImpairments = (): void => {
       if (!actionTopologyRef || !item?.containerName) {
-        postExplorerError("Interface impairments require a running interface item.");
+        postExplorerError(uiText("Interface impairments require a running interface item."));
         return;
       }
       const fieldByCommand: Record<string, keyof NetemFields> = {
@@ -899,7 +900,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         nodeName: item.containerName,
         preferredField: fieldByCommand[commandId],
         preferredInterfaceName: item.label || item.name,
-        title: `Impairments: ${item.containerName}`
+        title: uiText("Impairments: {0}", { "0": (item.containerName) })
       });
     };
 
@@ -908,11 +909,11 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         findEndpointConfig(endpoints, actionEndpointId)?.label ?? actionEndpointId ?? "default";
       const currentHostname = getSessionHostnameOverride(actionEndpointId) ?? "";
       const rawValue = await promptForTextInput({
-        title: "Session Hostname Override",
-        message: `Set the session hostname override for packet capture on "${actionEndpointLabel}". Leave empty to clear it.`,
-        label: "Hostname override",
+        title: uiText("Session Hostname Override"),
+        message: uiText("Set the session hostname override for packet capture on \"{0}\". Leave empty to clear it.", { "0": (actionEndpointLabel) }),
+        label: uiText("Hostname override"),
         defaultValue: currentHostname,
-        confirmLabel: "Save",
+        confirmLabel: uiText("Save"),
         allowEmpty: true
       });
       if (rawValue === undefined) {
@@ -921,8 +922,8 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       const nextValue = setSessionHostnameOverride(rawValue, actionEndpointId);
       runtimeUiActions.notify(
         nextValue
-          ? `Session hostname override for "${actionEndpointLabel}" set to "${nextValue}".`
-          : `Session hostname override for "${actionEndpointLabel}" cleared.`,
+          ? uiText("Session hostname override for \"{0}\" set to \"{1}\".", { "0": (actionEndpointLabel), "1": (nextValue) })
+          : uiText("Session hostname override for \"{0}\" cleared.", { "0": (actionEndpointLabel) }),
         "success"
       );
     };
@@ -936,7 +937,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const requireFileEndpointId = (): string | undefined => {
       const endpointId = item?.endpointId ?? actionEndpointId;
       if (!endpointId) {
-        postExplorerError("No endpoint is associated with this file item.");
+        postExplorerError(uiText("No endpoint is associated with this file item."));
         return undefined;
       }
       return endpointId;
@@ -945,7 +946,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     const requireFilePath = (): string | undefined => {
       const pathValue = item?.resourcePath;
       if (typeof pathValue !== "string" || pathValue.trim().length === 0) {
-        postExplorerError("No file path is associated with this item.");
+        postExplorerError(uiText("No file path is associated with this item."));
         return undefined;
       }
       return pathValue;
@@ -964,10 +965,10 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
     ): Promise<string | undefined> => {
       const rawValue = await promptForTextInput({
         title,
-        message: "Enter a path under the lab workspace.",
-        label: "Path",
+        message: uiText("Enter a path under the lab workspace."),
+        label: uiText("Path"),
         defaultValue: defaultPath,
-        confirmLabel: title.startsWith("Rename") ? "Rename" : "Create"
+        confirmLabel: title.startsWith("Rename") ? uiText("Rename") : uiText("Create")
       });
       if (rawValue === undefined) {
         return undefined;
@@ -1010,7 +1011,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         content: "",
         title: safeFilename(pathValue)
       });
-      runtimeUiActions.notify(`Created ${pathValue}`, "success");
+      runtimeUiActions.notify(uiText("Created {0}", { "0": (pathValue) }), "success");
       scheduleSnapshot(0);
     };
 
@@ -1029,7 +1030,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       }
       await createFileExplorerDirectory(endpointId, pathValue);
       refreshWorkspaceAfterMutation(endpointId);
-      runtimeUiActions.notify(`Created ${pathValue}`, "success");
+      runtimeUiActions.notify(uiText("Created {0}", { "0": (pathValue) }), "success");
     };
 
     const renameWorkspaceItem = async (): Promise<void> => {
@@ -1043,12 +1044,12 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         return;
       }
       if (isSharedWorkspacePath(oldPath) !== isSharedWorkspacePath(newPath)) {
-        postExplorerError("Files cannot be moved between personal and shared workspaces.");
+        postExplorerError(uiText("Files cannot be moved between personal and shared workspaces."));
         return;
       }
       await renameFileExplorerPath({ endpointId, oldPath, newPath });
       refreshWorkspaceAfterMutation(endpointId);
-      runtimeUiActions.notify(`Renamed ${oldPath} to ${newPath}`, "success");
+      runtimeUiActions.notify(uiText("Renamed {0} to {1}", { "0": (oldPath), "1": (newPath) }), "success");
     };
 
     const deleteWorkspaceItem = async (): Promise<void> => {
@@ -1059,11 +1060,11 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       }
       const isDirectory = item?.resourceKind === "directory";
       const kind = isDirectory ? "folder" : "file";
-      const suffix = isDirectory ? " and everything inside it" : "";
+      const suffix = isDirectory ? uiText(" and everything inside it") : "";
       const confirmed = await confirmRuntimeAction({
-        title: `Delete ${kind}`,
-        message: `Delete ${kind} "Lab workspace/${pathValue}"${suffix}?`,
-        confirmLabel: "Delete",
+        title: uiText("Delete {0}", { "0": (kind) }),
+        message: uiText("Delete {0} \"Lab workspace/{1}\"{2}?", { "0": (kind), "1": (pathValue), "2": (suffix) }),
+        confirmLabel: uiText("Delete"),
         severity: "error"
       });
       if (!confirmed) {
@@ -1073,7 +1074,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         recursive: isDirectory
       });
       refreshWorkspaceAfterMutation(endpointId);
-      runtimeUiActions.notify(`Deleted ${pathValue}`, "success");
+      runtimeUiActions.notify(uiText("Deleted {0}", { "0": (pathValue) }), "success");
     };
 
     const copyWorkspacePath = async (): Promise<void> => {
@@ -1082,7 +1083,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         return;
       }
       await copyText(pathValue);
-      runtimeUiActions.notify(`Copied path for ${pathValue}.`, "success");
+      runtimeUiActions.notify(uiText("Copied path for {0}.", { "0": (pathValue) }), "success");
     };
 
     const downloadWorkspaceFile = async (): Promise<void> => {
@@ -1093,7 +1094,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       }
       const download = await downloadFileExplorerFile(endpointId, pathValue);
       triggerBlobDownload(download.filename, download.blob);
-      runtimeUiActions.notify(`Downloaded ${pathValue}.`, "success");
+      runtimeUiActions.notify(uiText("Downloaded {0}.", { "0": (pathValue) }), "success");
     };
 
     const uploadWorkspaceFile = async (): Promise<void> => {
@@ -1109,12 +1110,12 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         const file = files[0];
         const targetPath = item.resourcePath ?? "";
         if (!targetPath) {
-          postExplorerError("No upload target path is available.");
+          postExplorerError(uiText("No upload target path is available."));
           return;
         }
         const confirmed = await confirmRuntimeAction({
-          title: "Replace File",
-          message: `Replace "Lab workspace/${targetPath}" with "${file.name}"?`,
+          title: uiText("Replace File"),
+          message: uiText("Replace \"Lab workspace/{0}\" with \"{1}\"?", { "0": (targetPath), "1": (file.name) }),
           confirmLabel: "Replace",
           severity: "warning"
         });
@@ -1128,7 +1129,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
           targetKind: "file"
         });
         refreshWorkspaceAfterMutation(endpointId);
-        runtimeUiActions.notify(`Uploaded ${targetPath}.`, "success");
+        runtimeUiActions.notify(uiText("Uploaded {0}.", { "0": (targetPath) }), "success");
         return;
       }
 
@@ -1141,7 +1142,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       });
       refreshWorkspaceAfterMutation(endpointId);
       runtimeUiActions.notify(
-        `Uploaded ${files.length} file${files.length === 1 ? "" : "s"} to lab workspace${directoryPath ? `/${directoryPath}` : ""}.`,
+        uiText("Uploaded {0} file{1} to lab workspace{2}.", { "0": (files.length), "1": (files.length === 1 ? "" : "s"), "2": (directoryPath ? `/${directoryPath}` : "") }),
         "success"
       );
     };
@@ -1157,7 +1158,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         targetLabel
       });
       if (!labFolder) {
-        postExplorerError("Select a lab folder before downloading an archive.");
+        postExplorerError(uiText("Select a lab folder before downloading an archive."));
         return;
       }
       const format = await promptArchiveFormat();
@@ -1170,7 +1171,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         path: labFolder
       });
       triggerBlobDownload(download.filename, download.blob);
-      runtimeUiActions.notify(`Downloaded archive for ${labFolder}.`, "success");
+      runtimeUiActions.notify(uiText("Downloaded archive for {0}.", { "0": (labFolder) }), "success");
     };
 
     const commandHandlers: Record<string, () => Promise<void> | void> = {
@@ -1187,26 +1188,26 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
               action: "reconnect",
               endpointId: actionEndpointId
             })
-          : postExplorerError("No endpoint is associated with this item."),
+          : postExplorerError(uiText("No endpoint is associated with this item.")),
       "containerlab.endpoint.remove": () =>
         actionEndpointId
           ? dispatchEndpointUiAction({
               action: "remove",
               endpointId: actionEndpointId
             })
-          : postExplorerError("No endpoint is associated with this item."),
+          : postExplorerError(uiText("No endpoint is associated with this item.")),
       "containerlab.endpoint.copyUrl": async () => {
         const endpoint = findEndpointConfig(endpoints, actionEndpointId);
         if (!actionEndpointId || !endpoint) {
           postExplorerError(
             actionEndpointId
-              ? "Endpoint metadata is not available."
-              : "No endpoint is associated with this item."
+              ? uiText("Endpoint metadata is not available.")
+              : uiText("No endpoint is associated with this item.")
           );
           return;
         }
         await navigator.clipboard.writeText(endpoint.url).catch(() => {});
-        runtimeUiActions.notify(`Copied endpoint URL for ${endpoint.label}.`, "success");
+        runtimeUiActions.notify(uiText("Copied endpoint URL for {0}.", { "0": (endpoint.label) }), "success");
       },
       "containerlab.file.open": openFileEditor,
       "containerlab.file.openTopology": openFileEditor,
@@ -1235,7 +1236,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       "containerlab.lab.deployPopular": () =>
         lifecycleActionsAvailable
           ? clonePopularFlow("deploy")
-          : runtimeUiActions.notify("This action is not available.", "warning"),
+          : runtimeUiActions.notify(uiText("This action is not available."), "warning"),
       "containerlab.images.manage": runtimeUiActions.openImageManager,
       "containerlab.inspectAll": runtimeUiActions.openInspectAll,
       "containerlab.inspectOneLab": () => {
@@ -1251,10 +1252,10 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       "containerlab.lab.deploy.specificFile": () => runLabLifecycle("deploy", false),
       "containerlab.lab.deploy.cleanup": async () => {
         const confirmed = await confirmRuntimeAction({
-          title: "Deploy With Cleanup",
+          title: uiText("Deploy With Cleanup"),
           message:
-            "Deploy (cleanup) may remove existing lab artifacts before deployment. Continue?",
-          confirmLabel: "Deploy",
+            uiText("Deploy (cleanup) may remove existing lab artifacts before deployment. Continue?"),
+          confirmLabel: uiText("Deploy"),
           severity: "warning"
         });
         if (confirmed) {
@@ -1302,10 +1303,10 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       "containerlab.lab.fcli.sysInfo": () => runFcli("sys-info"),
       "containerlab.lab.fcli.custom": async () => {
         const customCommand = await promptForTextInput({
-          title: "Custom fcli Command",
-          label: "fcli command",
+          title: uiText("Custom fcli Command"),
+          label: uiText("fcli command"),
           defaultValue: "bgp-peers",
-          confirmLabel: "Run"
+          confirmLabel: uiText("Run")
         });
         if (customCommand?.trim()) {
           await runFcli(customCommand.trim());
@@ -1319,9 +1320,9 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
         if (
           endpointId &&
           (await confirmRuntimeAction({
-            title: "Close Wireshark VNC Sessions",
-            message: "Close all active Wireshark VNC sessions for this endpoint?",
-            confirmLabel: "Close Sessions",
+            title: uiText("Close Wireshark VNC Sessions"),
+            message: uiText("Close all active Wireshark VNC sessions for this endpoint?"),
+            confirmLabel: uiText("Close Sessions"),
             severity: "warning"
           }))
         ) {
@@ -1351,7 +1352,7 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       },
       "containerlab.node.save": async () => {
         if (!actionTopologyRef || !item?.name) {
-          postExplorerError("Node save requires a running lab item.");
+          postExplorerError(uiText("Node save requires a running lab item."));
           return;
         }
         await saveConfigsFlow(
@@ -1379,26 +1380,26 @@ export function createExplorerCommandHandler(context: ExplorerCommandContext) {
       "containerlab.node.telnet": openNodeAccessTerminal,
       "containerlab.node.showLogs": () => {
         if (!actionTopologyRef || !item?.name) {
-          postExplorerError("Node logs require a running lab item.");
+          postExplorerError(uiText("Node logs require a running lab item."));
           return;
         }
         runtimeUiActions.openLogs({
           endpointId: actionEndpointId,
           topologyRef: actionTopologyRef,
           nodeName: item.name,
-          title: `Logs: ${item.label || item.name}`
+          title: uiText("Logs: {0}", { "0": (item.label || item.name) })
         });
       },
       "containerlab.node.manageImpairments": () => {
         if (!actionTopologyRef || !item?.name) {
-          postExplorerError("Impairments require a running lab item.");
+          postExplorerError(uiText("Impairments require a running lab item."));
           return;
         }
         runtimeUiActions.openNetem({
           endpointId: actionEndpointId,
           topologyRef: actionTopologyRef,
           nodeName: item.name,
-          title: `Impairments: ${item.label || item.name}`
+          title: uiText("Impairments: {0}", { "0": (item.label || item.name) })
         });
       },
       "containerlab.interface.setDelay": openInterfaceImpairments,

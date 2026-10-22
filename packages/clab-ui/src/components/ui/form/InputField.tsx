@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Text, number or password input field.
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
@@ -265,14 +266,14 @@ const InputEndAdornment: React.FC<InputEndAdornmentProps> = ({
           direction={1}
           onStep={onStep}
           disabled={!canStepUp}
-          label="Increase value"
+          label={uiText("Increase value")}
           icon={<KeyboardArrowUpIcon sx={STEPPER_ICON_SX} />}
         />
         <StepperButton
           direction={-1}
           onStep={onStep}
           disabled={!canStepDown}
-          label="Decrease value"
+          label={uiText("Decrease value")}
           icon={<KeyboardArrowDownIcon sx={STEPPER_ICON_SX} />}
         />
       </Box>
@@ -299,7 +300,7 @@ const InputEndAdornment: React.FC<InputEndAdornmentProps> = ({
         onClick={onToggleReveal}
         onMouseDown={(e) => e.preventDefault()}
         edge="end"
-        aria-label={revealed ? "Hide value" : "Show value"}
+        aria-label={revealed ? uiText("Hide value") : uiText("Show value")}
         aria-pressed={revealed}
       >
         {revealed ? (

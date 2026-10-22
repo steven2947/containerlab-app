@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
@@ -30,14 +31,14 @@ export function RotationDial({
     <Tooltip
       title={
         onChange
-          ? "Drag to rotate · Shift snaps to 15° · Arrow keys fine-tune"
-          : "Direction at the link midpoint"
+          ? uiText("Drag to rotate · Shift snaps to 15° · Arrow keys fine-tune")
+          : uiText("Direction at the link midpoint")
       }
     >
       <Box
         component="button"
         type="button"
-        aria-label="Rotation dial"
+        aria-label={uiText("Rotation dial")}
         disabled={disabled}
         onPointerDown={(event) => {
           if (!onChange || event.button !== 0) return;

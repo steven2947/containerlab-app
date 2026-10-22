@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Shape annotation editor form.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -49,24 +50,24 @@ function toBorderStyle(value: string): FreeShapeAnnotation["borderStyle"] {
 
 const ShapeSection: React.FC<SectionProps> = ({ formData, updateField, isLine }) => {
   return (
-    <PanelSection title="Shape">
+    <PanelSection title={uiText("Shape")}>
       <>
         <SelectField
           id="shape-type"
-          label="Shape Type"
+          label={uiText("Shape Type")}
           value={formData.shapeType}
           onChange={(v) => updateField("shapeType", toShapeType(v))}
           options={[
-            { value: "rectangle", label: "Rectangle" },
-            { value: "circle", label: "Circle" },
-            { value: "line", label: "Line" }
+            { value: "rectangle", label: uiText("Rectangle") },
+            { value: "circle", label: uiText("Circle") },
+            { value: "line", label: uiText("Line") }
           ]}
         />
         {!isLine && (
           <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
             <InputField
               id="shape-width"
-              label="Width"
+              label={uiText("Width")}
               type="number"
               value={String(formData.width ?? DEFAULT_SHAPE_WIDTH)}
               onChange={(v) => updateField("width", Number(v))}
@@ -76,7 +77,7 @@ const ShapeSection: React.FC<SectionProps> = ({ formData, updateField, isLine })
             />
             <InputField
               id="shape-height"
-              label="Height"
+              label={uiText("Height")}
               type="number"
               value={String(formData.height ?? DEFAULT_SHAPE_HEIGHT)}
               onChange={(v) => updateField("height", Number(v))}
@@ -98,7 +99,7 @@ const FillSection: React.FC<SectionProps> = ({ formData, updateField, isLine }) 
 
   return (
     <PanelSection
-      title="Fill"
+      title={uiText("Fill")}
       bodySx={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -107,13 +108,13 @@ const FillSection: React.FC<SectionProps> = ({ formData, updateField, isLine }) 
     >
       <>
         <ColorField
-          label="Fill Color"
+          label={uiText("Fill Color")}
           value={formData.fillColor ?? DEFAULT_FILL_COLOR}
           onChange={(v) => updateField("fillColor", v)}
         />
         <InputField
           id="shape-opacity"
-          label="Opacity"
+          label={uiText("Opacity")}
           type="number"
           value={opacity ? String(Math.round(opacity * 100)) : ""}
           onChange={(v) => updateField("fillOpacity", v ? Number(v) / 100 : 0)}
@@ -136,17 +137,17 @@ const BorderSection: React.FC<BorderSectionProps> = ({
   const borderWidth = formData.borderWidth ?? DEFAULT_BORDER_WIDTH;
 
   return (
-    <PanelSection title={isLine ? "Line" : "Border"}>
+    <PanelSection title={isLine ? uiText("Line") : uiText("Border")}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <ColorField
-            label={isLine ? "Line Color" : "Border Color"}
+            label={isLine ? uiText("Line Color") : uiText("Border Color")}
             value={formData.borderColor ?? DEFAULT_BORDER_COLOR}
             onChange={(v) => updateField("borderColor", v)}
           />
           <InputField
             id="shape-border-width"
-            label="Width"
+            label={uiText("Width")}
             type="number"
             value={borderWidth ? String(borderWidth) : ""}
             onChange={(v) => updateField("borderWidth", v ? Number(v) : 0)}
@@ -160,7 +161,7 @@ const BorderSection: React.FC<BorderSectionProps> = ({
           {isRectangle && (
             <InputField
               id="shape-corner-radius"
-              label="Corner Radius"
+              label={uiText("Corner Radius")}
               type="number"
               value={String(formData.cornerRadius ?? DEFAULT_CORNER_RADIUS)}
               onChange={(v) => updateField("cornerRadius", Number(v))}
@@ -171,13 +172,13 @@ const BorderSection: React.FC<BorderSectionProps> = ({
           )}
           <SelectField
             id="shape-border-style"
-            label="Style"
+            label={uiText("Style")}
             value={formData.borderStyle ?? DEFAULT_BORDER_STYLE}
             onChange={(v) => updateField("borderStyle", toBorderStyle(v))}
             options={[
-              { value: "solid", label: "Solid" },
-              { value: "dashed", label: "Dashed" },
-              { value: "dotted", label: "Dotted" }
+              { value: "solid", label: uiText("Solid") },
+              { value: "dashed", label: uiText("Dashed") },
+              { value: "dotted", label: uiText("Dotted") }
             ]}
           />
         </Box>
@@ -192,26 +193,22 @@ const ArrowSection: React.FC<SectionProps> = ({ formData, updateField, isLine })
   const hasArrows = Boolean(formData.lineStartArrow ?? formData.lineEndArrow);
 
   return (
-    <PanelSection title="Arrows">
+    <PanelSection title={uiText("Arrows")}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
         <Box sx={{ display: "flex", gap: 1 }}>
           <Toggle
             active={formData.lineStartArrow ?? false}
             onClick={() => updateField("lineStartArrow", formData.lineStartArrow !== true)}
-          >
-            Start Arrow
-          </Toggle>
+          >{uiText("Start Arrow")}</Toggle>
           <Toggle
             active={formData.lineEndArrow ?? false}
             onClick={() => updateField("lineEndArrow", formData.lineEndArrow !== true)}
-          >
-            End Arrow
-          </Toggle>
+          >{uiText("End Arrow")}</Toggle>
         </Box>
         {hasArrows && (
           <InputField
             id="shape-arrow-size"
-            label="Arrow Size"
+            label={uiText("Arrow Size")}
             type="number"
             value={String(formData.lineArrowSize ?? DEFAULT_ARROW_SIZE)}
             onChange={(v) => updateField("lineArrowSize", Number(v))}

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Management network settings tab: the list of networks and the form of the selected one.
 import React, { useMemo } from "react";
 import Alert from "@mui/material/Alert";
@@ -44,7 +45,7 @@ function displayName(network: MgmtNetworkFormState): string {
 }
 
 function describeSubnet(network: MgmtNetworkFormState): string | undefined {
-  if (network.ipv4Type === "auto" || network.ipv6Type === "auto") return "auto subnet";
+  if (network.ipv4Type === "auto" || network.ipv6Type === "auto") return uiText("auto subnet");
   const subnets = [network.ipv4Subnet, network.ipv6Subnet].filter((subnet) => subnet !== "");
   return subnets.length > 0 ? subnets.join(", ") : undefined;
 }
@@ -52,7 +53,7 @@ function describeSubnet(network: MgmtNetworkFormState): string | undefined {
 function describeDriver(network: MgmtNetworkFormState): string | undefined {
   if (network.driver !== "macvlan") return undefined;
   const parent = network.macvlanParent.trim();
-  return parent !== "" ? `macvlan on ${parent}` : "macvlan";
+  return parent !== "" ? uiText("macvlan on {0}", { "0": (parent) }) : "macvlan";
 }
 
 function describeNetwork(network: MgmtNetworkFormState, nodeCount: number): string {
@@ -100,7 +101,7 @@ const NetworkRow: React.FC<{
         type="button"
         onClick={() => actions.select(index)}
         aria-pressed={isSelected}
-        aria-label={`Edit management network ${name}`}
+        aria-label={uiText("Edit management network {0}", { "0": (name) })}
         sx={{
           flex: 1,
           minWidth: 0,
@@ -129,9 +130,7 @@ const NetworkRow: React.FC<{
           <Typography variant="body2" sx={{ fontWeight: 500 }} noWrap>
             {name}
             {index === 0 && count > 1 ? (
-              <Typography component="span" variant="caption" sx={{ color: "text.secondary", ml: 1 }}>
-                default
-              </Typography>
+              <Typography component="span" variant="caption" sx={{ color: "text.secondary", ml: 1 }}>{uiText("default")}</Typography>
             ) : null}
           </Typography>
           <Typography
@@ -139,17 +138,17 @@ const NetworkRow: React.FC<{
             sx={{ color: hasIssues ? "error.main" : "text.secondary", display: "block" }}
             noWrap
           >
-            {hasIssues ? "Needs attention" : describeNetwork(network, nodeCount)}
+            {hasIssues ? uiText("Needs attention") : describeNetwork(network, nodeCount)}
           </Typography>
         </Box>
       </Box>
       {count > 1 && !isViewMode ? (
         <Box sx={{ display: "flex", flexShrink: 0 }}>
-          <Tooltip title="Move up">
+          <Tooltip title={uiText("Move up")}>
             <span>
               <IconButton
                 size="small"
-                aria-label={`Move ${name} up`}
+                aria-label={uiText("Move {0} up", { "0": (name) })}
                 disabled={index === 0}
                 onClick={() => actions.move(index, -1)}
               >
@@ -157,11 +156,11 @@ const NetworkRow: React.FC<{
               </IconButton>
             </span>
           </Tooltip>
-          <Tooltip title="Move down">
+          <Tooltip title={uiText("Move down")}>
             <span>
               <IconButton
                 size="small"
-                aria-label={`Move ${name} down`}
+                aria-label={uiText("Move {0} down", { "0": (name) })}
                 disabled={index === count - 1}
                 onClick={() => actions.move(index, 1)}
               >
@@ -169,10 +168,10 @@ const NetworkRow: React.FC<{
               </IconButton>
             </span>
           </Tooltip>
-          <Tooltip title="Remove">
+          <Tooltip title={uiText("Remove")}>
             <IconButton
               size="small"
-              aria-label={`Remove ${name}`}
+              aria-label={uiText("Remove {0}", { "0": (name) })}
               onClick={() => actions.remove(index)}
             >
               <DeleteOutlineIcon fontSize="small" />
@@ -190,11 +189,11 @@ const NetworkList: React.FC<{
   isViewMode: boolean;
 }> = ({ actions, usage, isViewMode }) => (
   <SettingsField
-    title="Networks"
+    title={uiText("Networks")}
     description={
       actions.networks.length > 1
-        ? "Nodes join a network with mgmt-net. The first network is the default, used for tools containers. Docker runtime only."
-        : "Add a network to put nodes on separate management networks (Docker runtime only)."
+        ? uiText("Nodes join a network with mgmt-net. The first network is the default, used for tools containers. Docker runtime only.")
+        : uiText("Add a network to put nodes on separate management networks (Docker runtime only).")
     }
     wide
   >
@@ -224,9 +223,7 @@ const NetworkList: React.FC<{
           startIcon={<AddIcon />}
           onClick={actions.add}
           data-testid="lab-settings-mgmt-add-network"
-        >
-          Add network
-        </Button>
+        >{uiText("Add network")}</Button>
       </Box>
     ) : null}
   </SettingsField>
@@ -241,11 +238,11 @@ const DefaultNetworkField: React.FC<{ actions: MgmtNetworkListActions; isViewMod
   const options = current !== "" && !names.includes(current) ? [...names, current] : names;
   return (
     <SettingsField
-      title="Default for Nodes"
-      description="Network for nodes that do not pick one (topology.defaults.mgmt-net)."
+      title={uiText("Default for Nodes")}
+      description={uiText("Network for nodes that do not pick one (topology.defaults.mgmt-net).")}
     >
       <TextField
-        slotProps={{ select: { inputProps: { "aria-label": "Default for Nodes" } } }}
+        slotProps={{ select: { inputProps: { "aria-label": uiText("Default for Nodes") } } }}
         id="lab-mgmt-default-net"
         select
         size="small"
@@ -253,10 +250,10 @@ const DefaultNetworkField: React.FC<{ actions: MgmtNetworkListActions; isViewMod
         onChange={(event) => actions.setDefaultMgmtNet(event.target.value)}
         disabled={isViewMode}
         error={current !== "" && !names.includes(current)}
-        helperText={current !== "" && !names.includes(current) ? "Not a network of this lab" : undefined}
+        helperText={current !== "" && !names.includes(current) ? uiText("Not a network of this lab") : undefined}
       >
         <MenuItem value="">
-          <em>None (each node picks one)</em>
+          <em>{uiText("None (each node picks one)")}</em>
         </MenuItem>
         {options.map((name) => (
           <MenuItem key={name} value={name}>
@@ -275,14 +272,10 @@ const UsageWarnings: React.FC<{ usage: MgmtNetworkUsage; several: boolean }> = (
   <>
     {several && usage.unassigned.length > 0 ? (
       <Alert severity="warning" variant="outlined" data-testid="lab-settings-mgmt-unassigned">
-        {usage.unassigned.length === 1 ? "1 node has" : `${usage.unassigned.length} nodes have`} no
-        management network: {listNodes(usage.unassigned)}. Pick a default for nodes or set the
-        network in each node.
-      </Alert>
+        {usage.unassigned.length === 1 ? uiText("1 node has") : uiText("{0} nodes have", { "0": (usage.unassigned.length) })}{uiText(" no management network: ")}{listNodes(usage.unassigned)}{uiText(". Pick a default for nodes or set the network in each node.")}</Alert>
     ) : null}
     {usage.unknown.length > 0 ? (
-      <Alert severity="warning" variant="outlined" data-testid="lab-settings-mgmt-unknown">
-        Nodes use networks this lab does not define:{" "}
+      <Alert severity="warning" variant="outlined" data-testid="lab-settings-mgmt-unknown">{uiText("Nodes use networks this lab does not define:")}{" "}
         {listNodes(usage.unknown.map(({ node, network }) => `${node} (${network})`))}.
       </Alert>
     ) : null}
@@ -317,8 +310,7 @@ export const MgmtTab: React.FC<MgmtTabProps> = ({
           variant="subtitle2"
           data-testid="lab-settings-mgmt-selected-title"
           sx={{ pt: 1, borderTop: 1, borderColor: "divider" }}
-        >
-          Network {selectedName}
+        >{uiText("Network ")}{selectedName}
         </Typography>
       ) : null}
       <MgmtNetworkForm

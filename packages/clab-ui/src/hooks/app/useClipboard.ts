@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * React Flow Clipboard Hook
  *
@@ -652,8 +653,8 @@ async function performPaste(params: PerformPasteParams): Promise<boolean> {
     if (clipboardData?.nodes.length === 0) {
       log.info(
         params.annotationsOnly === true
-          ? "[Clipboard] No annotation nodes to paste"
-          : "[Clipboard] No nodes to paste"
+          ? uiText("[Clipboard] No annotation nodes to paste")
+          : uiText("[Clipboard] No nodes to paste")
       );
     }
     return false;

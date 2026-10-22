@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
@@ -45,8 +46,8 @@ interface DialogCancelSaveActionsProps {
 export const DialogCancelSaveActions: React.FC<DialogCancelSaveActionsProps> = ({
   onCancel,
   onSave,
-  cancelLabel = "Cancel",
-  saveLabel = "Save",
+  cancelLabel = uiText("Cancel"),
+  saveLabel = uiText("Save"),
   disableSave = false
 }) => (
   <DialogActions>

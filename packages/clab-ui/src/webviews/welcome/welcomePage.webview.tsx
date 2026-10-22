@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /* eslint-disable import-x/max-dependencies */
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LaunchIcon from "@mui/icons-material/Launch";
@@ -50,34 +51,34 @@ type WelcomeOutgoingMessage =
   | { command: "getRepos" };
 
 const RESOURCE_LINKS: ReadonlyArray<{ label: string; href: string }> = [
-  { label: "Containerlab Documentation", href: "https://containerlab.dev/" },
+  { label: uiText("Containerlab Documentation"), href: "https://containerlab.dev/" },
   {
-    label: "VS Code Extension Documentation",
+    label: uiText("VS Code Extension Documentation"),
     href: "https://containerlab.dev/manual/vsc-extension/"
   },
-  { label: "Browse Labs on GitHub (srl-labs)", href: "https://github.com/srl-labs/" },
+  { label: uiText("Browse Labs on GitHub (srl-labs)"), href: "https://github.com/srl-labs/" },
   {
-    label: 'Find more labs tagged with "clab-topo"',
+    label: uiText("Find more labs tagged with \"clab-topo\""),
     href: "https://github.com/search?q=topic%3Aclab-topo++fork%3Atrue&type=repositories"
   },
-  { label: "Join our Discord server", href: "https://discord.gg/vAyddtaEV9" },
+  { label: uiText("Join our Discord server"), href: "https://discord.gg/vAyddtaEV9" },
   {
-    label: "Download cshargextcap Wireshark plugin",
+    label: uiText("Download cshargextcap Wireshark plugin"),
     href: "https://github.com/siemens/cshargextcap/releases/latest"
   }
 ];
 
 const COMMUNITY_LINKS: ReadonlyArray<{ label: string; href: string }> = [
   {
-    label: "Extension Releases",
+    label: uiText("Extension Releases"),
     href: "https://github.com/srl-labs/containerlab-app/releases/"
   },
   {
-    label: "Containerlab Latest Release",
+    label: uiText("Containerlab Latest Release"),
     href: "https://github.com/srl-labs/containerlab/releases/latest"
   },
   {
-    label: "Containerlab Release History",
+    label: uiText("Containerlab Release History"),
     href: "https://github.com/srl-labs/containerlab/releases/"
   },
   { label: "Discord", href: "https://discord.gg/vAyddtaEV9" }
@@ -141,7 +142,7 @@ export function WelcomePageApp(): React.JSX.Element {
                   }}
                 />
                 <Stack spacing={0.75} sx={{ minWidth: 0 }}>
-                  <Typography variant="h4">Welcome to Containerlab</Typography>
+                  <Typography variant="h4">{uiText("Welcome to Containerlab")}</Typography>
                   <Stack
                     direction="row"
                     spacing={2}
@@ -152,8 +153,7 @@ export function WelcomePageApp(): React.JSX.Element {
                       rowGap: 0.5
                     }}
                   >
-                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                      Extension v{extensionVersion}
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Extension v")}{extensionVersion}
                     </Typography>
                     {COMMUNITY_LINKS.map((link) => (
                       <Link
@@ -189,17 +189,13 @@ export function WelcomePageApp(): React.JSX.Element {
             >
               <Stack spacing={4} sx={{ flex: "1 1 50%", minWidth: 0 }}>
                 <Stack spacing={1}>
-                  <Typography variant="h6">Getting Started</Typography>
+                  <Typography variant="h6">{uiText("Getting Started")}</Typography>
                   <Typography
                     variant="body1"
                     sx={{
                       color: "text.secondary"
                     }}
-                  >
-                    The Containerlab extension integrates containerlab directly into VS Code,
-                    providing an explorer for managing labs and containers. Create, deploy, and
-                    manage network topologies with just a few clicks.
-                  </Typography>
+                  >{uiText("The Containerlab extension integrates containerlab directly into VS Code, providing an explorer for managing labs and containers. Create, deploy, and manage network topologies with just a few clicks.")}</Typography>
                   <Stack
                     spacing={1}
                     sx={{
@@ -212,26 +208,21 @@ export function WelcomePageApp(): React.JSX.Element {
                       onClick={() => {
                         postMessage({ command: "createExample" });
                       }}
-                    >
-                      Create Example Topology
-                    </Button>
+                    >{uiText("Create Example Topology")}</Button>
                     <Typography
                       variant="caption"
                       sx={{
                         color: "text.secondary"
                       }}
-                    >
-                      Creates{" "}
+                    >{uiText("Creates")}{" "}
                       <Box component="code" sx={{ fontFamily: MONO_FONT_FAMILY }}>
                         example.clab.yml
-                      </Box>{" "}
-                      in your current workspace.
-                    </Typography>
+                      </Box>{" "}{uiText("in your current workspace.")}</Typography>
                   </Stack>
                 </Stack>
 
                 <Stack spacing={1}>
-                  <Typography variant="h6">Documentation and Resources</Typography>
+                  <Typography variant="h6">{uiText("Documentation and Resources")}</Typography>
                   <List dense disablePadding>
                     {RESOURCE_LINKS.map((link) => (
                       <ListItem key={link.label} disableGutters sx={{ py: 0.5 }}>
@@ -255,13 +246,13 @@ export function WelcomePageApp(): React.JSX.Element {
                         }}
                       />
                     }
-                    label="Don't show this page again"
+                    label={uiText("Don't show this page again")}
                   />
                 </Box>
               </Stack>
 
               <Stack spacing={1} sx={{ flex: "1 1 50%", minWidth: 0, width: "100%" }}>
-                <Typography variant="h6">Popular Topologies</Typography>
+                <Typography variant="h6">{uiText("Popular Topologies")}</Typography>
 
                 {usingFallback ? (
                   <Typography
@@ -274,9 +265,7 @@ export function WelcomePageApp(): React.JSX.Element {
                       "& .MuiSvgIcon-root": { fontSize: 14, mt: "1px" }
                     }}
                   >
-                    <InfoOutlinedIcon />
-                    Using cached repository data due to GitHub API limits or temporary failures.
-                  </Typography>
+                    <InfoOutlinedIcon />{uiText("Using cached repository data due to GitHub API limits or temporary failures.")}</Typography>
                 ) : null}
 
                 {isLoadingRepos ? (
@@ -290,14 +279,12 @@ export function WelcomePageApp(): React.JSX.Element {
                     }}
                   >
                     <CircularProgress size={16} />
-                    <Typography variant="body2">Loading popular repositories…</Typography>
+                    <Typography variant="body2">{uiText("Loading popular repositories…")}</Typography>
                   </Stack>
                 ) : null}
 
                 {!isLoadingRepos && repos.length === 0 ? (
-                  <Typography variant="body2" sx={{ color: "text.secondary", py: 2 }}>
-                    No repositories found.
-                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary", py: 2 }}>{uiText("No repositories found.")}</Typography>
                 ) : null}
 
                 {!isLoadingRepos && repos.length > 0 ? (

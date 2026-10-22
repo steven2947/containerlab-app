@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Lab settings dialog.
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import AccountTreeIcon from "@mui/icons-material/AccountTreeOutlined";
@@ -25,32 +26,32 @@ import type { LabSettings } from "./types";
 const LAB_SETTINGS_SECTIONS = [
   {
     key: "basic",
-    label: "General",
-    description: "Lab name and container prefix",
+    label: uiText("General"),
+    description: uiText("Lab name and container prefix"),
     icon: <AccountTreeIcon fontSize="small" />
   },
   {
     key: "mgmt",
-    label: "Management",
-    description: "Management subnet and docker network",
+    label: uiText("Management"),
+    description: uiText("Management subnet and docker network"),
     icon: <LanOutlinedIcon fontSize="small" />
   },
   {
     key: "inheritance",
-    label: "Defaults & Groups",
-    description: "Settings nodes inherit from defaults, kinds and groups. Edits save right away.",
+    label: uiText("Defaults & Groups"),
+    description: uiText("Settings nodes inherit from defaults, kinds and groups. Edits save right away."),
     icon: <LayersOutlinedIcon fontSize="small" />
   },
   {
     key: "appearance",
-    label: "Appearance",
-    description: "Node style, link labels and telemetry appearance",
+    label: uiText("Appearance"),
+    description: uiText("Node style, link labels and telemetry appearance"),
     icon: <PaletteOutlinedIcon fontSize="small" />
   },
   {
     key: "grid",
-    label: "Grid",
-    description: "Canvas grid stroke and colors",
+    label: uiText("Grid"),
+    description: uiText("Canvas grid stroke and colors"),
     icon: <GridOnOutlinedIcon fontSize="small" />
   }
 ] as const;
@@ -86,7 +87,7 @@ export const LabSettingsModal: React.FC<LabSettingsModalProps> = ({
   const isProcessing = useIsProcessing();
   const { toggleLock } = useTopoViewerActions();
   const canSave = !isLocked;
-  const lockLabel = isLocked ? "Unlock lab to edit" : "Lock Lab";
+  const lockLabel = isLocked ? uiText("Unlock lab to edit") : uiText("Lock Lab");
   const active = LAB_SETTINGS_SECTIONS.find((section) => section.key === activeSection) ?? LAB_SETTINGS_SECTIONS[0];
   useEffect(() => {
     if (isOpen) setActiveSection("basic");
@@ -123,7 +124,7 @@ export const LabSettingsModal: React.FC<LabSettingsModalProps> = ({
       }}
     >
       <SettingsLayout
-        title="Lab Settings"
+        title={uiText("Lab Settings")}
         titleId="containerlab-lab-settings-title"
         items={[...LAB_SETTINGS_SECTIONS]}
         active={activeSection}
@@ -151,7 +152,7 @@ export const LabSettingsModal: React.FC<LabSettingsModalProps> = ({
               size="small"
               onClick={onClose}
               data-testid="lab-settings-close-btn"
-              aria-label="Close lab settings"
+              aria-label={uiText("Close lab settings")}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
@@ -161,13 +162,9 @@ export const LabSettingsModal: React.FC<LabSettingsModalProps> = ({
           <>
             <span />
             <Box sx={{ display: "flex", gap: 1 }}>
-              <Button variant="outlined" onClick={onClose}>
-                Close
-              </Button>
+              <Button variant="outlined" onClick={onClose}>{uiText("Close")}</Button>
               {canSave ? (
-                <Button onClick={handleSaveClick} data-testid="lab-settings-save-btn">
-                  Apply
-                </Button>
+                <Button onClick={handleSaveClick} data-testid="lab-settings-save-btn">{uiText("Apply")}</Button>
               ) : null}
             </Box>
           </>

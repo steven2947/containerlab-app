@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Show what `containerlab apply` would change in the running lab before applying.
 import React from "react";
 import Alert from "@mui/material/Alert";
@@ -141,16 +142,13 @@ const PlanBody: React.FC<{ state: PlanState }> = ({ state }) => {
         data-testid="apply-plan-loading"
       >
         <CircularProgress size={18} />
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Comparing the topology with the running lab…
-        </Typography>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Comparing the topology with the running lab…")}</Typography>
       </Box>
     );
   }
   if (state.status === "error") {
     return (
-      <Alert severity="error" variant="outlined" data-testid="apply-plan-error">
-        Could not work out the changes: {state.message}
+      <Alert severity="error" variant="outlined" data-testid="apply-plan-error">{uiText("Could not work out the changes: ")}{state.message}
       </Alert>
     );
   }
@@ -158,33 +156,24 @@ const PlanBody: React.FC<{ state: PlanState }> = ({ state }) => {
   const { plan } = state;
   if (plan.deploysLab) {
     return (
-      <Alert severity="info" variant="outlined" data-testid="apply-plan-deploy">
-        The lab is not running. Apply deploys the whole topology.
-      </Alert>
+      <Alert severity="info" variant="outlined" data-testid="apply-plan-deploy">{uiText("The lab is not running. Apply deploys the whole topology.")}</Alert>
     );
   }
   if (!applyPlanHasChanges(plan)) {
     return (
-      <Alert severity="success" variant="outlined" data-testid="apply-plan-in-sync">
-        Nothing to apply. The running lab already matches the topology.
-      </Alert>
+      <Alert severity="success" variant="outlined" data-testid="apply-plan-in-sync">{uiText("Nothing to apply. The running lab already matches the topology.")}</Alert>
     );
   }
 
   const count = applyPlanChangeCount(plan);
   return (
     <>
-      <Typography variant="body2" sx={{ color: "text.secondary" }} data-testid="apply-plan-summary">
-        Applying makes {count} {count === 1 ? "change" : "changes"} to the running lab.
-      </Typography>
+      <Typography variant="body2" sx={{ color: "text.secondary" }} data-testid="apply-plan-summary">{uiText("Applying makes ")}{count} {count === 1 ? "change" : "changes"}{uiText(" to the running lab.")}</Typography>
       {buildApplyPlanSections(plan).map((section) => (
         <PlanSection key={section.id} section={section} />
       ))}
       {applyPlanLosesState(plan) && (
-        <Alert severity="warning" variant="outlined" data-testid="apply-plan-state-warning">
-          Recreated and removed nodes lose configuration that was not saved. Save the lab first to
-          keep it.
-        </Alert>
+        <Alert severity="warning" variant="outlined" data-testid="apply-plan-state-warning">{uiText("Recreated and removed nodes lose configuration that was not saved. Save the lab first to keep it.")}</Alert>
       )}
     </>
   );
@@ -198,12 +187,12 @@ export const ApplyPlanDialog: React.FC<ApplyPlanDialogProps> = ({
 }) => {
   const state = useApplyPlan(planRequest);
   const inSync = state.status === "ready" && !applyPlanHasChanges(state.plan);
-  const applyLabel = state.status === "error" ? "Apply anyway" : "Apply";
+  const applyLabel = state.status === "error" ? uiText("Apply anyway") : uiText("Apply");
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth data-testid="apply-plan-dialog">
       <DialogTitleWithClose
-        title="Apply changes"
+        title={uiText("Apply changes")}
         onClose={onClose}
         closeButtonTestId="apply-plan-close"
       />
@@ -212,7 +201,7 @@ export const ApplyPlanDialog: React.FC<ApplyPlanDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button variant="text" size="small" onClick={onClose} data-testid="apply-plan-cancel">
-          {inSync ? "Close" : "Cancel"}
+          {inSync ? uiText("Close") : uiText("Cancel")}
         </Button>
         {!inSync && (
           <Button

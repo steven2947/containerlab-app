@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 // Editor content for the Edit tab.
 import React from "react";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -31,7 +32,7 @@ export interface EditorTabContentProps
 const EditorPlaceholder: React.FC = () => (
   <PanelEmptyState
     icon={<EditOutlinedIcon sx={{ fontSize: 32, opacity: 0.6 }} />}
-    message="Select a node, link, or annotation and click edit to modify it here."
+    message={uiText("Select a node, link, or annotation and click edit to modify it here.")}
   />
 );
 

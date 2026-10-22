@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 // Info content for the Info tab.
 import React from "react";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -18,7 +19,7 @@ export interface InfoTabContentProps {
 const InfoPlaceholder: React.FC = () => (
   <PanelEmptyState
     icon={<InfoOutlinedIcon sx={{ fontSize: 32, opacity: 0.6 }} />}
-    message="Select a node or link to view its properties."
+    message={uiText("Select a node or link to view its properties.")}
   />
 );
 

@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import { runtimeFetch } from "./backend";
 import { standaloneServerUrl } from "./standaloneServerOrigin";
 
@@ -13,7 +14,7 @@ async function readEndpointHealthError(response: Response): Promise<string> {
   if (typeof payload.message === "string" && payload.message.trim().length > 0) {
     return payload.message;
   }
-  return `Health stats request failed (${response.status})`;
+  return uiText("Health stats request failed ({0})", { "0": (response.status) });
 }
 
 export async function fetchEndpointHealthMetrics(

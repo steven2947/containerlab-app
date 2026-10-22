@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 // Link info view with endpoint tabs.
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
@@ -126,22 +127,22 @@ export const LinkInfoView: React.FC<LinkInfoViewProps> = ({ linkData }) => {
 
       <Box sx={{ flex: 1, overflow: "auto" }}>
         <LinkRotationControl edgeId={linkData.id} />
-        <PanelSection title="Endpoint">
+        <PanelSection title={uiText("Endpoint")}>
           <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
-            <ReadOnlyCopyField label="Node" value={currentEndpoint.node ?? ""} />
-            <ReadOnlyCopyField label="Interface" value={currentEndpoint.interface ?? ""} />
+            <ReadOnlyCopyField label={uiText("Node")} value={currentEndpoint.node ?? ""} />
+            <ReadOnlyCopyField label={uiText("Interface")} value={currentEndpoint.interface ?? ""} />
           </Box>
-          <ReadOnlyCopyField label="Type" value={currentEndpoint.type ?? ""} />
+          <ReadOnlyCopyField label={uiText("Type")} value={currentEndpoint.type ?? ""} />
         </PanelSection>
 
-        <PanelSection title="Layer 2">
+        <PanelSection title={uiText("Layer 2")}>
           <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
             <ReadOnlyCopyField label="MAC" value={currentEndpoint.mac ?? ""} mono />
             <ReadOnlyCopyField label="MTU" value={String(currentEndpoint.mtu ?? "")} />
           </Box>
         </PanelSection>
 
-        <PanelSectionHeader title="Traffic" />
+        <PanelSectionHeader title={uiText("Traffic")} />
         <Box sx={{ minHeight: 200 }}>
           <React.Suspense fallback={null}>
             <LazyTrafficChart stats={currentEndpoint.stats} endpointKey={endpointKey} />

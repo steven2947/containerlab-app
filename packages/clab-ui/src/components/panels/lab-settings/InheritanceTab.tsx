@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Lab Settings section for topology defaults, kinds and groups.
 import React, { useMemo, useState } from "react";
 import Typography from "@mui/material/Typography";
@@ -88,13 +89,13 @@ export const InheritanceTab: React.FC<InheritanceTabProps> = ({ isViewMode }) =>
   return (
     <>
       <SettingsField
-        title="Defaults"
-        description="Settings every node gets unless its kind, group or the node itself sets them (topology.defaults)."
+        title={uiText("Defaults")}
+        description={uiText("Settings every node gets unless its kind, group or the node itself sets them (topology.defaults).")}
         wide
       >
         <SectionList testId="lab-inheritance-defaults">
           <SectionRow
-            title="Topology defaults"
+            title={uiText("Topology defaults")}
             config={defaults}
             nodeCount={Object.keys(parsed?.topology?.nodes ?? {}).length}
             isViewMode={isViewMode}
@@ -105,12 +106,12 @@ export const InheritanceTab: React.FC<InheritanceTabProps> = ({ isViewMode }) =>
       </SettingsField>
 
       <SettingsField
-        title="Kinds"
-        description="Settings for every node of a kind (topology.kinds). They win over defaults."
+        title={uiText("Kinds")}
+        description={uiText("Settings for every node of a kind (topology.kinds). They win over defaults.")}
         wide
       >
         <SectionList testId="lab-inheritance-kinds">
-          {Object.keys(kinds).length === 0 ? <EmptyList text="No kind settings" /> : null}
+          {Object.keys(kinds).length === 0 ? <EmptyList text={uiText("No kind settings")} /> : null}
           {Object.entries(kinds).map(([name, config]) => (
             <SectionRow
               key={name}
@@ -134,12 +135,12 @@ export const InheritanceTab: React.FC<InheritanceTabProps> = ({ isViewMode }) =>
       </SettingsField>
 
       <SettingsField
-        title="Groups"
-        description="Settings for the nodes that name a group (topology.groups). They win over kinds and defaults. Not the same as canvas groups."
+        title={uiText("Groups")}
+        description={uiText("Settings for the nodes that name a group (topology.groups). They win over kinds and defaults. Not the same as canvas groups.")}
         wide
       >
         <SectionList testId="lab-inheritance-groups">
-          {Object.keys(groups).length === 0 ? <EmptyList text="No groups" /> : null}
+          {Object.keys(groups).length === 0 ? <EmptyList text={uiText("No groups")} /> : null}
           {Object.entries(groups).map(([name, config]) => (
             <SectionRow
               key={name}

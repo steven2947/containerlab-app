@@ -1,3 +1,4 @@
+import { uiText } from "../../../../i18n";
 // Node info view with read-only fields.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -58,19 +59,19 @@ export const NodeInfoView: React.FC<NodeInfoViewProps> = ({ nodeData }) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Node">
-        <ReadOnlyCopyField label="Name" value={nodeName} />
+      <PanelSection title={uiText("Node")}>
+        <ReadOnlyCopyField label={uiText("Name")} value={nodeName} />
       </PanelSection>
 
-      <PanelSection title="Properties">
+      <PanelSection title={uiText("Properties")}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
-          <ReadOnlyCopyField label="Kind" value={kind} />
-          <ReadOnlyCopyField label="State" value={state} />
+          <ReadOnlyCopyField label={uiText("Kind")} value={kind} />
+          <ReadOnlyCopyField label={uiText("State")} value={state} />
         </Box>
-        <ReadOnlyCopyField label="Image" value={image} />
+        <ReadOnlyCopyField label={uiText("Image")} value={image} />
       </PanelSection>
 
-      <PanelSection title="Management">
+      <PanelSection title={uiText("Management")}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <ReadOnlyCopyField label="IPv4" value={mgmtIpv4} mono />
           <ReadOnlyCopyField label="IPv6" value={mgmtIpv6} mono />

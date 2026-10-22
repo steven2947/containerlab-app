@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import type {
   TopologyHostCommand,
   TopologyHostResponseMessage,
@@ -725,7 +726,7 @@ export function createWindowClabUiHost(options: WindowHostOptions = {}): ClabUiH
             pending.delete(requestId);
             reject(
               new Error(
-                `${expectedType === "snapshot" ? "Snapshot" : "Command"} request timed out`
+                `${expectedType === "snapshot" ? uiText("Snapshot") : uiText("Command")} request timed out`
               )
             );
           }, timeoutMs);

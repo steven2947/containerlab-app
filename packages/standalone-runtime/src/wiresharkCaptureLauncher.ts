@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 /**
  * Opens Wireshark VNC capture sessions: one window per click, however many
  * sessions the click asked for. The page shows one tab per session.
@@ -128,7 +129,7 @@ export function wiresharkPageTitle(sessions: readonly WiresharkPageSession[]): s
   const labels = sessions
     .map((session) => nonEmpty(session.label))
     .filter((label): label is string => label !== undefined);
-  return labels.length > 0 ? `Wireshark · ${labels.join(", ")}` : "Wireshark Capture";
+  return labels.length > 0 ? uiText("Wireshark · {0}", { "0": (labels.join(", ")) }) : uiText("Wireshark Capture");
 }
 
 function shortNodeName(session: CaptureWiresharkVncSession): string {

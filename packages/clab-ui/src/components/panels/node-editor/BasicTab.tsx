@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Basic tab for node editor.
 import React, { memo, useState, useMemo, useCallback, useEffect } from "react";
@@ -41,17 +42,17 @@ const ICON_OPTIONS = BUILTIN_ICONS.map((icon) => ({
 }));
 
 const NODE_LABEL_POSITION_OPTIONS = [
-  { value: "bottom", label: "Bottom" },
-  { value: "top", label: "Top" },
-  { value: "left", label: "Left" },
-  { value: "right", label: "Right" }
+  { value: "bottom", label: uiText("Bottom") },
+  { value: "top", label: uiText("Top") },
+  { value: "left", label: uiText("Left") },
+  { value: "right", label: uiText("Right") }
 ];
 
 const NODE_DIRECTION_OPTIONS = [
-  { value: "right", label: "Horizontal", icon: <SwapHorizIcon fontSize="small" /> },
-  { value: "down", label: "Rotate text 90deg", icon: <RotateRightIcon fontSize="small" /> },
-  { value: "left", label: "Rotate text 180deg", icon: <SyncAltIcon fontSize="small" /> },
-  { value: "up", label: "Rotate text 270deg", icon: <RotateLeftIcon fontSize="small" /> }
+  { value: "right", label: uiText("Horizontal"), icon: <SwapHorizIcon fontSize="small" /> },
+  { value: "down", label: uiText("Rotate text 90deg"), icon: <RotateRightIcon fontSize="small" /> },
+  { value: "left", label: uiText("Rotate text 180deg"), icon: <SyncAltIcon fontSize="small" /> },
+  { value: "up", label: uiText("Rotate text 270deg"), icon: <RotateLeftIcon fontSize="small" /> }
 ];
 
 /**
@@ -60,7 +61,7 @@ const NODE_DIRECTION_OPTIONS = [
 const NodeNameField: React.FC<TabProps> = ({ data, onChange }) => (
   <InputField
     id="node-name"
-    label={data.section?.level === "group" ? "Group Name" : "Node Name"}
+    label={data.section?.level === "group" ? uiText("Group Name") : uiText("Node Name")}
     value={data.name || ""}
     onChange={(value) => onChange({ name: value })}
   />
@@ -80,17 +81,17 @@ const GroupField: React.FC<TabProps> = (props) => {
   const value = data.group ?? "";
   const isUnknown = value !== "" && groups?.[value] === undefined;
   const helperText = isUnknown
-    ? `No group named ${value} under topology groups`
+    ? uiText("No group named {0} under topology groups", { "0": (value) })
     : (inheritedFieldHint(props, "group") ?? "Inherits settings from a topology group");
 
   return (
     <FilterableDropdown
       id="node-group"
-      label="Settings Group"
+      label={uiText("Settings Group")}
       options={options}
       value={value}
       onChange={(next) => onChange({ group: next === "" ? undefined : next })}
-      placeholder="No group"
+      placeholder={uiText("No group")}
       allowFreeText={true}
       helperText={helperText}
     />
@@ -120,11 +121,11 @@ const KindField: React.FC<KindFieldProps> = (props) => {
   return (
     <FilterableDropdown
       id="node-kind"
-      label="Kind"
+      label={uiText("Kind")}
       options={kindOptions}
       value={data.kind ?? ""}
       onChange={handleKindChange}
-      placeholder="Search or type kind..."
+      placeholder={uiText("Search or type kind...")}
       allowFreeText={true}
       helperText={inheritedFieldHint(props, "kind")}
     />
@@ -148,12 +149,12 @@ const TypeField: React.FC<TypeFieldProps> = (props) => {
   return (
     <FilterableDropdown
       id="node-type"
-      label="Type"
+      label={uiText("Type")}
       options={typeOptions}
       value={data.type ?? ""}
       onChange={(value) => onChange({ type: value })}
       placeholder={
-        availableTypes.length > 0 ? "Search or type..." : "Type value (no predefined types)"
+        availableTypes.length > 0 ? uiText("Search or type...") : uiText("Type value (no predefined types)")
       }
       allowFreeText={true}
       helperText={inheritedFieldHint(props, "type")}
@@ -245,21 +246,21 @@ const ImageVersionFields: React.FC<ImageVersionFieldsProps> = (props) => {
       <>
         <FilterableDropdown
           id="node-image"
-          label="Image"
+          label={uiText("Image")}
           options={imageOptions}
           value={currentBase}
           onChange={handleBaseChange}
-          placeholder="Search for image..."
+          placeholder={uiText("Search for image...")}
           allowFreeText={true}
           helperText={imageHint}
         />
         <FilterableDropdown
           id="node-version"
-          label="Version"
+          label={uiText("Version")}
           options={versionOptions}
           value={localVersion}
           onChange={handleVersionChange}
-          placeholder="Select version..."
+          placeholder={uiText("Select version...")}
           allowFreeText={true}
         />
       </>
@@ -271,18 +272,18 @@ const ImageVersionFields: React.FC<ImageVersionFieldsProps> = (props) => {
     <>
       <InputField
         id="node-image"
-        label="Image"
+        label={uiText("Image")}
         value={currentBase}
         onChange={handleBaseChange}
-        placeholder="e.g., ghcr.io/nokia/srlinux"
+        placeholder={uiText("e.g., ghcr.io/nokia/srlinux")}
         helperText={imageHint}
       />
       <InputField
         id="node-version"
-        label="Version"
+        label={uiText("Version")}
         value={localVersion}
         onChange={handleVersionChange}
-        placeholder="e.g., latest"
+        placeholder={uiText("e.g., latest")}
       />
     </>
   );
@@ -362,7 +363,7 @@ const IconField: React.FC<TabProps> = ({ data, onChange }) => {
         <Box sx={{ display: "flex", flexShrink: 0 }}>
           <IconPreview
             src={getIconSource(previewIcon, color)}
-            alt="Icon preview"
+            alt={uiText("Icon preview")}
             size={32}
             cornerRadius={data.iconCornerRadius}
           />
@@ -370,18 +371,16 @@ const IconField: React.FC<TabProps> = ({ data, onChange }) => {
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <FilterableDropdown
             id="node-icon"
-            label="Icon"
+            label={uiText("Icon")}
             options={allIconOptions}
             value={dropdownValue}
             onChange={(value) => onChange({ icon: value })}
-            placeholder="Select icon..."
+            placeholder={uiText("Select icon...")}
             allowFreeText={false}
             renderOption={renderOption}
           />
         </Box>
-        <Button variant="outlined" onClick={() => setIsModalOpen(true)}>
-          Edit
-        </Button>
+        <Button variant="outlined" onClick={() => setIsModalOpen(true)}>{uiText("Edit")}</Button>
       </Box>
 
       <IconSelectorModal
@@ -415,14 +414,14 @@ const LabelAndDirectionFields: React.FC<TabProps> = ({ data, onChange }) => {
     >
       <SelectField
         id="node-label-position"
-        label="Label Position"
+        label={uiText("Label Position")}
         value={data.labelPosition ?? "bottom"}
         onChange={(value) => onChange({ labelPosition: value })}
         options={NODE_LABEL_POSITION_OPTIONS}
       />
       <SelectField
         id="node-direction"
-        label="Label Text Direction"
+        label={uiText("Label Text Direction")}
         value={data.direction ?? "right"}
         onChange={(value) => onChange({ direction: value })}
         options={NODE_DIRECTION_OPTIONS}
@@ -430,7 +429,7 @@ const LabelAndDirectionFields: React.FC<TabProps> = ({ data, onChange }) => {
       <Box sx={{ gridColumn: "1 / -1" }}>
         <ColorField
           id="node-label-bg-color"
-          label="Label Background"
+          label={uiText("Label Background")}
           value={pickerColor}
           onChange={(value) => onChange({ labelBackgroundColor: value })}
           disabled={isTransparent}
@@ -439,7 +438,7 @@ const LabelAndDirectionFields: React.FC<TabProps> = ({ data, onChange }) => {
       <Box sx={{ gridColumn: "1 / -1" }}>
         <CheckboxField
           id="node-label-bg-transparent"
-          label="Transparent"
+          label={uiText("Transparent")}
           checked={isTransparent}
           onChange={(checked) => onChange({ labelBackgroundColor: checked ? "transparent" : "" })}
         />
@@ -511,12 +510,12 @@ const NodeFieldsComponent: React.FC<TabProps> = ({
   return (
     <>
       {isCustomTemplate && (
-        <PanelSection title="Template">
+        <PanelSection title={uiText("Template")}>
           <CustomNodeTemplateFields data={data} onChange={onChange} />
         </PanelSection>
       )}
 
-      <PanelSection title={section === undefined ? "Node Parameters" : "Parameters"}>
+      <PanelSection title={section === undefined ? uiText("Node Parameters") : uiText("Parameters")}>
         {!isCustomTemplate && (section === undefined || section === "group") && (
           <NodeNameField data={data} onChange={onChange} />
         )}
@@ -566,14 +565,12 @@ const NodeFieldsComponent: React.FC<TabProps> = ({
             sx={{
               color: "text.secondary"
             }}
-          >
-            Loading schema...
-          </Typography>
+          >{uiText("Loading schema...")}</Typography>
         )}
       </PanelSection>
 
       {section === undefined && (
-        <PanelSection title="Icon">
+        <PanelSection title={uiText("Icon")}>
           <IconField data={data} onChange={onChange} />
         </PanelSection>
       )}
@@ -611,7 +608,7 @@ export const BasicTab: React.FC<TabProps> = ({
       )}
 
       {!isBoxed && !isCustomTemplate && !isSection && (
-        <PanelSection title="Label & Direction">
+        <PanelSection title={uiText("Label & Direction")}>
           <LabelAndDirectionFields data={data} onChange={onChange} />
         </PanelSection>
       )}

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /**
  * KeyValueList - Dynamic key-value pairs
  */
@@ -34,7 +35,7 @@ export const KeyValueList = <V extends KeyValueScalar = string>({
   onChange,
   keyPlaceholder = "Key",
   valuePlaceholder = "Value",
-  addLabel = "Add",
+  addLabel = uiText("Add"),
   disabled,
   hideAddButton,
   inheritedEntries
@@ -122,8 +123,8 @@ function describeInheritedValue(
   inherited: { source: string; value: KeyValueScalar }
 ): string {
   return value === String(inherited.value)
-    ? `From ${inherited.source}`
-    : `Overrides ${inherited.source}`;
+    ? uiText("From {0}", { "0": (inherited.source) })
+    : uiText("Overrides {0}", { "0": (inherited.source) });
 }
 
 const KeyValueItem: React.FC<KeyValueItemProps> = ({

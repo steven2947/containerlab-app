@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React from "react";
 import { useStore } from "@xyflow/react";
 import Box from "@mui/material/Box";
@@ -145,8 +146,7 @@ export const LinkCreationIndicator: React.FC<{
 }> = ({ linkSourceNode, linkTargetNode }) => {
   const hasTarget = linkTargetNode != null && linkTargetNode.length > 0;
   return (
-    <OverlayIndicator>
-      Creating link from <strong>{linkSourceNode}</strong>
+    <OverlayIndicator>{uiText("Creating link from ")}<strong>{linkSourceNode}</strong>
       {hasTarget ? (
         <>
           {" → "}
@@ -154,7 +154,6 @@ export const LinkCreationIndicator: React.FC<{
         </>
       ) : null}
       {" — "}
-      {hasTarget ? "Click to confirm" : "Click on target node"} or press Escape to cancel
-    </OverlayIndicator>
+      {hasTarget ? uiText("Click to confirm") : uiText("Click on target node")}{uiText(" or press Escape to cancel")}</OverlayIndicator>
   );
 };

@@ -154,6 +154,10 @@
       "types": "./dist/settings/schema.d.ts",
       "import": "./dist/settings/schema.js",
       "default": "./dist/settings/schema.js"
+    },
+    "./i18n": {
+      "types": "./dist/i18n/index.d.ts",
+      "import": "./dist/i18n/index.js"
     }
   },
   "scripts": {

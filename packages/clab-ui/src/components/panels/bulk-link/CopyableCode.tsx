@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Inline code with click-to-copy.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -24,7 +25,7 @@ export const CopyableCode: React.FC<CopyableCodeProps> = ({ children }) => {
     <Box
       component="code"
       onClick={() => void handleCopy()}
-      title="Click to copy"
+      title={uiText("Click to copy")}
       sx={{
         cursor: "pointer",
         userSelect: "text",
@@ -40,7 +41,7 @@ export const CopyableCode: React.FC<CopyableCodeProps> = ({ children }) => {
         ...(copied ? { outline: "1px solid var(--vscode-focusBorder)" } : {})
       }}
     >
-      {copied ? "Copied!" : children}
+      {copied ? uiText("Copied!") : children}
     </Box>
   );
 };

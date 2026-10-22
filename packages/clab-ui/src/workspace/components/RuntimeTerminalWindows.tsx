@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import "../../types/assets";
 import { useWorkspaceHost, useWorkspaceLabs } from "../WorkspaceHost";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -681,13 +682,13 @@ export function RuntimeTerminalPaneView({
     (scope: TerminalExportScope) => {
       const term = xtermRef.current;
       if (!term) {
-        runtimeUiActions.notify("Terminal is not ready yet.", "warning");
+        runtimeUiActions.notify(uiText("Terminal is not ready yet."), "warning");
         return;
       }
       const content = extractTerminalText(term, scope);
       if (content.length === 0) {
         runtimeUiActions.notify(
-          `Terminal ${scope === "screen" ? "screen" : "log"} is empty.`,
+          uiText("Terminal {0} is empty.", { "0": (scope === "screen" ? "screen" : "log") }),
           "warning"
         );
         return;
@@ -699,7 +700,7 @@ export function RuntimeTerminalPaneView({
       });
       downloadTextFile(filename, content);
       runtimeUiActions.notify(
-        scope === "screen" ? "Terminal screen exported." : "Terminal log exported.",
+        scope === "screen" ? uiText("Terminal screen exported.") : uiText("Terminal log exported."),
         "success"
       );
     },
@@ -709,32 +710,32 @@ export function RuntimeTerminalPaneView({
   const handleCopy = useCallback(() => {
     const term = xtermRef.current;
     if (!term) {
-      runtimeUiActions.notify("Terminal is not ready yet.", "warning");
+      runtimeUiActions.notify(uiText("Terminal is not ready yet."), "warning");
       return;
     }
     const content = resolveTerminalCopyText(term);
     if (content.length === 0) {
-      runtimeUiActions.notify("Nothing to copy from terminal.", "warning");
+      runtimeUiActions.notify(uiText("Nothing to copy from terminal."), "warning");
       return;
     }
     if (!navigator.clipboard?.writeText) {
-      runtimeUiActions.notify("Clipboard API is unavailable.", "error");
+      runtimeUiActions.notify(uiText("Clipboard API is unavailable."), "error");
       return;
     }
     void navigator.clipboard
       .writeText(content)
-      .then(() => runtimeUiActions.notify("Terminal text copied.", "success"))
-      .catch(() => runtimeUiActions.notify("Failed to copy terminal text.", "error"));
+      .then(() => runtimeUiActions.notify(uiText("Terminal text copied."), "success"))
+      .catch(() => runtimeUiActions.notify(uiText("Failed to copy terminal text."), "error"));
   }, []);
 
   const handleClear = useCallback(() => {
     const term = xtermRef.current;
     if (!term) {
-      runtimeUiActions.notify("Terminal is not ready yet.", "warning");
+      runtimeUiActions.notify(uiText("Terminal is not ready yet."), "warning");
       return;
     }
     term.clear();
-    runtimeUiActions.notify("Terminal cleared.", "info");
+    runtimeUiActions.notify(uiText("Terminal cleared."), "info");
   }, []);
 
   const handleFontSizeUpdate = useCallback(
@@ -897,9 +898,7 @@ export function RuntimeTerminalPaneView({
       >
         <Stack spacing={1.25} data-testid="runtime-terminal-actions-popover">
           <Box>
-            <Typography variant="overline" sx={{ display: "block", color: "text.secondary" }}>
-              Font
-            </Typography>
+            <Typography variant="overline" sx={{ display: "block", color: "text.secondary" }}>{uiText("Font")}</Typography>
             <Stack
               direction="row"
               sx={{
@@ -922,11 +921,9 @@ export function RuntimeTerminalPaneView({
                 onClick={() => handleFontSizeUpdate(DEFAULT_TERMINAL_FONT_SIZE)}
                 disabled={fontSizePreview === DEFAULT_TERMINAL_FONT_SIZE}
                 data-testid="runtime-terminal-font-reset"
-                aria-label="Reset terminal font size"
+                aria-label={uiText("Reset terminal font size")}
                 sx={{ minWidth: 0 }}
-              >
-                Reset
-              </Button>
+              >{uiText("Reset")}</Button>
             </Stack>
             <Slider
               size="small"
@@ -935,7 +932,7 @@ export function RuntimeTerminalPaneView({
               step={1}
               value={fontSizePreview}
               onChange={handleFontSliderChange}
-              aria-label="Terminal font size"
+              aria-label={uiText("Terminal font size")}
               data-testid="runtime-terminal-font-slider"
               sx={{ mt: 0.5 }}
             />
@@ -957,7 +954,7 @@ export function RuntimeTerminalPaneView({
                   variant={fontSizePreview === preset ? "filled" : "outlined"}
                   color={fontSizePreview === preset ? "primary" : "default"}
                   data-testid={`runtime-terminal-font-preset-${preset}`}
-                  aria-label={`Set terminal font size to ${preset}`}
+                  aria-label={uiText("Set terminal font size to {0}", { "0": (preset) })}
                 />
               ))}
             </Stack>
@@ -968,16 +965,11 @@ export function RuntimeTerminalPaneView({
                 display: "block",
                 mt: 0.75
               }}
-            >
-              Applies to all open/new terminals. Use Alt+Up, Alt+Down, Alt+0 for reliable
-              zoom/reset. Ctrl/Cmd shortcuts are best effort in browsers.
-            </Typography>
+            >{uiText("Applies to all open/new terminals. Use Alt+Up, Alt+Down, Alt+0 for reliable zoom/reset. Ctrl/Cmd shortcuts are best effort in browsers.")}</Typography>
           </Box>
           <Divider />
           <Box>
-            <Typography variant="overline" sx={{ display: "block", color: "text.secondary" }}>
-              Clipboard & Export
-            </Typography>
+            <Typography variant="overline" sx={{ display: "block", color: "text.secondary" }}>{uiText("Clipboard & Export")}</Typography>
             <Stack spacing={0.25} sx={{ mt: 0.5, mx: -0.75 }}>
               <Button
                 fullWidth
@@ -986,11 +978,9 @@ export function RuntimeTerminalPaneView({
                 startIcon={<CopyIcon fontSize="small" />}
                 onClick={handleCopy}
                 data-testid="runtime-terminal-copy"
-                aria-label="Copy terminal text"
+                aria-label={uiText("Copy terminal text")}
                 sx={TERMINAL_ACTION_SX}
-              >
-                Copy Selection / Screen
-              </Button>
+              >{uiText("Copy Selection / Screen")}</Button>
               <Button
                 fullWidth
                 size="small"
@@ -998,11 +988,9 @@ export function RuntimeTerminalPaneView({
                 startIcon={<DownloadIcon fontSize="small" />}
                 onClick={() => handleExport("screen")}
                 data-testid="runtime-terminal-export-screen"
-                aria-label="Export visible terminal screen"
+                aria-label={uiText("Export visible terminal screen")}
                 sx={TERMINAL_ACTION_SX}
-              >
-                Export Visible Screen
-              </Button>
+              >{uiText("Export Visible Screen")}</Button>
               <Button
                 fullWidth
                 size="small"
@@ -1010,11 +998,9 @@ export function RuntimeTerminalPaneView({
                 startIcon={<ExportLogIcon fontSize="small" />}
                 onClick={() => handleExport("log")}
                 data-testid="runtime-terminal-export-log"
-                aria-label="Export full terminal log"
+                aria-label={uiText("Export full terminal log")}
                 sx={TERMINAL_ACTION_SX}
-              >
-                Export Full Log
-              </Button>
+              >{uiText("Export Full Log")}</Button>
               <Button
                 fullWidth
                 size="small"
@@ -1023,11 +1009,9 @@ export function RuntimeTerminalPaneView({
                 startIcon={<ClearIcon fontSize="small" />}
                 onClick={handleClear}
                 data-testid="runtime-terminal-clear"
-                aria-label="Clear terminal buffer"
+                aria-label={uiText("Clear terminal buffer")}
                 sx={TERMINAL_ACTION_SX}
-              >
-                Clear Terminal
-              </Button>
+              >{uiText("Clear Terminal")}</Button>
             </Stack>
           </Box>
         </Stack>
@@ -1264,16 +1248,14 @@ function TerminalShell({
         >
           <Stack direction="row" spacing={1} sx={{ flex: 1, minWidth: 0, alignItems: "center" }}>
             <TerminalIcon sx={{ fontSize: 16, color: "var(--vscode-icon-foreground)" }} />
-            <Typography variant="subtitle2" noWrap sx={{ flexShrink: 0 }}>
-              Terminal
-            </Typography>
+            <Typography variant="subtitle2" noWrap sx={{ flexShrink: 0 }}>{uiText("Terminal")}</Typography>
             {activePane ? (
               <Typography variant="body2" noWrap sx={{ color: "text.secondary", minWidth: 0 }}>
                 {activePane.title}
               </Typography>
             ) : null}
           </Stack>
-          <Tooltip title="Terminal Actions">
+          <Tooltip title={uiText("Terminal Actions")}>
             <span>
               <Button
                 size="small"
@@ -1283,14 +1265,12 @@ function TerminalShell({
                 onMouseDown={consumeToolbarMouseEvent}
                 onClick={handleOpenActions}
                 data-testid="runtime-terminal-actions-button"
-                aria-label="Open terminal actions"
+                aria-label={uiText("Open terminal actions")}
                 sx={{ color: "text.secondary", "&:hover": { color: "text.primary" } }}
-              >
-                Actions
-              </Button>
+              >{uiText("Actions")}</Button>
             </span>
           </Tooltip>
-          <Tooltip title="Open Active Terminal in New Window">
+          <Tooltip title={uiText("Open Active Terminal in New Window")}>
             <span>
               <IconButton
                 size="small"
@@ -1298,7 +1278,7 @@ function TerminalShell({
                 onMouseDown={consumeToolbarMouseEvent}
                 onClick={() => activePane && openDetachedTerminalWindow(activePane)}
                 data-testid="runtime-terminal-detach"
-                aria-label="Open active terminal in new window"
+                aria-label={uiText("Open active terminal in new window")}
               >
                 <OpenInNewIcon fontSize="inherit" />
               </IconButton>
@@ -1308,7 +1288,7 @@ function TerminalShell({
             size="small"
             onMouseDown={consumeToolbarMouseEvent}
             onClick={handleToggleMinimized}
-            aria-label={shell.minimized ? "Restore terminal shell" : "Minimize terminal shell"}
+            aria-label={shell.minimized ? uiText("Restore terminal shell") : uiText("Minimize terminal shell")}
             data-testid="runtime-terminal-minimize-shell"
           >
             {shell.minimized ? (
@@ -1317,12 +1297,12 @@ function TerminalShell({
               <MinimizeIcon fontSize="inherit" />
             )}
           </IconButton>
-          <Tooltip title="Close Terminal Window">
+          <Tooltip title={uiText("Close Terminal Window")}>
             <IconButton
               size="small"
               onMouseDown={consumeToolbarMouseEvent}
               onClick={handleCloseShell}
-              aria-label="Close terminal window"
+              aria-label={uiText("Close terminal window")}
               data-testid="runtime-terminal-close-shell"
             >
               <CloseIcon fontSize="inherit" />
@@ -1375,7 +1355,7 @@ function TerminalShell({
         </Box>
         <Box
           role="tablist"
-          aria-label="Open terminal tabs"
+          aria-label={uiText("Open terminal tabs")}
           data-testid="runtime-terminal-tabs"
           onMouseDown={consumeToolbarMouseEvent}
           sx={{
@@ -1399,9 +1379,7 @@ function TerminalShell({
               pt: 1,
               pb: 0.5
             }}
-          >
-            Terminals
-          </Typography>
+          >{uiText("Terminals")}</Typography>
           <Stack spacing={0.25} sx={{ minHeight: 0 }}>
             {terminals.map((group) => {
               const selected = group.id === activeGroup?.id;
@@ -1439,7 +1417,7 @@ function TerminalShell({
                       {group.title}
                       {group.panes.length > 1 ? ` (${group.panes.length})` : ""}
                     </Typography>
-                    <Tooltip title="Split Terminal">
+                    <Tooltip title={uiText("Split Terminal")}>
                       <IconButton
                         size="small"
                         onMouseDown={consumeToolbarMouseEvent}
@@ -1451,7 +1429,7 @@ function TerminalShell({
                             runtimeUiActions.splitTerminal(pane.id);
                           }
                         }}
-                        aria-label={`Split ${group.title}`}
+                        aria-label={uiText("Split {0}", { "0": (group.title) })}
                         data-testid="runtime-terminal-tab-split"
                         className="terminal-tab-action"
                         sx={{ height: 22, width: 22 }}
@@ -1459,7 +1437,7 @@ function TerminalShell({
                         <SplitIcon sx={{ fontSize: 15 }} />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Kill Terminal">
+                    <Tooltip title={uiText("Kill Terminal")}>
                       <IconButton
                         size="small"
                         onMouseDown={consumeToolbarMouseEvent}
@@ -1467,7 +1445,7 @@ function TerminalShell({
                           event.stopPropagation();
                           runtimeUiActions.closeTerminal(group.id);
                         }}
-                        aria-label={`Kill ${group.title}`}
+                        aria-label={uiText("Kill {0}", { "0": (group.title) })}
                         data-testid="runtime-terminal-tab-kill"
                         className="terminal-tab-action"
                         sx={{ height: 22, width: 22, "&:hover": { color: "error.main" } }}
@@ -1526,7 +1504,7 @@ function TerminalShell({
                             >
                               {paneLabel}
                             </Typography>
-                            <Tooltip title="Close Split">
+                            <Tooltip title={uiText("Close Split")}>
                               <IconButton
                                 size="small"
                                 onMouseDown={consumeToolbarMouseEvent}
@@ -1534,7 +1512,7 @@ function TerminalShell({
                                   event.stopPropagation();
                                   runtimeUiActions.closeTerminal(pane.id);
                                 }}
-                                aria-label={`Close ${paneLabel}`}
+                                aria-label={uiText("Close {0}", { "0": (paneLabel) })}
                                 data-testid="runtime-terminal-split-pane-kill"
                                 className="terminal-tab-action"
                                 sx={{ height: 20, width: 20, "&:hover": { color: "error.main" } }}

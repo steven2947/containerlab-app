@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Helper texts that show which values a node inherits and from where.
 import { deepEqual } from "../../../core/io/YamlDocumentIO";
 import {
@@ -25,10 +26,10 @@ export function inheritedFieldHint(
   if (!inheritance || !source) return undefined;
   const label = describeInheritanceSource(source);
   const current: unknown = Reflect.get(data, field);
-  if (isEmpty(current)) return `Falls back to ${label}`;
+  if (isEmpty(current)) return uiText("Falls back to {0}", { "0": (label) });
   return deepEqual(current, Reflect.get(inheritance.values, field))
-    ? `From ${label}`
-    : `Overrides ${label}`;
+    ? uiText("From {0}", { "0": (label) })
+    : uiText("Overrides {0}", { "0": (label) });
 }
 
 /** Inherited entries of a key/value field, for KeyValueList */
@@ -69,8 +70,8 @@ export function inheritedKindConfigHint(
   if (!inheritance || !source) return undefined;
   const label = describeInheritanceSource(source);
   const current = data.kindConfig?.[key];
-  if (isEmpty(current)) return `Falls back to ${label}`;
+  if (isEmpty(current)) return uiText("Falls back to {0}", { "0": (label) });
   return deepEqual(current, inheritance.values.kindConfig?.[key])
-    ? `From ${label}`
-    : `Overrides ${label}`;
+    ? uiText("From {0}", { "0": (label) })
+    : uiText("Overrides {0}", { "0": (label) });
 }

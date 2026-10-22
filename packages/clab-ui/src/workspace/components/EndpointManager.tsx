@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { useWorkspaceHost } from "../WorkspaceHost";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -85,7 +86,7 @@ type EndpointHealthState =
 
 function formatEndpointImportResult(result: EndpointImportResult): string {
   if (result.total === 0) {
-    return "No endpoint profiles were found in the import file.";
+    return uiText("No endpoint profiles were found in the import file.");
   }
 
   const parts = [
@@ -97,16 +98,14 @@ function formatEndpointImportResult(result: EndpointImportResult): string {
       : null
   ].filter((value): value is string => value !== null);
 
-  return `Imported ${result.total} endpoint ${result.total === 1 ? "profile" : "profiles"}${
-    parts.length > 0 ? `: ${parts.join(", ")}` : ""
-  }.`;
+  return uiText("Imported {0} endpoint {1}{2}.", { "0": (result.total), "1": (result.total === 1 ? "profile" : "profiles"), "2": (parts.length > 0 ? `: ${parts.join(", ")}` : "") });
 }
 
 function addEndpointButtonLabel(busyKey: string | null, mode: "initial" | "manage"): string {
   if (busyKey === "add") {
-    return "Adding...";
+    return uiText("Adding...");
   }
-  return mode === "initial" ? "Add Endpoint" : "Add";
+  return mode === "initial" ? uiText("Add Endpoint") : uiText("Add");
 }
 
 function endpointActionButtonLabel(
@@ -120,7 +119,7 @@ function endpointActionButtonLabel(
     remove: "Remove"
   };
   if (!endpoint) {
-    return defaultLabels[action];
+    return uiText(defaultLabels[action]);
   }
 
   const busyLabels = {
@@ -128,14 +127,14 @@ function endpointActionButtonLabel(
     reconnect: "Reconnecting...",
     remove: "Removing..."
   };
-  return busyKey === `${action}:${endpoint.id}` ? busyLabels[action] : defaultLabels[action];
+  return uiText(busyKey === `${action}:${endpoint.id}` ? busyLabels[action] : defaultLabels[action]);
 }
 
 function endpointAddDescription(mode: "initial" | "manage"): string {
   if (mode === "initial") {
-    return "Authenticate against a clab-api-server to start or restore the standalone session.";
+    return uiText("Authenticate against a clab-api-server to start or restore the standalone session.");
   }
-  return "Add another clab-api-server and it will appear as its own explorer root.";
+  return uiText("Add another clab-api-server and it will appear as its own explorer root.");
 }
 
 function showManagedEndpoints(mode: "initial" | "manage", endpointCount: number): boolean {
@@ -201,17 +200,17 @@ function EndpointHealthReady(props: { metrics: EndpointHealthMetrics }) {
         icon={<SpeedOutlinedIcon sx={{ fontSize: 16 }} />}
         label="CPU"
         value={formatEndpointHealthPercent(cpu?.usagePercent)}
-        detail={cpu?.numCPU ? `${cpu.numCPU} cores` : "cores n/a"}
+        detail={cpu?.numCPU ? uiText("{0} cores", { "0": (cpu.numCPU) }) : uiText("cores n/a")}
       />
       <EndpointHealthMetric
         icon={<MemoryOutlinedIcon sx={{ fontSize: 16 }} />}
-        label="Memory"
+        label={uiText("Memory")}
         value={formatEndpointHealthPercent(mem?.usagePercent)}
         detail={formatEndpointHealthUsedTotal(mem?.usedMem, mem?.totalMem)}
       />
       <EndpointHealthMetric
         icon={<StorageOutlinedIcon sx={{ fontSize: 16 }} />}
-        label="Disk"
+        label={uiText("Disk")}
         value={formatEndpointHealthPercent(disk?.usagePercent)}
         detail={diskDetail}
       />
@@ -230,9 +229,7 @@ function EndpointHealthStats(props: { endpoint: EndpointConfig; state?: Endpoint
           color: "text.secondary",
           display: "block"
         }}
-      >
-        Reconnect to view health stats.
-      </Typography>
+      >{uiText("Reconnect to view health stats.")}</Typography>
     );
   }
 
@@ -251,9 +248,7 @@ function EndpointHealthStats(props: { endpoint: EndpointConfig; state?: Endpoint
           sx={{
             color: "text.secondary"
           }}
-        >
-          Loading health stats...
-        </Typography>
+        >{uiText("Loading health stats...")}</Typography>
       </Stack>
     );
   }
@@ -266,9 +261,7 @@ function EndpointHealthStats(props: { endpoint: EndpointConfig; state?: Endpoint
           color: "warning.main",
           display: "block"
         }}
-      >
-        Health stats unavailable.
-      </Typography>
+      >{uiText("Health stats unavailable.")}</Typography>
     );
   }
 
@@ -407,7 +400,7 @@ function ManagedEndpointList(props: {
                   <IconButton
                     size="small"
                     onClick={() => props.onEdit(endpoint)}
-                    aria-label={`Edit ${endpoint.label}`}
+                    aria-label={uiText("Edit {0}", { "0": (endpoint.label) })}
                     disabled={props.busyKey !== null}
                   >
                     <EditOutlinedIcon sx={{ fontSize: 18 }} />
@@ -415,7 +408,7 @@ function ManagedEndpointList(props: {
                   <IconButton
                     size="small"
                     onClick={() => props.onReconnect(endpoint)}
-                    aria-label={`Reconnect ${endpoint.label}`}
+                    aria-label={uiText("Reconnect {0}", { "0": (endpoint.label) })}
                     disabled={props.busyKey !== null}
                   >
                     <RefreshIcon sx={{ fontSize: 18 }} />
@@ -423,7 +416,7 @@ function ManagedEndpointList(props: {
                   <IconButton
                     size="small"
                     onClick={() => props.onRemove(endpoint)}
-                    aria-label={`Remove ${endpoint.label}`}
+                    aria-label={uiText("Remove {0}", { "0": (endpoint.label) })}
                     disabled={props.busyKey !== null}
                     sx={{ "&:hover": { color: "error.main" } }}
                   >
@@ -445,15 +438,15 @@ function ManagedEndpointList(props: {
                 }}
               >
                 <TextField
-                  label="Keep signed in"
+                  label={uiText("Keep signed in")}
                   size="small"
                   value={durationDraft}
                   onChange={(event) => props.onDraftChange(endpoint.id, event.target.value)}
                   error={Boolean(durationDraft.trim()) && !durationValid}
                   helperText={
                     durationValid
-                      ? "Examples: 24h, 36h, 7d, 1h30m"
-                      : "Use values like 24h, 36h, 7d, or 1h30m"
+                      ? uiText("Examples: 24h, 36h, 7d, 1h30m")
+                      : uiText("Use values like 24h, 36h, 7d, or 1h30m")
                   }
                   placeholder="24h"
                   disabled={props.busyKey !== null}
@@ -470,9 +463,7 @@ function ManagedEndpointList(props: {
                     mt: { sm: 0.5 },
                     alignSelf: { xs: "stretch", sm: "flex-start" }
                   }}
-                >
-                  Save
-                </Button>
+                >{uiText("Save")}</Button>
               </Stack>
             </Stack>
           </Paper>
@@ -549,7 +540,7 @@ function useEndpointHealthState(
               message:
                 loadError instanceof Error
                   ? loadError.message
-                  : "Failed to load endpoint health stats"
+                  : uiText("Failed to load endpoint health stats")
             }
           }));
         });
@@ -983,7 +974,7 @@ export function EndpointManager({
     try {
       downloadJsonFile(ENDPOINT_EXPORT_FILENAME, onExportEndpoints());
       setNotice(
-        `Exported ${sortedEndpoints.length} endpoint ${sortedEndpoints.length === 1 ? "profile" : "profiles"}.`
+        uiText("Exported {0} endpoint {1}.", { "0": (sortedEndpoints.length), "1": (sortedEndpoints.length === 1 ? "profile" : "profiles") })
       );
     } catch (exportError) {
       setError(exportError instanceof Error ? exportError.message : String(exportError));
@@ -1032,7 +1023,7 @@ export function EndpointManager({
           disabled={busyKey !== null}
           data-testid="standalone-endpoints-import"
         >
-          {busyKey === "import" ? "Importing..." : "Import"}
+          {busyKey === "import" ? uiText("Importing...") : uiText("Import")}
         </Button>
       ) : null}
       {onExportEndpoints ? (
@@ -1043,9 +1034,7 @@ export function EndpointManager({
           onClick={handleExportEndpoints}
           disabled={busyKey !== null || sortedEndpoints.length === 0}
           data-testid="standalone-endpoints-export"
-        >
-          Export
-        </Button>
+        >{uiText("Export")}</Button>
       ) : null}
     </Stack>
   ) : null;
@@ -1087,9 +1076,7 @@ export function EndpointManager({
             <Typography
               variant="subtitle1"
               sx={mode === "initial" ? { fontSize: 18, letterSpacing: "-0.01em" } : undefined}
-            >
-              Add Endpoint
-            </Typography>
+            >{uiText("Add Endpoint")}</Typography>
             <Typography
               variant="body2"
               sx={{
@@ -1114,7 +1101,7 @@ export function EndpointManager({
 
           <Stack spacing={2}>
             <TextField
-              label="API Endpoint"
+              label={uiText("API Endpoint")}
               value={addForm.url}
               onChange={(event) => addForm.setUrl(event.target.value)}
               onKeyDown={(event) => {
@@ -1129,7 +1116,7 @@ export function EndpointManager({
               slotProps={{ inputLabel: { shrink: true } }}
             />
             <TextField
-              label="Label"
+              label={uiText("Label")}
               value={addForm.label}
               onChange={(event) => addForm.setLabel(event.target.value)}
               onKeyDown={(event) => {
@@ -1140,11 +1127,11 @@ export function EndpointManager({
                 void addForm.submit();
               }}
               fullWidth
-              placeholder="Optional friendly name"
+              placeholder={uiText("Optional friendly name")}
               slotProps={{ inputLabel: { shrink: true } }}
             />
             <TextField
-              label="Username"
+              label={uiText("Username")}
               value={addForm.username}
               onChange={(event) => addForm.setUsername(event.target.value)}
               onKeyDown={(event) => {
@@ -1158,7 +1145,7 @@ export function EndpointManager({
               slotProps={{ inputLabel: { shrink: true } }}
             />
             <TextField
-              label="Password"
+              label={uiText("Password")}
               type="password"
               value={addForm.password}
               onChange={(event) => addForm.setPassword(event.target.value)}
@@ -1173,7 +1160,7 @@ export function EndpointManager({
               slotProps={{ inputLabel: { shrink: true } }}
             />
             <TextField
-              label="Keep me signed in"
+              label={uiText("Keep me signed in")}
               value={addForm.sessionDuration}
               onChange={(event) => addForm.setSessionDuration(event.target.value)}
               onKeyDown={(event) => {
@@ -1188,8 +1175,8 @@ export function EndpointManager({
               error={Boolean(addForm.sessionDuration.trim()) && !addForm.sessionDurationValid}
               helperText={
                 addForm.sessionDurationValid
-                  ? "Examples: 24h, 36h, 7d, 1h30m"
-                  : "Use values like 24h, 36h, 7d, or 1h30m"
+                  ? uiText("Examples: 24h, 36h, 7d, 1h30m")
+                  : uiText("Use values like 24h, 36h, 7d, or 1h30m")
               }
               slotProps={{
                 inputLabel: { shrink: true }
@@ -1216,9 +1203,7 @@ export function EndpointManager({
           spacing={1}
           sx={{ alignItems: "center", pt: 1.5, borderTop: 1, borderColor: "divider" }}
         >
-          <Typography variant="body2" sx={{ flex: 1, color: "text.secondary" }}>
-            Endpoint profiles
-          </Typography>
+          <Typography variant="body2" sx={{ flex: 1, color: "text.secondary" }}>{uiText("Endpoint profiles")}</Typography>
           {transferActions}
         </Stack>
       ) : null}
@@ -1229,11 +1214,11 @@ export function EndpointManager({
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>Edit Endpoint</DialogTitle>
+        <DialogTitle>{uiText("Edit Endpoint")}</DialogTitle>
         <DialogContent dividers>
           <Stack spacing={2}>
             <TextField
-              label="Label"
+              label={uiText("Label")}
               value={editDialog.label}
               onChange={(event) => editDialog.setLabel(event.target.value)}
               onKeyDown={(event) => {
@@ -1246,7 +1231,7 @@ export function EndpointManager({
               fullWidth
             />
             <TextField
-              label="API Endpoint"
+              label={uiText("API Endpoint")}
               value={editDialog.url}
               onChange={(event) => editDialog.setUrl(event.target.value)}
               onKeyDown={(event) => {
@@ -1259,7 +1244,7 @@ export function EndpointManager({
               fullWidth
             />
             <TextField
-              label="Username"
+              label={uiText("Username")}
               value={editDialog.username}
               onChange={(event) => editDialog.setUsername(event.target.value)}
               onKeyDown={(event) => {
@@ -1272,7 +1257,7 @@ export function EndpointManager({
               fullWidth
             />
             <TextField
-              label="Keep signed in"
+              label={uiText("Keep signed in")}
               value={editDialog.sessionDuration}
               onChange={(event) => editDialog.setSessionDuration(event.target.value)}
               onKeyDown={(event) => {
@@ -1287,14 +1272,14 @@ export function EndpointManager({
               error={Boolean(editDialog.sessionDuration.trim()) && !editDialog.sessionDurationValid}
               helperText={
                 editDialog.sessionDurationValid
-                  ? "Examples: 24h, 36h, 7d, 1h30m"
-                  : "Use values like 24h, 36h, 7d, or 1h30m"
+                  ? uiText("Examples: 24h, 36h, 7d, 1h30m")
+                  : uiText("Use values like 24h, 36h, 7d, or 1h30m")
               }
             />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button variant="text" onClick={() => editDialog.setEndpointId(null)}>Cancel</Button>
+          <Button variant="text" onClick={() => editDialog.setEndpointId(null)}>{uiText("Cancel")}</Button>
           <Button
             onClick={() => {
               void editDialog.submit();
@@ -1313,7 +1298,7 @@ export function EndpointManager({
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>Reconnect Endpoint</DialogTitle>
+        <DialogTitle>{uiText("Reconnect Endpoint")}</DialogTitle>
         <DialogContent dividers>
           <Stack spacing={2}>
             {reconnectDialog.endpoint ? (
@@ -1324,7 +1309,7 @@ export function EndpointManager({
                     color: "text.secondary"
                   }}
                 >
-                  {`Reconnect "${reconnectDialog.endpoint.label}" to restore access for this endpoint.`}
+                  {uiText("Reconnect \"{0}\" to restore access for this endpoint.", { "0": (reconnectDialog.endpoint.label) })}
                 </Typography>
                 <Alert
                   severity={endpointStatusSeverity(reconnectDialog.endpoint.status)}
@@ -1337,14 +1322,13 @@ export function EndpointManager({
                   sx={{
                     color: "text.secondary"
                   }}
-                >
-                  Keep signed in:{" "}
+                >{uiText("Keep signed in:")}{" "}
                   {endpointSessionDurationLabel(reconnectDialog.endpoint.sessionDuration)}
                 </Typography>
               </>
             ) : null}
             <TextField
-              label="Username"
+              label={uiText("Username")}
               value={reconnectDialog.username}
               onChange={(event) => reconnectDialog.setUsername(event.target.value)}
               onKeyDown={(event) => {
@@ -1357,7 +1341,7 @@ export function EndpointManager({
               fullWidth
             />
             <TextField
-              label="Password"
+              label={uiText("Password")}
               type="password"
               value={reconnectDialog.password}
               onChange={(event) => reconnectDialog.setPassword(event.target.value)}
@@ -1373,7 +1357,7 @@ export function EndpointManager({
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button variant="text" onClick={() => reconnectDialog.setEndpointId(null)}>Cancel</Button>
+          <Button variant="text" onClick={() => reconnectDialog.setEndpointId(null)}>{uiText("Cancel")}</Button>
           <Button
             onClick={() => {
               void reconnectDialog.submit();
@@ -1392,19 +1376,17 @@ export function EndpointManager({
         fullWidth
         maxWidth="xs"
       >
-        <DialogTitle>Remove Endpoint</DialogTitle>
+        <DialogTitle>{uiText("Remove Endpoint")}</DialogTitle>
         <DialogContent dividers>
           <Stack spacing={2}>
             <Typography variant="body2">
-              {`Remove "${removeDialog.endpoint?.label ?? "endpoint"}" from this standalone session?`}
+              {uiText("Remove \"{0}\" from this standalone session?", { "0": (removeDialog.endpoint?.label ?? "endpoint") })}
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Labs, topology sessions, and event streams for this endpoint will be closed.
-            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Labs, topology sessions, and event streams for this endpoint will be closed.")}</Typography>
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button variant="text" onClick={() => removeDialog.setEndpointId(null)}>Cancel</Button>
+          <Button variant="text" onClick={() => removeDialog.setEndpointId(null)}>{uiText("Cancel")}</Button>
           <Button
             onClick={() => {
               void removeDialog.submit();

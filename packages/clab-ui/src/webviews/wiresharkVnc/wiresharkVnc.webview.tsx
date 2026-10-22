@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -163,7 +164,7 @@ export function WiresharkVncApp(): React.JSX.Element {
               }}
             >
               <CircularProgress size={20} sx={{ mb: 1 }} />
-              <Typography variant="subtitle1">Loading Wireshark…</Typography>
+              <Typography variant="subtitle1">{uiText("Loading Wireshark…")}</Typography>
               {retryInfo ? (
                 <Typography
                   variant="body2"
@@ -188,13 +189,10 @@ export function WiresharkVncApp(): React.JSX.Element {
                   }}
                 >
                   <LightbulbOutlinedIcon />
-                  <span>
-                    Save pcap files to{" "}
+                  <span>{uiText("Save pcap files to")}{" "}
                     <Box component="code" sx={{ fontFamily: MONO_FONT_FAMILY, fontSize: 12 }}>
                       /pcaps
-                    </Box>{" "}
-                    to persist them in the lab directory.
-                  </span>
+                    </Box>{" "}{uiText("to persist them in the lab directory.")}</span>
                 </Typography>
               ) : null}
             </Stack>

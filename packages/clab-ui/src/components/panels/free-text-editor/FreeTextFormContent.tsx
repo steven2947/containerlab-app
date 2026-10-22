@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Text annotation editor form.
 import React from "react";
@@ -89,21 +90,21 @@ const Toolbar: React.FC<{
       <IconBtn
         active={isBold}
         onClick={() => updateField("fontWeight", isBold ? "normal" : "bold")}
-        title="Bold"
+        title={uiText("Bold")}
       >
         <FormatBoldIcon fontSize="small" />
       </IconBtn>
       <IconBtn
         active={isItalic}
         onClick={() => updateField("fontStyle", isItalic ? "normal" : "italic")}
-        title="Italic"
+        title={uiText("Italic")}
       >
         <FormatItalicIcon fontSize="small" />
       </IconBtn>
       <IconBtn
         active={isUnderline}
         onClick={() => updateField("textDecoration", isUnderline ? "none" : "underline")}
-        title="Underline"
+        title={uiText("Underline")}
       >
         <FormatUnderlinedIcon fontSize="small" />
       </IconBtn>
@@ -111,21 +112,21 @@ const Toolbar: React.FC<{
       <IconBtn
         active={align === "left"}
         onClick={() => updateField("textAlign", "left")}
-        title="Align Left"
+        title={uiText("Align Left")}
       >
         <FormatAlignLeftIcon fontSize="small" />
       </IconBtn>
       <IconBtn
         active={align === "center"}
         onClick={() => updateField("textAlign", "center")}
-        title="Align Center"
+        title={uiText("Align Center")}
       >
         <FormatAlignCenterIcon fontSize="small" />
       </IconBtn>
       <IconBtn
         active={align === "right"}
         onClick={() => updateField("textAlign", "right")}
-        title="Align Right"
+        title={uiText("Align Right")}
       >
         <FormatAlignRightIcon fontSize="small" />
       </IconBtn>
@@ -141,7 +142,7 @@ const FontControls: React.FC<{
   <Box sx={{ display: "flex", gap: 1.5 }}>
     <TextField
       select
-      label="Font Family"
+      label={uiText("Font Family")}
       size="small"
       value={formData.fontFamily ?? "monospace"}
       onChange={(e) => updateField("fontFamily", e.target.value)}
@@ -152,7 +153,7 @@ const FontControls: React.FC<{
     <Box sx={{ flex: 3 }}>
       <InputField
         id="text-font-size"
-        label="Font Size"
+        label={uiText("Font Size")}
         type="number"
         value={String(formData.fontSize ?? 14)}
         onChange={(v) => updateField("fontSize", parseInt(v) || 14)}
@@ -175,14 +176,14 @@ const StyleOptions: React.FC<{
       <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
         <Box sx={{ flex: 1 }}>
           <ColorField
-            label="Text"
+            label={uiText("Text")}
             value={formData.fontColor ?? "#FFFFFF"}
             onChange={(v) => updateField("fontColor", v)}
           />
         </Box>
         <Box sx={{ flex: 1 }}>
           <ColorField
-            label="Fill"
+            label={uiText("Fill")}
             value={isNoFill ? DEFAULT_FILL_COLOR : (formData.backgroundColor ?? DEFAULT_FILL_COLOR)}
             onChange={(v) => updateField("backgroundColor", v)}
             disabled={isNoFill}
@@ -197,7 +198,7 @@ const StyleOptions: React.FC<{
                 }
               />
             }
-            label="No fill"
+            label={uiText("No fill")}
             sx={{ mt: 0.5 }}
           />
         </Box>
@@ -209,7 +210,7 @@ const StyleOptions: React.FC<{
 // Main component
 export const FreeTextFormContent: React.FC<Props> = ({ formData, updateField }) => (
   <Box sx={{ display: "flex", flexDirection: "column" }}>
-    <PanelSection title="Text">
+    <PanelSection title={uiText("Text")}>
       <Toolbar formData={formData} updateField={updateField} />
       <TextField
         multiline
@@ -217,7 +218,7 @@ export const FreeTextFormContent: React.FC<Props> = ({ formData, updateField }) 
         fullWidth
         value={formData.text}
         onChange={(e) => updateField("text", e.target.value)}
-        placeholder="Enter your text... (Markdown and fenced code blocks supported)"
+        placeholder={uiText("Enter your text... (Markdown and fenced code blocks supported)")}
         sx={{ "& textarea": { resize: "vertical", overflow: "auto" } }}
       />
     </PanelSection>
@@ -231,11 +232,11 @@ export const FreeTextFormContent: React.FC<Props> = ({ formData, updateField }) 
       keepUpright
     />
 
-    <PanelSection title="Font">
+    <PanelSection title={uiText("Font")}>
       <FontControls formData={formData} updateField={updateField} />
     </PanelSection>
 
-    <PanelSection title="Style">
+    <PanelSection title={uiText("Style")}>
       <StyleOptions formData={formData} updateField={updateField} />
     </PanelSection>
   </Box>

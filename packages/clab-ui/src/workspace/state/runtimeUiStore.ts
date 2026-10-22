@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import type { AlertColor } from "@mui/material/Alert";
 import { create } from "zustand";
 
@@ -556,7 +557,7 @@ export const runtimeUiActions = {
   openInspectAll: () =>
     useRuntimeUiStore.getState().openInspect({
       mode: "all",
-      title: "Inspect All Running Labs"
+      title: uiText("Inspect All Running Labs")
     }),
   openInspectLab: (target: RuntimeTargetRequest, title: string) =>
     useRuntimeUiStore.getState().openInspect({

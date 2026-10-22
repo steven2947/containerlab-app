@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /* eslint-disable import-x/max-dependencies */
 import React from "react";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
@@ -38,29 +39,29 @@ interface LifecycleProgressModalProps {
 function getModeLabel(mode: ProcessingMode): string {
   switch (mode) {
     case "destroy":
-      return "Destroying";
+      return uiText("Destroying");
     case "apply":
-      return "Applying";
+      return uiText("Applying");
     case "start":
-      return "Starting";
+      return uiText("Starting");
     case "stop":
-      return "Stopping";
+      return uiText("Stopping");
     case "restart":
-      return "Restarting";
+      return uiText("Restarting");
     case "deploy":
     default:
-      return "Deploying";
+      return uiText("Deploying");
   }
 }
 
 function getStatusLabel(status: LifecycleStatus): string {
   if (status === "success") {
-    return "Completed";
+    return uiText("Completed");
   }
   if (status === "error") {
-    return "Failed";
+    return uiText("Failed");
   }
-  return "In Progress";
+  return uiText("In Progress");
 }
 
 function getStatusColor(status: LifecycleStatus): "primary" | "success" | "error" {
@@ -160,7 +161,7 @@ export const LifecycleProgressModal: React.FC<LifecycleProgressModalProps> = ({
   const modeLabel = getModeLabel(mode);
   const statusLabel = getStatusLabel(status);
   const statusColor = getStatusColor(status);
-  const timerLabel = isProcessing ? "Elapsed" : "Duration";
+  const timerLabel = isProcessing ? uiText("Elapsed") : uiText("Duration");
   const formattedDuration = formatElapsedSeconds(elapsedSeconds);
 
   // Memoized so the 1s elapsed-timer tick does not rebuild every log line.
@@ -205,8 +206,7 @@ export const LifecycleProgressModal: React.FC<LifecycleProgressModalProps> = ({
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Typography variant="h6" sx={{ lineHeight: 1.2 }}>
-              {modeLabel} lab
-            </Typography>
+              {modeLabel}{uiText(" lab")}</Typography>
             <Chip
               size="small"
               icon={renderStatusChipIcon(status, isProcessing)}
@@ -258,9 +258,7 @@ export const LifecycleProgressModal: React.FC<LifecycleProgressModalProps> = ({
             display: "block",
             mb: 1
           }}
-        >
-          Live command output
-        </Typography>
+        >{uiText("Live command output")}</Typography>
         <Box
           ref={logContainerRef}
           sx={{
@@ -280,9 +278,7 @@ export const LifecycleProgressModal: React.FC<LifecycleProgressModalProps> = ({
               sx={{
                 color: "text.secondary"
               }}
-            >
-              Waiting for command output...
-            </Typography>
+            >{uiText("Waiting for command output...")}</Typography>
           )}
           {logItems}
         </Box>
@@ -294,13 +290,9 @@ export const LifecycleProgressModal: React.FC<LifecycleProgressModalProps> = ({
             variant="outlined"
             onClick={onCancel}
             data-testid="lifecycle-cancel-btn"
-          >
-            Cancel
-          </Button>
+          >{uiText("Cancel")}</Button>
         ) : (
-          <Button size="small" variant="contained" onClick={onClose} data-testid="lifecycle-ok-btn">
-            OK
-          </Button>
+          <Button size="small" variant="contained" onClick={onClose} data-testid="lifecycle-ok-btn">{uiText("OK")}</Button>
         )}
       </DialogActions>
     </Dialog>

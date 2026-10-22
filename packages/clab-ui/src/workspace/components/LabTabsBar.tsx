@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useEffect, useRef } from "react";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import CloseIcon from "@mui/icons-material/Close";
@@ -36,7 +37,7 @@ function TabCloseButton({ title, tabId, onClose }: { title: string; tabId: strin
   return (
     <IconButton
       size="small"
-      aria-label={`Close ${title}`}
+      aria-label={uiText("Close {0}", { "0": (title) })}
       data-testid={`lab-tab-close-${tabId}`}
       onClick={(event) => {
         event.stopPropagation();
@@ -109,7 +110,7 @@ export function LabTabsBar({ activeTabId, endpointLabels, onActivate, onClose, o
   });
 
   return (
-    <Box role="tablist" aria-label="Open lab tabs" aria-orientation={orientation} data-testid="lab-tabs" sx={vertical ? {
+    <Box role="tablist" aria-label={uiText("Open lab tabs")} aria-orientation={orientation} data-testid="lab-tabs" sx={vertical ? {
       display: "flex", flexDirection: "column", alignSelf: "stretch", width: "100%", minWidth: 0, gap: 0.75, py: 0.5, overflow: "visible"
     } : {
       display: "flex", alignItems: "center", width: "100%", height: headerBarHeight, flexShrink: 0,

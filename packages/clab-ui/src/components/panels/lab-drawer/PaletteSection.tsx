@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Node and annotation palette for the context panel.
 import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import AccountTreeIcon from "@mui/icons-material/AccountTreeOutlined";
@@ -87,14 +88,14 @@ interface NetworkTypeDefinition {
 }
 
 const NETWORK_TYPE_DEFINITIONS: readonly NetworkTypeDefinition[] = [
-  { type: "host", label: "Host", icon: <DnsIcon fontSize="small" /> },
-  { type: "mgmt-net", label: "Mgmt Net", icon: <LanIcon fontSize="small" /> },
+  { type: "host", label: uiText("Host"), icon: <DnsIcon fontSize="small" /> },
+  { type: "mgmt-net", label: uiText("Mgmt Net"), icon: <LanIcon fontSize="small" /> },
   { type: "macvlan", label: "Macvlan", icon: <CableIcon fontSize="small" /> },
   { type: "vxlan", label: "VXLAN", icon: <DeviceHubIcon fontSize="small" /> },
-  { type: "vxlan-stitch", label: "VXLAN Stitch", icon: <CableIcon fontSize="small" /> },
-  { type: "dummy", label: "Dummy", icon: <PowerIcon fontSize="small" /> },
-  { type: "bridge", label: "Bridge", icon: <AccountTreeIcon fontSize="small" /> },
-  { type: "ovs-bridge", label: "OVS Bridge", icon: <HubIcon fontSize="small" /> }
+  { type: "vxlan-stitch", label: uiText("VXLAN Stitch"), icon: <CableIcon fontSize="small" /> },
+  { type: "dummy", label: uiText("Dummy"), icon: <PowerIcon fontSize="small" /> },
+  { type: "bridge", label: uiText("Bridge"), icon: <AccountTreeIcon fontSize="small" /> },
+  { type: "ovs-bridge", label: uiText("OVS Bridge"), icon: <HubIcon fontSize="small" /> }
 ];
 
 function getTemplateIconUrl(
@@ -198,7 +199,7 @@ const ReadOnlyLabel: React.FC = () => (
     sx={{ display: "flex", alignItems: "center", gap: 0.5, color: TEXT_SECONDARY, flexShrink: 0 }}
   >
     <LockOutlinedIcon sx={{ fontSize: 14 }} />
-    <Typography variant="caption">Read-only</Typography>
+    <Typography variant="caption">{uiText("Read-only")}</Typography>
   </Box>
 );
 
@@ -235,7 +236,7 @@ const SourceEditorTab: React.FC<{
               justifyContent: "center"
             }}
           >
-            <Typography variant="caption">Loading editor...</Typography>
+            <Typography variant="caption">{uiText("Loading editor...")}</Typography>
           </Box>
         }
       >
@@ -268,7 +269,7 @@ const PaletteDraggableCard: React.FC<{
   const block = React.useContext(PaletteBlockContext);
   return (
     <Tooltip
-      title={block?.reason ?? "Drag to canvas"}
+      title={block?.reason ?? uiText("Drag to canvas")}
       placement="top"
       enterDelay={block ? 0 : 500}
       slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [-20, -20] } }] } }}
@@ -416,7 +417,7 @@ const DraggableNode: React.FC<DraggableNodeProps> = ({
         )
       ) : (
         <Box className={CARD_ACTIONS_CLASS} sx={{ display: "flex", gap: 0.25 }}>
-          <Tooltip title="Edit">
+          <Tooltip title={uiText("Edit")}>
             <IconButton
               size="small"
               data-reveal
@@ -428,7 +429,7 @@ const DraggableNode: React.FC<DraggableNodeProps> = ({
               <EditOutlinedIcon sx={ROW_ICON_SX} />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Delete">
+          <Tooltip title={uiText("Delete")}>
             <IconButton
               size="small"
               data-reveal
@@ -441,7 +442,7 @@ const DraggableNode: React.FC<DraggableNodeProps> = ({
               <DeleteOutlinedIcon sx={ROW_ICON_SX} />
             </IconButton>
           </Tooltip>
-          <Tooltip title={isDefaultNode ? "Default node" : "Set as default"}>
+          <Tooltip title={isDefaultNode ? uiText("Default node") : uiText("Set as default")}>
             <IconButton
               size="small"
               data-reveal={isDefaultNode ? undefined : true}
@@ -533,10 +534,10 @@ const DraggableAnnotation: React.FC<DraggableAnnotationProps> = ({
 );
 
 const PALETTE_TABS: TabDefinition[] = [
-  { id: "info", label: "Info" },
-  { id: "edit", label: "Edit" },
-  { id: "nodes", label: "Nodes" },
-  { id: "annotations", label: "Annotations" },
+  { id: "info", label: uiText("Info") },
+  { id: "edit", label: uiText("Edit") },
+  { id: "nodes", label: uiText("Nodes") },
+  { id: "annotations", label: uiText("Annotations") },
   { id: "yaml", label: "YAML" },
   { id: "json", label: "JSON" }
 ];
@@ -751,7 +752,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
   const drawerTitle = useMemo(() => {
     if (activeTab === "info") return infoTabTitle ?? "Properties";
     if (activeTab === "edit") return editTabTitle ?? "Editor";
-    if (activeTab === "nodes" || activeTab === "annotations") return "Palette";
+    if (activeTab === "nodes" || activeTab === "annotations") return uiText("Palette");
     if (activeTab === "yaml") return yamlFileName || "Topology";
     if (activeTab === "json") return annotationsFileName || "Annotations";
     const custom = customPaletteTabs?.find((t) => t.id === activeTab);
@@ -808,7 +809,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
           {drawerTitle}
         </Typography>
         {activeTab === "edit" && onEditDelete && !isLocked && (
-          <IconButton size="small" onClick={onEditDelete} title="Delete" sx={DESTRUCTIVE_HOVER_SX}>
+          <IconButton size="small" onClick={onEditDelete} title={uiText("Delete")} sx={DESTRUCTIVE_HOVER_SX}>
             <DeleteOutlinedIcon fontSize="small" />
           </IconButton>
         )}
@@ -820,7 +821,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
               handleSaveYaml().catch(() => undefined);
             }}
             disabled={!yamlDirty}
-            title="Save"
+            title={uiText("Save")}
           >
             <SaveIcon fontSize="small" />
           </IconButton>
@@ -832,7 +833,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
               handleSaveAnnotations().catch(() => undefined);
             }}
             disabled={!annotationsDirty}
-            title="Save"
+            title={uiText("Save")}
           >
             <SaveIcon fontSize="small" />
           </IconButton>
@@ -864,7 +865,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
                 <TextField
                   fullWidth
                   size="small"
-                  placeholder="Search nodes..."
+                  placeholder={uiText("Search nodes...")}
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                   slotProps={{
@@ -887,11 +888,11 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
               </Box>
 
               <PanelSectionHeader
-                title="Node Templates"
+                title={uiText("Node Templates")}
                 action={
                   !filter && !isLocked ? (
                     <Box sx={{ display: "flex", alignItems: "center", gap: 0.25, mr: -0.5 }}>
-                      <Tooltip title="Import templates">
+                      <Tooltip title={uiText("Import templates")}>
                         <IconButton
                           size="small"
                           onClick={handleImportTemplates}
@@ -900,7 +901,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
                           <FileUploadIcon sx={ROW_ICON_SX} />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Export templates">
+                      <Tooltip title={uiText("Export templates")}>
                         <span>
                           <IconButton
                             size="small"
@@ -918,9 +919,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
                         startIcon={<AddIcon />}
                         onClick={handleAddNewNode}
                         sx={{ minHeight: 24, py: 0 }}
-                      >
-                        Add
-                      </Button>
+                      >{uiText("Add")}</Button>
                     </Box>
                   ) : undefined
                 }
@@ -928,7 +927,7 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
               <Box sx={[PALETTE_LIST_SX, PALETTE_SECTION_BODY_SX]}>
                 {filteredNodes.length === 0 && (
                   <Typography variant="body2" color={TEXT_SECONDARY} sx={{ py: 0.5 }}>
-                    {filter ? "No matching templates" : "No node templates defined"}
+                    {filter ? uiText("No matching templates") : uiText("No node templates defined")}
                   </Typography>
                 )}
                 {filteredNodes.map((template) => (
@@ -944,16 +943,14 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
                 ))}
               </Box>
 
-              <PanelSectionHeader title="Networks" />
+              <PanelSectionHeader title={uiText("Networks")} />
               <Box sx={[PALETTE_GRID_SX, PALETTE_SECTION_BODY_SX]}>
                 {filteredNetworks.length === 0 ? (
                   <Typography
                     variant="body2"
                     color={TEXT_SECONDARY}
                     sx={{ gridColumn: "1 / -1", py: 0.5 }}
-                  >
-                    No matching networks
-                  </Typography>
+                  >{uiText("No matching networks")}</Typography>
                 ) : (
                   filteredNetworks.map((network) => (
                     <DraggableNetwork key={network.type} network={network} />
@@ -965,52 +962,52 @@ export const PaletteSection: React.FC<PaletteSectionProps> = ({
 
           {activeTab === "annotations" && (
             <PaletteBlockContext.Provider value={lockBlock}>
-              <PanelSectionHeader title="Text" />
+              <PanelSectionHeader title={uiText("Text")} />
               <Box sx={[PALETTE_GRID_SX, PALETTE_SECTION_BODY_SX]}>
                 <DraggableAnnotation
-                  label="Text"
+                  label={uiText("Text")}
                   kind="annotation"
                   icon={<TextFieldsIcon fontSize="small" />}
                   payload={{ annotationType: "text" }}
                 />
               </Box>
 
-              <PanelSectionHeader title="Shapes" />
+              <PanelSectionHeader title={uiText("Shapes")} />
               <Box sx={[PALETTE_GRID_SX, PALETTE_SECTION_BODY_SX]}>
                 <DraggableAnnotation
-                  label="Rectangle"
+                  label={uiText("Rectangle")}
                   kind="shape"
                   icon={<CropSquareIcon fontSize="small" />}
                   payload={{ annotationType: "shape", shapeType: "rectangle" }}
                 />
                 <DraggableAnnotation
-                  label="Circle"
+                  label={uiText("Circle")}
                   kind="shape"
                   icon={<CircleOutlinedIcon fontSize="small" />}
                   payload={{ annotationType: "shape", shapeType: "circle" }}
                 />
                 <DraggableAnnotation
-                  label="Line"
+                  label={uiText("Line")}
                   kind="shape"
                   icon={<RemoveIcon fontSize="small" />}
                   payload={{ annotationType: "shape", shapeType: "line" }}
                 />
               </Box>
 
-              <PanelSectionHeader title="Groups" />
+              <PanelSectionHeader title={uiText("Groups")} />
               <Box sx={[PALETTE_GRID_SX, PALETTE_SECTION_BODY_SX]}>
                 <DraggableAnnotation
-                  label="Group"
+                  label={uiText("Group")}
                   kind="annotation"
                   icon={<SelectAllIcon fontSize="small" />}
                   payload={{ annotationType: "group" }}
                 />
               </Box>
 
-              <PanelSectionHeader title="Monitoring" />
+              <PanelSectionHeader title={uiText("Monitoring")} />
               <Box sx={[PALETTE_GRID_SX, PALETTE_SECTION_BODY_SX]}>
                 <DraggableAnnotation
-                  label="Traffic Rate"
+                  label={uiText("Traffic Rate")}
                   kind="monitor"
                   icon={<SpeedIcon fontSize="small" />}
                   payload={{ annotationType: "traffic-rate" }}

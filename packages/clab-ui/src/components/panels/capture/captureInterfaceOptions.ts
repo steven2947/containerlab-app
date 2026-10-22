@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /**
  * Builds the interface list offered by the capture dialog for one node:
  * its live container interfaces merged with the links drawn on the canvas.
@@ -118,7 +119,7 @@ function linkedEndpoints(nodeId: string, nodes: Node[], edges: Edge[]): LinkedEn
       if (side.self !== nodeId) continue;
       const endpoint = nonEmpty(data[`${side.own}Endpoint`]);
       if (endpoint === undefined) continue;
-      const capitalized = side.own === "source" ? "Source" : "Target";
+      const capitalized = side.own === "source" ? uiText("Source") : uiText("Target");
       endpoints.push({
         endpoint,
         containerName: nonEmpty(extraData[`clab${capitalized}LongName`]),

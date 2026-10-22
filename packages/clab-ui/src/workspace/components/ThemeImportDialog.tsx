@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useState } from "react";
 import {
   Alert,
@@ -65,19 +66,13 @@ export function ThemeImportDialog({
       fullWidth
       data-testid="theme-import-dialog"
     >
-      <DialogTitleWithClose title="Import themes" onClose={close} />
+      <DialogTitleWithClose title={uiText("Import themes")} onClose={close} />
       <DialogContent sx={{ display: "grid", gap: 2 }}>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Use a theme exported from this app, or a VS Code color theme. Theme extensions keep those as
-          JSON files in their <code>themes</code> folder. Colors a VS Code theme leaves out are derived
-          from the ones it sets.
-        </Typography>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("Use a theme exported from this app, or a VS Code color theme. Theme extensions keep those as JSON files in their ")}<code>{uiText("themes")}</code>{uiText(" folder. Colors a VS Code theme leaves out are derived from the ones it sets.")}</Typography>
         <Box>
-          <Button variant="outlined" size="small" startIcon={<UploadFileIcon />} onClick={() => void importFile()}>
-            Choose file…
-          </Button>
+          <Button variant="outlined" size="small" startIcon={<UploadFileIcon />} onClick={() => void importFile()}>{uiText("Choose file…")}</Button>
         </Box>
-        <Divider sx={{ typography: "caption", color: "text.secondary" }}>or paste JSON</Divider>
+        <Divider sx={{ typography: "caption", color: "text.secondary" }}>{uiText("or paste JSON")}</Divider>
         <TextField
           multiline
           minRows={8}
@@ -89,7 +84,7 @@ export function ThemeImportDialog({
             setText(event.target.value);
             setError(null);
           }}
-          slotProps={{ htmlInput: { "aria-label": "Theme JSON", spellCheck: false } }}
+          slotProps={{ htmlInput: { "aria-label": uiText("Theme JSON"), spellCheck: false } }}
           sx={{
             "& textarea": { fontFamily: MONO_FONT_FAMILY, fontSize: 12 }
           }}
@@ -97,12 +92,8 @@ export function ThemeImportDialog({
         {error === null ? null : <Alert severity="error">{error}</Alert>}
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={close}>
-          Cancel
-        </Button>
-        <Button disabled={!text.trim()} onClick={() => importText(text)} data-testid="theme-import-submit">
-          Import
-        </Button>
+        <Button variant="text" onClick={close}>{uiText("Cancel")}</Button>
+        <Button disabled={!text.trim()} onClick={() => importText(text)} data-testid="theme-import-submit">{uiText("Import")}</Button>
       </DialogActions>
     </Dialog>
   );

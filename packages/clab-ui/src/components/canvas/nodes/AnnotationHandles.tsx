@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Annotation handles for rotation and line resize.
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import { useReactFlow, useUpdateNodeInternals } from "@xyflow/react";
@@ -223,7 +224,7 @@ export const RotationHandle: React.FC<RotationHandleProps> = ({
       {/* Rotation handle */}
       <button
         type="button"
-        aria-label="Rotate annotation"
+        aria-label={uiText("Rotate annotation")}
         ref={handleRef}
         onMouseDown={handleMouseDown}
         onClick={handleClick}
@@ -246,7 +247,7 @@ export const RotationHandle: React.FC<RotationHandleProps> = ({
           zIndex: 1000,
           pointerEvents: "auto"
         }}
-        title="Drag to rotate (Shift for 15° snap)"
+        title={uiText("Drag to rotate (Shift for 15° snap)")}
       />
     </>
   );
@@ -394,7 +395,7 @@ export const LineResizeHandle: React.FC<LineResizeHandleProps> = ({
   return (
     <button
       type="button"
-      aria-label={mode === "end" ? "Resize line end handle" : "Resize line start handle"}
+      aria-label={mode === "end" ? uiText("Resize line end handle") : uiText("Resize line start handle")}
       onMouseDown={handleMouseDown}
       className="nodrag nopan nowheel"
       style={{
@@ -414,7 +415,7 @@ export const LineResizeHandle: React.FC<LineResizeHandleProps> = ({
         zIndex: 1000,
         pointerEvents: "auto"
       }}
-      title="Drag to resize line"
+      title={uiText("Drag to resize line")}
     />
   );
 };

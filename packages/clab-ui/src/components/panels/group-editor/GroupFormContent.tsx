@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Group editor form.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -35,25 +36,25 @@ export const GroupFormContent: React.FC<Props> = ({ formData, updateField, updat
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Basic Information">
+      <PanelSection title={uiText("Basic Information")}>
         <InputField
           id="group-name"
-          label="Group Name"
+          label={uiText("Group Name")}
           value={formData.name}
           onChange={(v) => updateField("name", v)}
-          placeholder="e.g., rack1"
+          placeholder={uiText("e.g., rack1")}
         />
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <SelectField
             id="group-label-position"
-            label="Label Position"
+            label={uiText("Label Position")}
             value={formData.style.labelPosition ?? "top-center"}
             onChange={(v) => updateField("style", { ...formData.style, labelPosition: v })}
             options={LABEL_POSITION_OPTIONS}
           />
           <InputField
             id="group-level"
-            label="Level"
+            label={uiText("Level")}
             type="number"
             value={formData.level}
             onChange={(v) => updateField("level", v)}
@@ -63,17 +64,17 @@ export const GroupFormContent: React.FC<Props> = ({ formData, updateField, updat
       </PanelSection>
 
       <PanelSection
-        title="Background"
+        title={uiText("Background")}
         bodySx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}
       >
         <ColorField
-          label="Color"
+          label={uiText("Color")}
           value={style.backgroundColor ?? "#d9d9d9"}
           onChange={(v) => updateStyle("backgroundColor", v)}
         />
         <InputField
           id="group-bg-opacity"
-          label="Opacity"
+          label={uiText("Opacity")}
           type="number"
           value={String(style.backgroundOpacity ?? 20)}
           onChange={(v) => updateStyle("backgroundOpacity", v ? Number(v) : 0)}
@@ -83,16 +84,16 @@ export const GroupFormContent: React.FC<Props> = ({ formData, updateField, updat
         />
       </PanelSection>
 
-      <PanelSection title="Border">
+      <PanelSection title={uiText("Border")}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <ColorField
-            label="Color"
+            label={uiText("Color")}
             value={style.borderColor ?? "#dddddd"}
             onChange={(v) => updateStyle("borderColor", v)}
           />
           <InputField
             id="group-border-width"
-            label="Width"
+            label={uiText("Width")}
             type="number"
             value={style.borderWidth != null ? String(style.borderWidth) : ""}
             onChange={(v) => updateStyle("borderWidth", v ? Number(v) : 0)}
@@ -106,7 +107,7 @@ export const GroupFormContent: React.FC<Props> = ({ formData, updateField, updat
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <InputField
             id="group-corner-radius"
-            label="Corner Radius"
+            label={uiText("Corner Radius")}
             type="number"
             value={String(style.borderRadius ?? 0)}
             onChange={(v) => updateStyle("borderRadius", Number(v))}
@@ -116,7 +117,7 @@ export const GroupFormContent: React.FC<Props> = ({ formData, updateField, updat
           />
           <SelectField
             id="group-border-style"
-            label="Style"
+            label={uiText("Style")}
             value={style.borderStyle ?? "solid"}
             onChange={(v) => {
               if (isBorderStyle(v)) {
@@ -124,18 +125,18 @@ export const GroupFormContent: React.FC<Props> = ({ formData, updateField, updat
               }
             }}
             options={[
-              { value: "solid", label: "Solid" },
-              { value: "dashed", label: "Dashed" },
-              { value: "dotted", label: "Dotted" },
-              { value: "double", label: "Double" }
+              { value: "solid", label: uiText("Solid") },
+              { value: "dashed", label: uiText("Dashed") },
+              { value: "dotted", label: uiText("Dotted") },
+              { value: "double", label: uiText("Double") }
             ]}
           />
         </Box>
       </PanelSection>
 
-      <PanelSection title="Label">
+      <PanelSection title={uiText("Label")}>
         <ColorField
-          label="Text Color"
+          label={uiText("Text Color")}
           value={style.labelColor ?? style.color ?? "#ebecf0"}
           onChange={(v) => updateStyle("labelColor", v)}
         />

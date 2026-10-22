@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Runtime tab for node editor.
 import React from "react";
 import Box from "@mui/material/Box";
@@ -16,11 +17,11 @@ import { withCurrentOption } from "./selectOptions";
 import { inheritedFieldHint, inheritedListItems } from "./inheritanceHints";
 
 const RESTART_POLICY_OPTIONS = [
-  { value: "", label: "Default" },
-  { value: "no", label: "No" },
-  { value: "always", label: "Always" },
-  { value: "on-failure", label: "On Failure" },
-  { value: "unless-stopped", label: "Unless Stopped" }
+  { value: "", label: uiText("Default") },
+  { value: "no", label: uiText("No") },
+  { value: "always", label: uiText("Always") },
+  { value: "on-failure", label: uiText("On Failure") },
+  { value: "unless-stopped", label: uiText("Unless Stopped") }
 ];
 
 export const RuntimeTab: React.FC<TabProps> = (props) => {
@@ -31,47 +32,47 @@ export const RuntimeTab: React.FC<TabProps> = (props) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <PanelSection title="Container Settings">
+      <PanelSection title={uiText("Container Settings")}>
         <InputField
           id="node-user"
-          label="User"
+          label={uiText("User")}
           value={data.user ?? ""}
           onChange={(value) => onChange({ user: value })}
-          placeholder="Container user"
+          placeholder={uiText("Container user")}
           helperText={inheritedFieldHint(props, "user")}
         />
         <InputField
           id="node-entrypoint"
-          label="Entrypoint"
+          label={uiText("Entrypoint")}
           value={data.entrypoint ?? ""}
           onChange={(value) => onChange({ entrypoint: value })}
-          placeholder="Container entrypoint"
+          placeholder={uiText("Container entrypoint")}
           helperText={inheritedFieldHint(props, "entrypoint")}
         />
         <InputField
           id="node-cmd"
-          label="Command"
+          label={uiText("Command")}
           value={data.cmd ?? ""}
           onChange={(value) => onChange({ cmd: value })}
-          placeholder="Container command"
+          placeholder={uiText("Container command")}
           helperText={inheritedFieldHint(props, "cmd")}
         />
       </PanelSection>
 
-      <PanelAddSection title="Exec Commands" onAdd={handleAddExec}>
+      <PanelAddSection title={uiText("Exec Commands")} onAdd={handleAddExec}>
         <DynamicList
           items={data.exec ?? []}
           onChange={(items) => onChange({ exec: items })}
-          placeholder="Command to execute"
+          placeholder={uiText("Command to execute")}
           hideAddButton
           inheritedItems={inheritedListItems(props, "exec")}
         />
       </PanelAddSection>
 
-      <PanelSection title="Lifecycle">
+      <PanelSection title={uiText("Lifecycle")}>
         <InputField
           id="node-startup-delay"
-          label="Startup Delay"
+          label={uiText("Startup Delay")}
           type="number"
           value={String(data.startupDelay ?? "")}
           onChange={(value) => onChange({ startupDelay: value ? parseInt(value, 10) : undefined })}
@@ -82,7 +83,7 @@ export const RuntimeTab: React.FC<TabProps> = (props) => {
         />
         <SelectField
           id="node-restart-policy"
-          label="Restart Policy"
+          label={uiText("Restart Policy")}
           value={data.restartPolicy ?? ""}
           onChange={(value) => onChange({ restartPolicy: value })}
           options={withCurrentOption(RESTART_POLICY_OPTIONS, data.restartPolicy ?? "")}
@@ -90,7 +91,7 @@ export const RuntimeTab: React.FC<TabProps> = (props) => {
         />
         <CheckboxField
           id="node-auto-remove"
-          label="Auto-remove container on exit"
+          label={uiText("Auto-remove container on exit")}
           checked={data.autoRemove ?? false}
           onChange={(checked) => onChange({ autoRemove: checked })}
         />

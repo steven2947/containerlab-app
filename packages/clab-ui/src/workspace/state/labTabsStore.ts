@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import type { TopologyRef } from "../../session";
 import { create } from "zustand";
 
@@ -77,7 +78,7 @@ interface LabTabsStoreState {
   setFileTabSaving: (tabId: string, saving: boolean) => void;
 }
 
-const FALLBACK_TAB_TITLE = "Topology";
+const FALLBACK_TAB_TITLE = uiText("Topology");
 
 function toTabTitle(topologyRef: TopologyRef): string {
   const labName = topologyRef.labName.trim();

@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * Editor type definitions - shared between webview and extension
  *
@@ -268,12 +269,12 @@ export const MACVLAN_MODES = ["bridge", "vepa", "private", "passthru", "source"]
  */
 export function getInterfaceLabel(networkType: NetworkType): string {
   if (BRIDGE_TYPES.includes(networkType)) {
-    return "Bridge Name";
+    return uiText("Bridge Name");
   }
   if (HOST_TYPES.includes(networkType)) {
-    return "Host Interface";
+    return uiText("Host Interface");
   }
-  return "Interface";
+  return uiText("Interface");
 }
 
 /**
@@ -281,15 +282,15 @@ export function getInterfaceLabel(networkType: NetworkType): string {
  */
 export function getInterfacePlaceholder(networkType: NetworkType): string {
   if (BRIDGE_TYPES.includes(networkType)) {
-    return "Enter bridge name";
+    return uiText("Enter bridge name");
   }
   if (networkType === "macvlan") {
-    return "Parent interface (e.g., eth0)";
+    return uiText("Parent interface (e.g., eth0)");
   }
   if (HOST_TYPES.includes(networkType)) {
     return "e.g., eth0, eth1";
   }
-  return "Enter interface name";
+  return uiText("Enter interface name");
 }
 
 /**

@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * Canvas handlers for annotation interactions in React Flow
  * Handles pane clicks, node double-clicks, and node drags for annotations
@@ -215,10 +216,10 @@ function useAddModeState(annotationMode?: AnnotationModeState) {
   // Cheap string derivation - memoizing it would cost more than recomputing.
   let addModeMessage: string | null = null;
   if (annotationMode?.isAddTextMode === true) {
-    addModeMessage = "Adding text — Press Escape to cancel";
+    addModeMessage = uiText("Adding text — Press Escape to cancel");
   } else if (annotationMode?.isAddShapeMode === true) {
     const shapeType = annotationMode.pendingShapeType ?? "shape";
-    addModeMessage = `Click on the canvas to add ${shapeType} — Press Escape to cancel`;
+    addModeMessage = uiText("Click on the canvas to add {0} — Press Escape to cancel", { "0": (shapeType) });
   }
 
   return { isInAddMode, addModeMessage };

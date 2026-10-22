@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -65,10 +66,10 @@ import type {
 
 type CatalogFilter = "all" | "missing" | "pullable" | "local";
 const CATALOG_FILTER_OPTIONS: ReadonlyArray<{ value: CatalogFilter; label: string }> = [
-  { value: "all", label: "All" },
-  { value: "missing", label: "Missing" },
-  { value: "pullable", label: "Pullable" },
-  { value: "local", label: "Local" }
+  { value: "all", label: uiText("All") },
+  { value: "missing", label: uiText("Missing") },
+  { value: "pullable", label: uiText("Pullable") },
+  { value: "local", label: uiText("Local") }
 ];
 const LOCAL_IMAGE_DISPLAY_LIMIT = 12;
 const OTHER_LOCAL_IMAGE_DISPLAY_LIMIT = 80;
@@ -173,11 +174,11 @@ function missingImageStatusLabel(entry: KindImageCatalogEntry): string {
   const count = entry.missingImages.length;
   switch (entry.guidance.preparation.mode) {
     case "direct-pull":
-      return `${count} to pull`;
+      return uiText("{0} to pull", { "0": (count) });
     case "vrnetlab":
-      return `${count} to build`;
+      return uiText("{0} to build", { "0": (count) });
     case "vendor-import":
-      return `${count} to import`;
+      return uiText("{0} to import", { "0": (count) });
     default:
       return `${count} missing`;
   }
@@ -292,14 +293,14 @@ function rowStatusInfo(entry: KindImageCatalogEntry): RowStatusInfo {
   if (entry.localImages.length > 0) {
     return {
       status: "ok",
-      label: `${entry.localImages.length} local`,
+      label: uiText("{0} local", { "0": (entry.localImages.length) }),
       tone: "success",
       icon: <CheckCircleOutlineIcon fontSize="inherit" />
     };
   }
   return {
     status: "neutral",
-    label: "Not local",
+    label: uiText("Not local"),
     tone: "default",
     icon: <Inventory2OutlinedIcon fontSize="inherit" />
   };
@@ -383,7 +384,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
   const copyCandidate = copyCandidateForEntry(entry);
   const visibleLocalImages = entry.localImages.slice(0, LOCAL_IMAGE_DISPLAY_LIMIT);
   const remainingLocal = entry.localImages.length - visibleLocalImages.length;
-  let pullTooltip = "No registry pull needed";
+  let pullTooltip = uiText("No registry pull needed");
   if (pullCandidates.length > 0) {
     pullTooltip = `Pull ${pullCandidates[0]}`;
   } else if (entry.missingImages.length > 0) {
@@ -419,7 +420,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
                 color: "text.secondary"
               }}
             >
-              {entry.types.length} type{entry.types.length === 1 ? "" : "s"}
+              {entry.types.length}{uiText(" type")}{entry.types.length === 1 ? "" : "s"}
             </Typography>
           ) : null}
         </Stack>
@@ -443,9 +444,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
               label={entry.guidance.preparation.label}
               sx={chipToneSx(preparationChipTone(entry.guidance.preparation.mode))}
             />
-            <Link href={entry.guidance.docsUrl} target="_blank" rel="noreferrer" sx={DOC_LINK_SX}>
-              kind docs
-              <OpenInNewIcon />
+            <Link href={entry.guidance.docsUrl} target="_blank" rel="noreferrer" sx={DOC_LINK_SX}>{uiText("kind docs")}<OpenInNewIcon />
             </Link>
             {entry.guidance.preparation.docsUrl ? (
               <Link
@@ -467,9 +466,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Recommended
-              </Typography>
+              >{uiText("Recommended")}</Typography>
               <Stack
                 direction="row"
                 sx={{
@@ -487,8 +484,8 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
                       color="default"
                       tooltip={
                         placeholder
-                          ? "Replace <version> with the version you have"
-                          : "Click to copy reference"
+                          ? uiText("Replace <version> with the version you have")
+                          : uiText("Click to copy reference")
                       }
                       onCopy={placeholder ? undefined : () => copyToClipboard(image)}
                     />
@@ -504,9 +501,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Used in topology
-              </Typography>
+              >{uiText("Used in topology")}</Typography>
               <Stack
                 direction="row"
                 sx={{
@@ -545,9 +540,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
             sx={{
               color: "text.secondary"
             }}
-          >
-            None on this endpoint
-          </Typography>
+          >{uiText("None on this endpoint")}</Typography>
         ) : (
           <Stack
             direction="row"
@@ -597,7 +590,7 @@ function KindRow({ entry, actionBusy, onPull, onRemove }: KindRowProps): React.J
               </IconButton>
             </span>
           </Tooltip>
-          <Tooltip title={copyCandidate ? `Copy ${copyCandidate}` : "No image reference"} arrow>
+          <Tooltip title={copyCandidate ? uiText("Copy {0}", { "0": (copyCandidate) }) : uiText("No image reference")} arrow>
             <span>
               <IconButton
                 size="small"
@@ -633,17 +626,16 @@ function SummaryStats({ total, local, notLocal }: SummaryStatsProps): React.JSX.
       }}
     >
       <Typography variant="body2" sx={{ color: "text.secondary" }}>
-        {total} kinds
-      </Typography>
+        {total}{uiText(" kinds")}</Typography>
       <StatusText
         tone={local > 0 ? "success" : "default"}
         icon={<CheckCircleOutlineIcon />}
-        label={`${local} local`}
+        label={uiText("{0} local", { "0": (local) })}
       />
       <StatusText
         tone={notLocal > 0 ? "warning" : "default"}
         icon={<ErrorOutlineIcon />}
-        label={`${notLocal} missing`}
+        label={uiText("{0} missing", { "0": (notLocal) })}
       />
     </Stack>
   );
@@ -689,7 +681,7 @@ function StatusNotice({ severity, message, onClose }: StatusNoticeProps): React.
       >
         {message}
       </Typography>
-      <IconButton aria-label="Close" size="small" onClick={onClose}>
+      <IconButton aria-label={uiText("Close")} size="small" onClick={onClose}>
         <CloseIcon sx={{ fontSize: 16 }} />
       </IconButton>
     </Box>
@@ -749,7 +741,7 @@ export function ContainerlabImageManager({
 
   const loadCatalog = React.useCallback(async () => {
     if (!imageHost) {
-      setError("Image management is not available in this host.");
+      setError(uiText("Image management is not available in this host."));
       return;
     }
     setLoading(true);
@@ -777,8 +769,8 @@ export function ContainerlabImageManager({
         formatError(
           err,
           endpointId
-            ? "Could not reach the selected endpoint. Connect it to load images."
-            : "No endpoint is connected. Connect a runtime to load images."
+            ? uiText("Could not reach the selected endpoint. Connect it to load images.")
+            : uiText("No endpoint is connected. Connect a runtime to load images.")
         )
       );
     } finally {
@@ -858,7 +850,7 @@ export function ContainerlabImageManager({
       if (!imageHost) return;
       const trimmed = image.trim();
       if (!trimmed) {
-        setError("Image reference is required.");
+        setError(uiText("Image reference is required."));
         return;
       }
       await runAction(async () => {
@@ -876,7 +868,7 @@ export function ContainerlabImageManager({
   const handleRemove = React.useCallback(
     async (reference: string) => {
       if (!imageHost) return;
-      if (!window.confirm(`Remove local image "${reference}"?`)) {
+      if (!window.confirm(uiText("Remove local image \"{0}\"?", { "0": (reference) }))) {
         return;
       }
       await runAction(async () => {
@@ -895,18 +887,16 @@ export function ContainerlabImageManager({
     let emptyState: React.ReactNode;
     if (loading) {
       emptyState = (
-        <CatalogEmptyState icon={<CircularProgress size={20} />} message="Loading images…" />
+        <CatalogEmptyState icon={<CircularProgress size={20} />} message={uiText("Loading images…")} />
       );
     } else if (visibleEntries.length === 0) {
       emptyState = (
         <CatalogEmptyState
           icon={<Inventory2OutlinedIcon />}
-          message={error ? "Images could not be loaded." : "No images to show."}
+          message={error ? uiText("Images could not be loaded.") : uiText("No images to show.")}
           action={
             imageHost ? (
-              <Button variant="outlined" size="small" onClick={() => void loadCatalog()}>
-                Retry
-              </Button>
+              <Button variant="outlined" size="small" onClick={() => void loadCatalog()}>{uiText("Retry")}</Button>
             ) : undefined
           }
         />
@@ -915,7 +905,7 @@ export function ContainerlabImageManager({
       emptyState = (
         <CatalogEmptyState
           icon={<SearchIcon />}
-          message="No kinds match the current filters."
+          message={uiText("No kinds match the current filters.")}
           action={
             <Button
               variant="text"
@@ -924,9 +914,7 @@ export function ContainerlabImageManager({
                 setSearchText("");
                 setFilter("all");
               }}
-            >
-              Clear filters
-            </Button>
+            >{uiText("Clear filters")}</Button>
           }
         />
       );
@@ -993,17 +981,13 @@ export function ContainerlabImageManager({
               sx={{ fontSize: 20, color: "var(--vscode-icon-foreground, currentColor)" }}
             />
             <Box sx={{ minWidth: 0 }}>
-              <Typography variant="subtitle1" sx={{ lineHeight: 1.3 }}>
-                Image Manager
-              </Typography>
+              <Typography variant="subtitle1" sx={{ lineHeight: 1.3 }}>{uiText("Image Manager")}</Typography>
               <Typography
                 variant="caption"
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Pull, inspect and remove container images for containerlab kinds
-              </Typography>
+              >{uiText("Pull, inspect and remove container images for containerlab kinds")}</Typography>
             </Box>
           </Stack>
           <Stack
@@ -1015,11 +999,11 @@ export function ContainerlabImageManager({
           >
             {endpointOptions.length > 1 ? (
               <FormControl size="small" sx={{ minWidth: 200 }}>
-                <InputLabel id="image-manager-endpoint-label">Endpoint</InputLabel>
+                <InputLabel id="image-manager-endpoint-label">{uiText("Endpoint")}</InputLabel>
                 <Select
                   labelId="image-manager-endpoint-label"
                   value={endpointId}
-                  label="Endpoint"
+                  label={uiText("Endpoint")}
                   onChange={(event) => setEndpointId(event.target.value)}
                 >
                   {endpointOptions.map((endpoint) => (
@@ -1030,7 +1014,7 @@ export function ContainerlabImageManager({
                 </Select>
               </FormControl>
             ) : null}
-            <Tooltip title="Refresh" arrow>
+            <Tooltip title={uiText("Refresh")} arrow>
               <span>
                 <IconButton
                   onClick={() => void loadCatalog()}
@@ -1042,9 +1026,7 @@ export function ContainerlabImageManager({
               </span>
             </Tooltip>
             {onClose ? (
-              <Button onClick={onClose} variant="text" size="small">
-                Close
-              </Button>
+              <Button onClick={onClose} variant="text" size="small">{uiText("Close")}</Button>
             ) : null}
           </Stack>
         </Toolbar>
@@ -1066,7 +1048,7 @@ export function ContainerlabImageManager({
           fullWidth
           value={searchText}
           onChange={(event) => setSearchText(event.target.value)}
-          placeholder="Search by kind, image or repository"
+          placeholder={uiText("Search by kind, image or repository")}
           slotProps={{
             input: {
               startAdornment: (
@@ -1147,12 +1129,10 @@ export function ContainerlabImageManager({
           <Table size="small" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ width: 240 }}>Kind</TableCell>
-                <TableCell>Image guidance</TableCell>
-                <TableCell>Local images</TableCell>
-                <TableCell align="right" sx={{ width: 96 }}>
-                  Actions
-                </TableCell>
+                <TableCell sx={{ width: 240 }}>{uiText("Kind")}</TableCell>
+                <TableCell>{uiText("Image guidance")}</TableCell>
+                <TableCell>{uiText("Local images")}</TableCell>
+                <TableCell align="right" sx={{ width: 96 }}>{uiText("Actions")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{tableRows}</TableBody>
@@ -1170,7 +1150,7 @@ export function ContainerlabImageManager({
                   flex: 1
                 }}
               >
-                <Typography variant="subtitle2">Other local images</Typography>
+                <Typography variant="subtitle2">{uiText("Other local images")}</Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {otherLocalImages.length}
                 </Typography>
@@ -1179,9 +1159,7 @@ export function ContainerlabImageManager({
                   sx={{
                     color: "text.secondary"
                   }}
-                >
-                  Not associated with any known kind
-                </Typography>
+                >{uiText("Not associated with any known kind")}</Typography>
               </Stack>
             </AccordionSummary>
             <AccordionDetails sx={{ pt: 0 }}>
@@ -1193,8 +1171,7 @@ export function ContainerlabImageManager({
                     display: "block",
                     mb: 0.5
                   }}
-                >
-                  Showing the first {OTHER_LOCAL_IMAGE_DISPLAY_LIMIT} of {otherLocalImages.length}.
+                >{uiText("Showing the first ")}{OTHER_LOCAL_IMAGE_DISPLAY_LIMIT}{uiText(" of ")}{otherLocalImages.length}.
                 </Typography>
               ) : null}
               <List
@@ -1213,12 +1190,12 @@ export function ContainerlabImageManager({
                       disableGutters
                       secondaryAction={
                         <Stack direction="row" spacing={0.25}>
-                          <Tooltip title="Copy reference" arrow>
+                          <Tooltip title={uiText("Copy reference")} arrow>
                             <IconButton size="small" onClick={() => copyToClipboard(name)}>
                               <ContentCopyIcon sx={{ fontSize: 16 }} />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Remove image" arrow>
+                          <Tooltip title={uiText("Remove image")} arrow>
                             <span>
                               <IconButton
                                 size="small"
@@ -1283,7 +1260,7 @@ export function ContainerlabImageManagerDialog({
         }
       }}
     >
-      <DialogTitle sx={{ display: "none" }}>Containerlab Images</DialogTitle>
+      <DialogTitle sx={{ display: "none" }}>{uiText("Containerlab Images")}</DialogTitle>
       <DialogContent
         sx={{
           p: 0,

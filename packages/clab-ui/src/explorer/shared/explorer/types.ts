@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 export type ExplorerSectionId = "runningLabs" | "localLabs" | "fileExplorer" | "helpFeedback";
 
 export const EXPLORER_SECTION_IDS: ExplorerSectionId[] = [
@@ -14,10 +15,10 @@ export const EXPLORER_SECTION_ORDER: ExplorerSectionId[] = [
 ];
 
 export const EXPLORER_SECTION_LABELS: Record<ExplorerSectionId, string> = {
-  runningLabs: "Running Labs",
-  localLabs: "Undeployed Local Labs",
-  fileExplorer: "File Explorer",
-  helpFeedback: "Help & Feedback"
+  runningLabs: uiText("Running Labs"),
+  localLabs: uiText("Undeployed Local Labs"),
+  fileExplorer: uiText("File Explorer"),
+  helpFeedback: uiText("Help & Feedback")
 };
 
 export interface ExplorerAction {

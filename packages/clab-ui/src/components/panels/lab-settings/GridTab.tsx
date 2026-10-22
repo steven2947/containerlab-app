@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React, { useEffect, useState } from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Box from "@mui/material/Box";
@@ -41,7 +42,7 @@ export const GridTab: React.FC<GridTabProps> = ({
 
   return (
     <Box data-testid="lab-settings-grid-settings" sx={{ display: "contents" }}>
-      <SettingsField title="Stroke Width" description="Thickness of canvas grid lines.">
+      <SettingsField title={uiText("Stroke Width")} description={uiText("Thickness of canvas grid lines.")}>
         <Box data-testid="lab-settings-grid-line-width" sx={{ width: "100%" }}>
           <InputField
             id="lab-settings-grid-line-width"
@@ -61,9 +62,9 @@ export const GridTab: React.FC<GridTabProps> = ({
           />
         </Box>
       </SettingsField>
-      <SettingsField title="Grid Style" description="Dotted points or quadratic lines.">
+      <SettingsField title={uiText("Grid Style")} description={uiText("Dotted points or quadratic lines.")}>
         <TextField
-          slotProps={{ select: { inputProps: { "aria-label": "Grid Style" } } }}
+          slotProps={{ select: { inputProps: { "aria-label": uiText("Grid Style") } } }}
           data-testid="lab-settings-grid-style"
           select
           size="small"
@@ -76,11 +77,11 @@ export const GridTab: React.FC<GridTabProps> = ({
             }
           }}
         >
-          <MenuItem value="dotted">Dotted</MenuItem>
-          <MenuItem value="quadratic">Quadratic</MenuItem>
+          <MenuItem value="dotted">{uiText("Dotted")}</MenuItem>
+          <MenuItem value="quadratic">{uiText("Quadratic")}</MenuItem>
         </TextField>
       </SettingsField>
-      <SettingsField title="Grid Color" description="Color of the canvas grid.">
+      <SettingsField title={uiText("Grid Color")} description={uiText("Color of the canvas grid.")}>
         <Box sx={{ width: "100%" }}>
           <ColorField
             ariaLabel="Grid Color"
@@ -91,8 +92,8 @@ export const GridTab: React.FC<GridTabProps> = ({
         </Box>
       </SettingsField>
       <SettingsField
-        title="Background Color"
-        description="Canvas background behind the grid."
+        title={uiText("Background Color")}
+        description={uiText("Canvas background behind the grid.")}
         actions={
           hasCustomGridColors ? (
             <Button
@@ -101,9 +102,7 @@ export const GridTab: React.FC<GridTabProps> = ({
               startIcon={<RestartAltIcon />}
               disabled={isReadOnly}
               onClick={onResetGridColors}
-            >
-              Reset to theme colors
-            </Button>
+            >{uiText("Reset to theme colors")}</Button>
           ) : undefined
         }
       >

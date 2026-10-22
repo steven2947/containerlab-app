@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import {
   applyStandaloneAppearance,
   persistStandaloneAppearance,
@@ -253,7 +254,7 @@ async function standaloneImageReferences(
       customNodes.customNodes,
       {
         endpointId,
-        label: "Custom",
+        label: uiText("Custom"),
       },
     ),
   ];
@@ -545,9 +546,9 @@ async function confirmCloseLabTab(tabId: string): Promise<boolean> {
     return true;
   }
   return confirmRuntimeAction({
-    title: "Discard Unsaved Changes",
-    message: `Discard unsaved changes to "${tab.title}"?`,
-    confirmLabel: "Discard",
+    title: uiText("Discard Unsaved Changes"),
+    message: uiText("Discard unsaved changes to \"{0}\"?", { "0": (tab.title) }),
+    confirmLabel: uiText("Discard"),
     severity: "error",
   });
 }
@@ -752,7 +753,7 @@ function getActiveTopologyTarget() {
   const topologyRef = topologyManager.getCurrentTopologyRef();
   if (!topologyRef) {
     runtimeUiActions.notify(
-      "No active topology session is available.",
+      uiText("No active topology session is available."),
       "error",
     );
     return null;
@@ -767,7 +768,7 @@ function openPacketflixCaptures(
 ): void {
   if (links.length === 0) {
     runtimeUiActions.notify(
-      "No packet capture targets were returned.",
+      uiText("No packet capture targets were returned."),
       "warning",
     );
     return;
@@ -807,7 +808,7 @@ function openCanvasCaptures(requests: WiresharkCaptureRequest[]): void {
   }
   const captures = requests.filter((request) => request.targets.length > 0);
   if (captures.length < requests.length) {
-    runtimeUiActions.notify("Missing capture target.", "error");
+    runtimeUiActions.notify(uiText("Missing capture target."), "error");
   }
   if (captures.length === 0) {
     return;
@@ -936,7 +937,7 @@ function handleNodeTerminalCommand(msg: VscodeMessage): void {
     ...target,
     protocol: msg.command === "clab-node-attach-shell" ? "shell" : "ssh",
     nodeName: msg.nodeName,
-    title: `${msg.command === "clab-node-attach-shell" ? "Shell" : "SSH"}: ${msg.nodeName}`,
+    title: `${msg.command === "clab-node-attach-shell" ? uiText("Shell") : "SSH"}: ${msg.nodeName}`,
   });
 }
 
@@ -953,7 +954,7 @@ function handleNodeLogsCommand(msg: VscodeMessage): void {
   runtimeUiActions.openLogs({
     ...target,
     nodeName: msg.nodeName,
-    title: `Logs: ${msg.nodeName}`,
+    title: uiText("Logs: {0}", { "0": (msg.nodeName) }),
   });
 }
 
@@ -980,7 +981,7 @@ function handleNodeLifecycleCommand(msg: VscodeMessage): void {
     action,
   })
     .then(() => {
-      runtimeUiActions.notify(`${nodeName} ${action} requested.`, "success");
+      runtimeUiActions.notify(uiText("{0} {1} requested.", { "0": (nodeName), "1": (action) }), "success");
     })
     .catch((error: unknown) => {
       runtimeUiActions.notify(
@@ -1001,7 +1002,7 @@ function handleLinkImpairmentCommand(msg: VscodeMessage): void {
   if (isRecord(msg.data)) {
     if (!interfaceName) {
       runtimeUiActions.notify(
-        "Missing interface for link impairment.",
+        uiText("Missing interface for link impairment."),
         "error",
       );
       return;
@@ -1037,7 +1038,7 @@ function handleLinkImpairmentCommand(msg: VscodeMessage): void {
           }),
         });
         runtimeUiActions.notify(
-          `Updated impairments for ${nodeName}:${interfaceName}.`,
+          uiText("Updated impairments for {0}:{1}.", { "0": (nodeName), "1": (interfaceName) }),
           "success",
         );
       })
@@ -1054,7 +1055,7 @@ function handleLinkImpairmentCommand(msg: VscodeMessage): void {
     ...target,
     nodeName,
     preferredInterfaceName: interfaceName || undefined,
-    title: `Impairments: ${nodeName}`,
+    title: uiText("Impairments: {0}", { "0": (nodeName) }),
   });
 }
 
@@ -1143,7 +1144,7 @@ function handleImportCustomNodesCommand(): void {
       applyCustomNodes(response.customNodes, response.defaultNode);
       await refreshCustomIconsForCurrentTopology();
       runtimeUiActions.notify(
-        `Imported node templates: ${added} added, ${replaced} updated, ${iconImport.imported} icons imported`,
+        uiText("Imported node templates: {0} added, {1} updated, {2} icons imported", { "0": (added), "1": (replaced), "2": (iconImport.imported) }),
         "success",
       );
     } catch (error: unknown) {
@@ -1175,7 +1176,7 @@ function handleIconUploadCommand(): void {
 function handleIconDeleteCommand(msg: VscodeMessage): void {
   const iconName = typeof msg.iconName === "string" ? msg.iconName.trim() : "";
   if (!iconName) {
-    runtimeUiActions.notify("Missing icon name.", "error");
+    runtimeUiActions.notify(uiText("Missing icon name."), "error");
     return;
   }
   void deleteUiIcon(iconName, getEndpointIdForEditorContext())
@@ -1229,7 +1230,7 @@ const STANDALONE_MESSAGE_HANDLERS: Record<string, StandaloneMessageHandler> = {
   "clab-link-impairment": handleLinkImpairmentCommand,
   "topo-toggle-split-view": () =>
     runtimeUiActions.notify(
-      "Split view is not available in standalone mode yet.",
+      uiText("Split view is not available in standalone mode yet."),
       "info",
     ),
   "save-custom-node": handleSaveCustomNodeCommand,
@@ -1635,7 +1636,7 @@ function StandaloneApp() {
     ) => {
       setTerminalPreferences(persistTerminalPreferences(next));
       if (options?.notify !== false) {
-        runtimeUiActions.notify("Terminal settings updated.", "success");
+        runtimeUiActions.notify(uiText("Terminal settings updated."), "success");
       }
     },
     [],

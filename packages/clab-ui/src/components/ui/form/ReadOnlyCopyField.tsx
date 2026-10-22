@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Read-only text field with copy button.
 import React, { useCallback } from "react";
 import IconButton from "@mui/material/IconButton";
@@ -36,7 +37,7 @@ export const ReadOnlyCopyField: React.FC<ReadOnlyCopyFieldProps> = ({
           readOnly: true,
           endAdornment: value ? (
             <InputAdornment position="end">
-              <Tooltip title="Copy">
+              <Tooltip title={uiText("Copy")}>
                 <IconButton size="small" onClick={handleCopy} edge="end" tabIndex={-1}>
                   <ContentCopyIcon sx={{ fontSize: 16 }} />
                 </IconButton>

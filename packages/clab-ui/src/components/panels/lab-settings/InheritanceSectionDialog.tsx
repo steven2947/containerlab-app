@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Edits topology defaults, one kind or one group with the node editor tabs.
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Alert from "@mui/material/Alert";
@@ -35,8 +36,8 @@ interface InheritanceSectionDialogProps {
 }
 
 export function describeSectionTarget(target: InheritanceSectionTarget): string {
-  if (target.level === "defaults") return "Topology defaults";
-  return `${target.level === "kind" ? "Kind" : "Group"} ${target.name ?? ""}`;
+  if (target.level === "defaults") return uiText("Topology defaults");
+  return `${target.level === "kind" ? uiText("Kind") : uiText("Group")} ${target.name ?? ""}`;
 }
 
 function buildEditorData(target: InheritanceSectionTarget, config: ClabNode): NodeEditorData {
@@ -82,11 +83,11 @@ export const InheritanceSectionDialog: React.FC<InheritanceSectionDialogProps> =
       if (target.level === "group") {
         const rename = data.name.trim();
         if (rename === "") {
-          setError("A group needs a name");
+          setError(uiText("A group needs a name"));
           return;
         }
         if (rename !== target.name && takenNames.includes(rename)) {
-          setError(`A group named ${rename} already exists`);
+          setError(uiText("A group named {0} already exists", { "0": (rename) }));
           return;
         }
         if (rename !== target.name) update.rename = rename;
@@ -153,7 +154,7 @@ export const InheritanceSectionDialog: React.FC<InheritanceSectionDialogProps> =
       <DialogCancelSaveActions
         onCancel={handleClose}
         onSave={() => footerRef.current?.handleSave()}
-        cancelLabel={readOnly ? "Close" : "Cancel"}
+        cancelLabel={readOnly ? uiText("Close") : uiText("Cancel")}
         disableSave={readOnly}
       />
     </Dialog>

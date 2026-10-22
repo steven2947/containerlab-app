@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 /**
  * FreeTextInlineEditor - In-place editor for text annotations on the canvas.
@@ -146,7 +147,7 @@ const InlinePreviewCard: React.FC<{
       onMouseDown={(e) => e.preventDefault()}
       sx={{ p: 1, maxWidth: 420, overflow: "hidden" }}
     >
-      <Box sx={{ fontSize: 10, opacity: 0.6, mb: 0.5, userSelect: "none" }}>Preview</Box>
+      <Box sx={{ fontSize: 10, opacity: 0.6, mb: 0.5, userSelect: "none" }}>{uiText("Preview")}</Box>
       <div
         className="free-text-markdown free-text-content--auto free-text-inline-preview"
         style={{ ...textStyle, width: "100%", height: "auto", overflow: "hidden" }}
@@ -267,7 +268,7 @@ export const FreeTextInlineEditor: React.FC<FreeTextInlineEditorProps> = ({
           sx={{ display: "flex", alignItems: "center", gap: 0.25, p: 0.25 }}
         >
           <ToolbarButton
-            title="Bold"
+            title={uiText("Bold")}
             testId="inline-text-bold"
             active={isBold}
             onClick={() => onStyleChange?.({ fontWeight: isBold ? "normal" : "bold" })}
@@ -275,7 +276,7 @@ export const FreeTextInlineEditor: React.FC<FreeTextInlineEditorProps> = ({
             <FormatBoldIcon fontSize="small" />
           </ToolbarButton>
           <ToolbarButton
-            title="Italic"
+            title={uiText("Italic")}
             testId="inline-text-italic"
             active={isItalic}
             onClick={() => onStyleChange?.({ fontStyle: isItalic ? "normal" : "italic" })}
@@ -283,7 +284,7 @@ export const FreeTextInlineEditor: React.FC<FreeTextInlineEditorProps> = ({
             <FormatItalicIcon fontSize="small" />
           </ToolbarButton>
           <ToolbarButton
-            title="Underline"
+            title={uiText("Underline")}
             active={isUnderline}
             onClick={() =>
               onStyleChange?.({ textDecoration: isUnderline ? "none" : "underline" })
@@ -293,31 +294,31 @@ export const FreeTextInlineEditor: React.FC<FreeTextInlineEditorProps> = ({
           </ToolbarButton>
           <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
           <ToolbarButton
-            title="Align Left"
+            title={uiText("Align Left")}
             active={align === "left"}
             onClick={() => onStyleChange?.({ textAlign: "left" })}
           >
             <FormatAlignLeftIcon fontSize="small" />
           </ToolbarButton>
           <ToolbarButton
-            title="Align Center"
+            title={uiText("Align Center")}
             active={align === "center"}
             onClick={() => onStyleChange?.({ textAlign: "center" })}
           >
             <FormatAlignCenterIcon fontSize="small" />
           </ToolbarButton>
           <ToolbarButton
-            title="Align Right"
+            title={uiText("Align Right")}
             active={align === "right"}
             onClick={() => onStyleChange?.({ textAlign: "right" })}
           >
             <FormatAlignRightIcon fontSize="small" />
           </ToolbarButton>
           <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-          <ToolbarButton title="Smaller text" onClick={() => changeFontSize(-1)}>
+          <ToolbarButton title={uiText("Smaller text")} onClick={() => changeFontSize(-1)}>
             <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1 }}>A−</span>
           </ToolbarButton>
-          <ToolbarButton title="Larger text" onClick={() => changeFontSize(1)}>
+          <ToolbarButton title={uiText("Larger text")} onClick={() => changeFontSize(1)}>
             <span style={{ fontSize: 15, fontWeight: 600, lineHeight: 1 }}>A+</span>
           </ToolbarButton>
           <span
@@ -330,7 +331,7 @@ export const FreeTextInlineEditor: React.FC<FreeTextInlineEditorProps> = ({
             <>
               <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
               <ToolbarButton
-                title="More styling options…"
+                title={uiText("More styling options…")}
                 testId="inline-text-more"
                 onClick={() => {
                   // Opens the style drawer alongside; inline editing continues
@@ -349,7 +350,7 @@ export const FreeTextInlineEditor: React.FC<FreeTextInlineEditorProps> = ({
         className="nodrag nowheel nopan free-text-inline-textarea"
         data-testid="free-text-inline-input"
         value={text}
-        placeholder="Type text… (Markdown supported)"
+        placeholder={uiText("Type text… (Markdown supported)")}
         style={textareaStyle}
         onChange={(e) => setText(e.target.value)}
         onBlur={handleBlur}

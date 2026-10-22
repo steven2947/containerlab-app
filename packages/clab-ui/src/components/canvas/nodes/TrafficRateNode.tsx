@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import React, { memo, useCallback } from "react";
 import { NodeResizer, type NodeProps, type ResizeParams } from "@xyflow/react";
 
@@ -187,9 +188,7 @@ function renderTrafficRateBody(params: {
     return (
       <div
         style={{ fontSize: Math.round(12 * params.scale), color: params.hintColor, marginTop: 4 }}
-      >
-        Select node and interface in the editor.
-      </div>
+      >{uiText("Select node and interface in the editor.")}</div>
     );
   }
 
@@ -232,14 +231,10 @@ function renderTrafficRateBody(params: {
         </React.Suspense>
       </div>
       {params.resolution.endpointCount === 0 && (
-        <div style={{ fontSize: hintFontSize, color: params.hintColor, flexShrink: 0 }}>
-          No live interface stats available yet.
-        </div>
+        <div style={{ fontSize: hintFontSize, color: params.hintColor, flexShrink: 0 }}>{uiText("No live interface stats available yet.")}</div>
       )}
       {params.resolution.endpointCount > 1 && (
-        <div style={{ fontSize: hintFontSize, color: params.hintColor, flexShrink: 0 }}>
-          Aggregated from {params.resolution.endpointCount} matching endpoints.
-        </div>
+        <div style={{ fontSize: hintFontSize, color: params.hintColor, flexShrink: 0 }}>{uiText("Aggregated from ")}{params.resolution.endpointCount}{uiText(" matching endpoints.")}</div>
       )}
     </>
   );
@@ -282,7 +277,7 @@ const TrafficRateNodeComponent: React.FC<NodeProps> = ({ id, data, selected }) =
   const nodeId = nodeData.nodeId ?? "";
   const interfaceName = nodeData.interfaceName ?? "";
   const isConfigured = nodeId.length > 0 && interfaceName.length > 0;
-  const subtitle = isConfigured ? `${nodeId}:${interfaceName}` : "Double-click to configure";
+  const subtitle = isConfigured ? `${nodeId}:${interfaceName}` : uiText("Double-click to configure");
   const showSubtitle = !isConfigured || mode === "chart";
   const defaultBackgroundColor = resolveComputedColor(
     "--vscode-editor-background",

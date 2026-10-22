@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Interface checklist shown beside a node's context menu: pick one, several or
 // all interfaces and open them in one Wireshark or one per interface.
@@ -115,16 +116,16 @@ const PanelHeader: React.FC<PanelHeaderProps> = ({
       {heading.suffix}
     </Typography>
     {showLinked ? (
-      <PresetButton label="Linked" disabled={linkedOnly} onClick={onLinked} testId="capture-interfaces-select-linked" />
+      <PresetButton label={uiText("Linked")} disabled={linkedOnly} onClick={onLinked} testId="capture-interfaces-select-linked" />
     ) : null}
     <PresetButton
-      label="All"
+      label={uiText("All")}
       disabled={totalCount === 0 || selectedCount === totalCount}
       onClick={onAll}
       testId="capture-interfaces-select-all"
     />
     <PresetButton
-      label="None"
+      label={uiText("None")}
       disabled={selectedCount === 0}
       onClick={onNone}
       testId="capture-interfaces-select-none"
@@ -141,12 +142,12 @@ const FilterField: React.FC<{
     <TextField
       fullWidth
       size="small"
-      placeholder="Filter by name or peer"
+      placeholder={uiText("Filter by name or peer")}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       inputRef={inputRef}
       slotProps={{
-        htmlInput: { "aria-label": "Filter interfaces", "data-testid": "capture-interfaces-filter" },
+        htmlInput: { "aria-label": uiText("Filter interfaces"), "data-testid": "capture-interfaces-filter" },
         input: {
           sx: { height: 30, fontSize: 12.5 },
           startAdornment: (
@@ -168,7 +169,7 @@ const RowMeta: React.FC<{ option: CaptureInterfaceOption }> = ({ option }) => {
     return (
       <Typography
         noWrap
-        title={`Linked to ${target}`}
+        title={uiText("Linked to {0}", { "0": (target) })}
         sx={{ fontFamily: MONO_FONT_FAMILY, fontSize: 12, color: "text.secondary" }}
       >
         → {target}
@@ -179,7 +180,7 @@ const RowMeta: React.FC<{ option: CaptureInterfaceOption }> = ({ option }) => {
   return (
     <Box
       component="span"
-      title="Management interface"
+      title={uiText("Management interface")}
       sx={{
         justifySelf: "end",
         px: 0.625,
@@ -265,18 +266,16 @@ const PanelRow: React.FC<PanelRowProps> = ({ option, checked, autoFocus, onToggl
           </Typography>
         ) : null}
         {isDown ? (
-          <Typography component="span" sx={{ fontSize: 11, color: "text.disabled", flexShrink: 0 }}>
-            down
-          </Typography>
+          <Typography component="span" sx={{ fontSize: 11, color: "text.disabled", flexShrink: 0 }}>{uiText("down")}</Typography>
         ) : null}
       </Box>
       <RowMeta option={option} />
-      <Tooltip title={`Capture only ${name}`} placement="right" disableInteractive>
+      <Tooltip title={uiText("Capture only {0}", { "0": (name) })} placement="right" disableInteractive>
         <IconButton
           className="capture-only"
           size="small"
           tabIndex={-1}
-          aria-label={`Capture only ${name}`}
+          aria-label={uiText("Capture only {0}", { "0": (name) })}
           data-testid="capture-interface-only"
           onClick={(event) => {
             event.preventDefault();
@@ -313,21 +312,19 @@ const OpenAsToggle: React.FC<{
     onChange={(_event, value: unknown) => {
       if (value === "combined" || value === "separate") onChange(value === "separate");
     }}
-    aria-label="Open as"
+    aria-label={uiText("Open as")}
     data-testid="capture-interfaces-mode"
     sx={{ "& .MuiToggleButton-root": { minHeight: 28, py: 0.25, fontSize: 12 } }}
   >
     <ToggleButton
       value="combined"
-      title="Everything picked in one Wireshark"
+      title={uiText("Everything picked in one Wireshark")}
       data-testid="capture-interfaces-mode-combined"
     >
-      <LayersOutlinedIcon sx={{ fontSize: 15 }} />
-      One Wireshark
-    </ToggleButton>
+      <LayersOutlinedIcon sx={{ fontSize: 15 }} />{uiText("One Wireshark")}</ToggleButton>
     <ToggleButton
       value="separate"
-      title="Each in its own Wireshark"
+      title={uiText("Each in its own Wireshark")}
       data-testid="capture-interfaces-mode-separate"
     >
       <FilterNoneOutlinedIcon sx={{ fontSize: 13 }} />
@@ -404,7 +401,7 @@ export const CaptureMenuPanel: React.FC<CaptureMenuPanelProps> = ({
   onCapture,
   combinable = true,
   summarize = summarizeCapture,
-  separateLabel = "One per interface"
+  separateLabel = uiText("One per interface")
 }) => {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const filterRef = React.useRef<HTMLInputElement | null>(null);
@@ -505,7 +502,7 @@ export const CaptureMenuPanel: React.FC<CaptureMenuPanelProps> = ({
             sx={{ px: 1, py: 2.5, textAlign: "center", fontSize: 12, color: "text.secondary" }}
             data-testid="capture-interfaces-empty"
           >
-            {options.length === 0 ? "No interfaces reported yet." : `No interface matches "${filter.trim()}".`}
+            {options.length === 0 ? uiText("No interfaces reported yet.") : uiText("No interface matches \"{0}\".", { "0": (filter.trim()) })}
           </Typography>
         ) : null}
       </Box>

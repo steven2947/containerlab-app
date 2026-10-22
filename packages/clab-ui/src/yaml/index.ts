@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import type * as monaco from "monaco-editor";
 import type { JSONSchema, MonacoYamlOptions } from "monaco-yaml";
 import * as YAML from "yaml";
@@ -46,7 +47,7 @@ export interface BuildSchemaCompletionItemsOptions {
 const ROOT_SNIPPETS = [
   {
     label: "containerlab topology",
-    description: "Create a basic containerlab topology",
+    description: uiText("Create a basic containerlab topology"),
     bodyText:
       "name: ${1:lab}\ntopology:\n  nodes:\n    ${2:srl1}:\n      kind: ${3:nokia_srlinux}\n      image: ${4:ghcr.io/nokia/srlinux:latest}\n",
     sortText: "000-containerlab-topology"
@@ -56,14 +57,14 @@ const ROOT_SNIPPETS = [
 const TOPOLOGY_SNIPPETS = [
   {
     label: "nodes",
-    description: "Add a topology nodes section",
+    description: uiText("Add a topology nodes section"),
     bodyText:
       "nodes:\n  ${1:srl1}:\n    kind: ${2:nokia_srlinux}\n    image: ${3:ghcr.io/nokia/srlinux:latest}",
     sortText: "000-nodes"
   },
   {
     label: "links",
-    description: "Add a topology links section",
+    description: uiText("Add a topology links section"),
     bodyText: "links:\n  - endpoints: [${1:srl1}:${2:e1-1}, ${3:srl2}:${4:e1-1}]",
     sortText: "001-links"
   }
@@ -72,7 +73,7 @@ const TOPOLOGY_SNIPPETS = [
 const NODE_CONFIG_SNIPPETS = [
   {
     label: "node config",
-    description: "Create a node config with kind and image",
+    description: uiText("Create a node config with kind and image"),
     bodyText: "kind: ${1:nokia_srlinux}\nimage: ${2:ghcr.io/nokia/srlinux:latest}",
     sortText: "000-node-config"
   }
@@ -81,7 +82,7 @@ const NODE_CONFIG_SNIPPETS = [
 const LINK_ENDPOINT_SNIPPETS = [
   {
     label: "endpoint",
-    description: "Create an extended link endpoint",
+    description: uiText("Create an extended link endpoint"),
     bodyText: "node: ${1:srl1}\ninterface: ${2:e1-1}",
     sortText: "000-link-endpoint"
   }
@@ -298,11 +299,11 @@ export function buildNodeNameCompletionItems(
   return nodeNames.map((nodeName) => ({
     label: nodeName,
     kind: completionKind,
-    detail: "containerlab node",
+    detail: uiText("containerlab node"),
     documentation:
       context === "briefEndpoint"
-        ? "Existing topology node. Add the interface after the colon."
-        : "Existing topology node.",
+        ? uiText("Existing topology node. Add the interface after the colon.")
+        : uiText("Existing topology node."),
     insertText: context === "briefEndpoint" ? `${nodeName}:` : nodeName,
     range,
     sortText: `000-${nodeName}`
@@ -788,7 +789,7 @@ function buildPropertyCompletion(
   return {
     label: key,
     kind,
-    detail: "containerlab property",
+    detail: uiText("containerlab property"),
     documentation: description,
     insertText: inferKeyInsertText(key, propertySchema, root),
     range,
@@ -805,7 +806,7 @@ function buildValueCompletion(
   return {
     label,
     kind,
-    detail: "containerlab value",
+    detail: uiText("containerlab value"),
     insertText: getCompletionInsertText(value),
     range,
     sortText: `010-${label}`

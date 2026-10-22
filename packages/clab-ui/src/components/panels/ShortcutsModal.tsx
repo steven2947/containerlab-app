@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 // Shortcuts reference dialog.
 import React from "react";
 import Dialog from "@mui/material/Dialog";
@@ -14,7 +15,7 @@ interface ShortcutsModalProps {
 
 export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ isOpen, onClose }) => (
   <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth data-testid="shortcuts-modal">
-    <DialogTitleWithClose title="Shortcuts & Interactions" onClose={onClose} />
+    <DialogTitleWithClose title={uiText("Shortcuts & Interactions")} onClose={onClose} />
     <DialogContent dividers sx={{ p: 0 }}>
       <ShortcutsSection />
     </DialogContent>

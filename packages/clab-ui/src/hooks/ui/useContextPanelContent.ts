@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /**
  * useContextPanelContent - Determines what the ContextPanel should display
  * based on selection/editing state from stores.
@@ -36,7 +37,7 @@ export interface PanelView {
 
 const PALETTE_VIEW: PanelView = {
   kind: "palette",
-  title: "Palette",
+  title: uiText("Palette"),
   hasFooter: false,
   isEditor: false
 };
@@ -52,13 +53,13 @@ function resolveEditingView(
   >
 ): PanelView | null {
   if (hasId(state.editingNode))
-    return { kind: "nodeEditor", title: "Node Editor", hasFooter: true, isEditor: true };
+    return { kind: "nodeEditor", title: uiText("Node Editor"), hasFooter: true, isEditor: true };
   if (hasId(state.editingEdge))
-    return { kind: "linkEditor", title: "Link Editor", hasFooter: true, isEditor: true };
+    return { kind: "linkEditor", title: uiText("Link Editor"), hasFooter: true, isEditor: true };
   if (hasId(state.editingNetwork))
-    return { kind: "networkEditor", title: "Network Editor", hasFooter: true, isEditor: true };
+    return { kind: "networkEditor", title: uiText("Network Editor"), hasFooter: true, isEditor: true };
   if (hasId(state.editingImpairment))
-    return { kind: "linkImpairment", title: "Link Impairments", hasFooter: true, isEditor: true };
+    return { kind: "linkImpairment", title: uiText("Link Impairments"), hasFooter: true, isEditor: true };
   return null;
 }
 
@@ -73,23 +74,23 @@ type AnnotationEditingSlice = Pick<
 // Annotation editors live-apply their changes, so they have no Apply footer.
 function resolveAnnotationView(annotationUI: AnnotationEditingSlice): PanelView | null {
   if (annotationUI.editingTextAnnotation) {
-    return { kind: "freeTextEditor", title: "Edit Text", hasFooter: false, isEditor: true };
+    return { kind: "freeTextEditor", title: uiText("Edit Text"), hasFooter: false, isEditor: true };
   }
   if (annotationUI.editingShapeAnnotation) {
     const shapeType = annotationUI.editingShapeAnnotation.shapeType;
     const prefix = shapeType.charAt(0).toUpperCase() + shapeType.slice(1);
-    return { kind: "freeShapeEditor", title: `Edit ${prefix}`, hasFooter: false, isEditor: true };
+    return { kind: "freeShapeEditor", title: uiText("Edit {0}", { "0": (prefix) }), hasFooter: false, isEditor: true };
   }
   if (annotationUI.editingTrafficRateAnnotation) {
     return {
       kind: "trafficRateEditor",
-      title: "Edit Traffic Rate",
+      title: uiText("Edit Traffic Rate"),
       hasFooter: false,
       isEditor: true
     };
   }
   if (annotationUI.editingGroup)
-    return { kind: "groupEditor", title: "Edit Group", hasFooter: false, isEditor: true };
+    return { kind: "groupEditor", title: uiText("Edit Group"), hasFooter: false, isEditor: true };
   return null;
 }
 
@@ -100,9 +101,9 @@ function resolveSelectionView(
   // (read-only view mode keeps them too, even when the state is unknown).
   const showInfoOnSelect = state.deploymentState === "deployed" || state.mode === "view";
   if (hasId(state.selectedNode) && showInfoOnSelect)
-    return { kind: "nodeInfo", title: "Node Properties", hasFooter: false, isEditor: false };
+    return { kind: "nodeInfo", title: uiText("Node Properties"), hasFooter: false, isEditor: false };
   if (hasId(state.selectedEdge) && showInfoOnSelect)
-    return { kind: "linkInfo", title: "Link Properties", hasFooter: false, isEditor: false };
+    return { kind: "linkInfo", title: uiText("Link Properties"), hasFooter: false, isEditor: false };
   return null;
 }
 

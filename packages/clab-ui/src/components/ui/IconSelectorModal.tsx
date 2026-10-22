@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 /* eslint-disable import-x/max-dependencies */
 // Icon selector modal.
 import React, { useCallback, useState, useEffect, useMemo, useRef } from "react";
@@ -196,7 +197,7 @@ const IconButton = React.memo<IconButtonProps>(function IconButton({
             e.stopPropagation();
             handleDelete();
           }}
-          title={`Delete ${icon}`}
+          title={uiText("Delete {0}", { "0": (icon) })}
           sx={{
             position: "absolute",
             top: -4,
@@ -230,7 +231,7 @@ const RadiusField: React.FC<{ value: number; onChange: (v: number) => void }> = 
 }) => (
   <InputField
     id="icon-corner-radius"
-    label="Corner Radius"
+    label={uiText("Corner Radius")}
     type="number"
     value={String(value)}
     onChange={(v) => {
@@ -279,8 +280,8 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
   const resultColor =
     canEditColor && (currentCustomIcon !== undefined || color !== DEFAULT_COLOR) ? color : null;
   const resetColorLabel = currentCustomIcon
-    ? "Restore original icon colors"
-    : "Reset to default color";
+    ? uiText("Restore original icon colors")
+    : uiText("Reset to default color");
 
   const iconInk = useIconInk();
   // Memoize icon sources for built-in icons - only regenerate when debounced color changes
@@ -336,7 +337,7 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitleWithClose title="Edit Icons" onClose={onClose} />
+      <DialogTitleWithClose title={uiText("Edit Icons")} onClose={onClose} />
       <DialogContent dividers sx={{ p: 0 }}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           {/* Icon tabs */}
@@ -355,8 +356,8 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
               "& .MuiTab-root": { px: 0 }
             }}
           >
-            <Tab value="built-in" label="Built-in" />
-            <Tab value="custom" label="Custom" />
+            <Tab value="built-in" label={uiText("Built-in")} />
+            <Tab value="custom" label={uiText("Custom")} />
           </Tabs>
 
           {/* Built-in Icons tab content */}
@@ -403,9 +404,7 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
                     startIcon={<AddIcon />}
                     onClick={handleUploadIcon}
                     sx={{ alignSelf: "flex-start" }}
-                  >
-                    Add Icon
-                  </Button>
+                  >{uiText("Add Icon")}</Button>
                 </Box>
               ) : (
                 <Box
@@ -417,17 +416,13 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
                     py: 2
                   }}
                 >
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    No custom icons uploaded yet.
-                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>{uiText("No custom icons uploaded yet.")}</Typography>
                   <Button
                     variant="outlined"
                     size="small"
                     startIcon={<AddIcon />}
                     onClick={handleUploadIcon}
-                  >
-                    Add Icon
-                  </Button>
+                  >{uiText("Add Icon")}</Button>
                 </Box>
               )}
             </Box>
@@ -435,18 +430,18 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
 
           {/* Appearance section with a live preview beside the fields */}
           <Box sx={{ px: 2.5, pt: 2.5 }}>
-            <Typography variant="subtitle2">Appearance</Typography>
+            <Typography variant="subtitle2">{uiText("Appearance")}</Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2.5, px: 2.5, pt: 1.5, pb: 2.5 }}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, flex: 1, minWidth: 0 }}>
               <Tooltip
-                title={!canEditColor ? "Color can only be modified for built-in and SVG icons" : ""}
+                title={!canEditColor ? uiText("Color can only be modified for built-in and SVG icons") : ""}
                 placement="top"
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
                     <ColorField
-                      label="Icon Color"
+                      label={uiText("Icon Color")}
                       value={color ?? DEFAULT_COLOR}
                       onChange={(v) => setColor(v)}
                       disabled={!canEditColor}
@@ -482,7 +477,7 @@ export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
                 bgcolor: "action.hover"
               }}
             >
-              <IconPreview src={previewIconSrc} alt="Preview" size={56} cornerRadius={radius} />
+              <IconPreview src={previewIconSrc} alt={uiText("Preview")} size={56} cornerRadius={radius} />
             </Box>
           </Box>
         </Box>

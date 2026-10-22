@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useMemo, useState } from "react";
 import {
   Alert,
@@ -117,7 +118,7 @@ export function AppearanceSettingsContent({
       ...(isInUse(theme) ? selection({ id: theme.base, mode: theme.mode }) : {})
     });
     if (editingId === theme.id) setEditingId(null);
-    setNotice({ severity: "success", text: `Deleted ${theme.name}.` });
+    setNotice({ severity: "success", text: uiText("Deleted {0}.", { "0": (theme.name) }) });
   };
 
   const exportThemes = (themes: readonly CustomTheme[], action: ThemeExportAction) => {
@@ -125,12 +126,12 @@ export function AppearanceSettingsContent({
     const what = themes.length === 1 ? themes[0].name : `${themes.length} themes`;
     if (action === "download") {
       downloadJsonFile(themeExportFileName(themes), content);
-      setNotice({ severity: "success", text: `Exported ${what}.` });
+      setNotice({ severity: "success", text: uiText("Exported {0}.", { "0": (what) }) });
       return;
     }
     navigator.clipboard.writeText(content).then(
-      () => setNotice({ severity: "success", text: `Copied ${what} as JSON.` }),
-      () => setNotice({ severity: "error", text: "The clipboard is not available here. Download the file instead." })
+      () => setNotice({ severity: "success", text: uiText("Copied {0} as JSON.", { "0": (what) }) }),
+      () => setNotice({ severity: "error", text: uiText("The clipboard is not available here. Download the file instead.") })
     );
   };
 
@@ -141,19 +142,15 @@ export function AppearanceSettingsContent({
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitleWithClose title={`Delete ${pendingDelete?.name ?? "theme"}?`} onClose={() => setPendingDelete(null)} />
+      <DialogTitleWithClose title={uiText("Delete {0}?", { "0": (pendingDelete?.name ?? "theme") })} onClose={() => setPendingDelete(null)} />
       <DialogContent>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {pendingDelete && isInUse(pendingDelete)
-            ? `The app switches back to ${resolveAppTheme(pendingDelete.mode, pendingDelete.base).name}. `
-            : ""}
-          Export the theme first if you want to keep a copy.
-        </Typography>
+            ? uiText("The app switches back to {0}. ", { "0": (resolveAppTheme(pendingDelete.mode, pendingDelete.base).name) })
+            : ""}{uiText("Export the theme first if you want to keep a copy.")}</Typography>
       </DialogContent>
       <DialogActions>
-        <Button variant="text" onClick={() => setPendingDelete(null)}>
-          Cancel
-        </Button>
+        <Button variant="text" onClick={() => setPendingDelete(null)}>{uiText("Cancel")}</Button>
         <Button
           color="error"
           data-testid="theme-delete-confirm"
@@ -161,9 +158,7 @@ export function AppearanceSettingsContent({
             if (pendingDelete) deleteTheme(pendingDelete);
             setPendingDelete(null);
           }}
-        >
-          Delete
-        </Button>
+        >{uiText("Delete")}</Button>
       </DialogActions>
     </Dialog>
   );
@@ -207,14 +202,14 @@ export function AppearanceSettingsContent({
   return (
     <>
       <SettingsField
-        title="Color mode"
-        description="System follows your operating system's light or dark setting."
+        title={uiText("Color mode")}
+        description={uiText("System follows your operating system's light or dark setting.")}
         compactControl
       >
         <ToggleButtonGroup
           exclusive
           size="small"
-          aria-label="Color mode"
+          aria-label={uiText("Color mode")}
           value={appearance.mode}
           onChange={(_event, mode: StandaloneThemeMode | null) => {
             if (mode) update({ mode });
@@ -222,39 +217,33 @@ export function AppearanceSettingsContent({
           sx={{ "& .MuiToggleButton-root": { px: 1.25 }, "& .MuiSvgIcon-root": { fontSize: 16 } }}
         >
           <ToggleButton value="light" data-testid="standalone-settings-theme-light">
-            <LightModeOutlinedIcon />
-            Light
-          </ToggleButton>
+            <LightModeOutlinedIcon />{uiText("Light")}</ToggleButton>
           <ToggleButton value="system" data-testid="standalone-settings-theme-system">
-            <SettingsBrightnessOutlinedIcon />
-            System
-          </ToggleButton>
+            <SettingsBrightnessOutlinedIcon />{uiText("System")}</ToggleButton>
           <ToggleButton value="dark" data-testid="standalone-settings-theme-dark">
-            <DarkModeOutlinedIcon />
-            Dark
-          </ToggleButton>
+            <DarkModeOutlinedIcon />{uiText("Dark")}</ToggleButton>
         </ToggleButtonGroup>
       </SettingsField>
 
-      <Box component="section" aria-label="Light theme" sx={SECTION_SX}>
+      <Box component="section" aria-label={uiText("Light theme")} sx={SECTION_SX}>
         <SectionHeading
-          title="Light theme"
-          description="Used while the app is light. Customize any theme to make it your own."
+          title={uiText("Light theme")}
+          description={uiText("Used while the app is light. Customize any theme to make it your own.")}
         />
         {gallery("light")}
       </Box>
 
-      <Box component="section" aria-label="Dark theme" sx={SECTION_SX}>
-        <SectionHeading title="Dark theme" description="Used while the app is dark." />
+      <Box component="section" aria-label={uiText("Dark theme")} sx={SECTION_SX}>
+        <SectionHeading title={uiText("Dark theme")} description={uiText("Used while the app is dark.")} />
         {gallery("dark")}
       </Box>
 
-      <Box component="section" aria-label="Custom themes" sx={SECTION_SX}>
+      <Box component="section" aria-label={uiText("Custom themes")} sx={SECTION_SX}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
           <Box sx={{ flex: 1, minWidth: 240 }}>
             <SectionHeading
-              title="Custom themes"
-              description="Edit every color, then share themes as JSON. VS Code color themes import too."
+              title={uiText("Custom themes")}
+              description={uiText("Edit every color, then share themes as JSON. VS Code color themes import too.")}
             />
           </Box>
           <Button
@@ -263,26 +252,20 @@ export function AppearanceSettingsContent({
             startIcon={<UploadIcon />}
             onClick={() => setImportOpen(true)}
             data-testid="theme-import"
-          >
-            Import
-          </Button>
+          >{uiText("Import")}</Button>
           <Button
             variant="outlined"
             size="small"
             startIcon={<DownloadIcon />}
             disabled={customThemes.length === 0}
             onClick={() => exportThemes(customThemes, "download")}
-          >
-            Export all
-          </Button>
+          >{uiText("Export all")}</Button>
           <Button
             size="small"
             startIcon={<AddIcon />}
             onClick={() => customize(appearanceTheme(appearance, currentTheme))}
             data-testid="theme-new"
-          >
-            New theme
-          </Button>
+          >{uiText("New theme")}</Button>
         </Box>
         {notice ? (
           <Alert severity={notice.severity} onClose={() => setNotice(null)}>
@@ -307,7 +290,7 @@ export function AppearanceSettingsContent({
             }}
           >
             <PaletteOutlinedIcon sx={{ fontSize: 20, color: "var(--vscode-icon-foreground)", opacity: 0.7 }} />
-            <Typography variant="body2">No custom themes yet. New theme starts from the one you are using.</Typography>
+            <Typography variant="body2">{uiText("No custom themes yet. New theme starts from the one you are using.")}</Typography>
           </Box>
         ) : (
           <Box sx={{ border: 1, borderColor: "divider", borderRadius: floatingRadius }}>
@@ -337,9 +320,7 @@ export function AppearanceSettingsContent({
         >
           <ListItemIcon>
             <FileCopyOutlinedIcon fontSize="small" />
-          </ListItemIcon>
-          Duplicate
-        </MenuItem>
+          </ListItemIcon>{uiText("Duplicate")}</MenuItem>
         <MenuItem
           onClick={() => {
             if (menu) exportThemes([menu.theme], "download");
@@ -348,9 +329,7 @@ export function AppearanceSettingsContent({
         >
           <ListItemIcon>
             <DownloadIcon fontSize="small" />
-          </ListItemIcon>
-          Download JSON file
-        </MenuItem>
+          </ListItemIcon>{uiText("Download JSON file")}</MenuItem>
         <MenuItem
           onClick={() => {
             if (menu) exportThemes([menu.theme], "copy");
@@ -359,9 +338,7 @@ export function AppearanceSettingsContent({
         >
           <ListItemIcon>
             <ContentCopyIcon fontSize="small" />
-          </ListItemIcon>
-          Copy JSON
-        </MenuItem>
+          </ListItemIcon>{uiText("Copy JSON")}</MenuItem>
         <Divider />
         <MenuItem
           onClick={() => {
@@ -372,9 +349,7 @@ export function AppearanceSettingsContent({
         >
           <ListItemIcon sx={{ color: "inherit" }}>
             <DeleteOutlineIcon fontSize="small" />
-          </ListItemIcon>
-          Delete
-        </MenuItem>
+          </ListItemIcon>{uiText("Delete")}</MenuItem>
       </Menu>
 
       <ThemeImportDialog
@@ -384,7 +359,7 @@ export function AppearanceSettingsContent({
           addThemes(themes);
           setNotice({
             severity: "success",
-            text: `Imported ${themes.length === 1 ? themes[0].name : `${themes.length} themes`}.`
+            text: uiText("Imported {0}.", { "0": (themes.length === 1 ? themes[0].name : `${themes.length} themes`) })
           });
         }}
       />

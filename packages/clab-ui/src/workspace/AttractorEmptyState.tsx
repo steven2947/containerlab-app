@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 import AddIcon from "@mui/icons-material/Add";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import Box from "@mui/material/Box";
@@ -93,22 +94,14 @@ export function AttractorEmptyState({ onCreateLab }: { onCreateLab?: () => void 
         ))}
       </Box>
       <Box sx={{ ...OVERLAY, top: 104, mt: "-5%", gap: 0.75 }}>
-        <Typography component="h1" sx={{ fontSize: 24, fontWeight: 500, letterSpacing: "-0.015em", lineHeight: 1.25, color: "text.primary" }}>
-          Welcome to Containerlab
-        </Typography>
-        <Typography variant="body1" sx={{ color: "text.secondary" }}>
-          Design, deploy and explore network labs.
-        </Typography>
+        <Typography component="h1" sx={{ fontSize: 24, fontWeight: 500, letterSpacing: "-0.015em", lineHeight: 1.25, color: "text.primary" }}>{uiText("Welcome to Containerlab")}</Typography>
+        <Typography variant="body1" sx={{ color: "text.secondary" }}>{uiText("Design, deploy and explore network labs.")}</Typography>
       </Box>
       <Box sx={{ ...OVERLAY, bottom: 104, mb: "-5%", flexDirection: "row", gap: 1 }}>
         {onCreateLab ? (
-          <Button variant="contained" size="large" startIcon={<AddIcon />} onClick={onCreateLab} sx={{ pointerEvents: "auto", mr: 1 }}>
-            Create a lab
-          </Button>
+          <Button variant="contained" size="large" startIcon={<AddIcon />} onClick={onCreateLab} sx={{ pointerEvents: "auto", mr: 1 }}>{uiText("Create a lab")}</Button>
         ) : null}
-        <Button variant="text" size="large" href="https://containerlab.app" target="_blank" rel="noopener noreferrer" endIcon={<NorthEastIcon />} sx={SECONDARY_LINK}>
-          Docs
-        </Button>
+        <Button variant="text" size="large" href="https://containerlab.app" target="_blank" rel="noopener noreferrer" endIcon={<NorthEastIcon />} sx={SECONDARY_LINK}>{uiText("Docs")}</Button>
         <Button variant="text" size="large" href="https://discord.gg/vAyddtaEV9" target="_blank" rel="noopener noreferrer" endIcon={<NorthEastIcon />} sx={SECONDARY_LINK}>
           Discord
         </Button>

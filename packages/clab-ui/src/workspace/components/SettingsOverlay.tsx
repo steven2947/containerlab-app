@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import { useWorkspaceHost } from "../WorkspaceHost";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -55,6 +56,7 @@ import { MONO_FONT_FAMILY } from "../../theme/typography";
 import { AboutSettingsContent } from "./AboutSettingsContent";
 import { AppearanceSettingsContent } from "./AppearanceSettingsContent";
 import { EndpointManager } from "./EndpointManager";
+import { LanguageSetting } from "./LanguageSetting";
 import {
   persistAutoOpenPalette,
   persistAutoOpenPaletteOnSelect,
@@ -133,18 +135,18 @@ function formatCaptureStatus(
   endpointLabel: string
 ): string {
   if (!hasEndpoint) {
-    return "No endpoint selected";
+    return uiText("No endpoint selected");
   }
   if (loading) {
-    return `Loading status for ${endpointLabel}...`;
+    return uiText("Loading status for {0}...", { "0": (endpointLabel) });
   }
   if (!status) {
-    return `Unknown on ${endpointLabel}`;
+    return uiText("Unknown on {0}", { "0": (endpointLabel) });
   }
   if (!status.running) {
-    return `Not running on ${endpointLabel}`;
+    return uiText("Not running on {0}", { "0": (endpointLabel) });
   }
-  return `Running on ${endpointLabel}${status.version ? ` (${status.version})` : ""}`;
+  return uiText("Running on {0}{1}", { "0": (endpointLabel), "1": (status.version ? ` (${status.version})` : "") });
 }
 
 const SETTINGS_SECTIONS: Array<{
@@ -155,38 +157,38 @@ const SETTINGS_SECTIONS: Array<{
 }> = [
   {
     key: "endpoints",
-    label: "Endpoints",
-    description: "Connection management and credentials",
+    label: uiText("Endpoints"),
+    description: uiText("Connection management and credentials"),
     icon: <DnsOutlinedIcon fontSize="small" />
   },
   {
     key: "general",
-    label: "General",
-    description: "Workspace behavior",
+    label: uiText("General"),
+    description: uiText("Workspace behavior"),
     icon: <SettingsOutlinedIcon fontSize="small" />
   },
   {
     key: "appearance",
-    label: "Appearance",
-    description: "Color mode, themes and custom colors",
+    label: uiText("Appearance"),
+    description: uiText("Color mode, themes and custom colors"),
     icon: <PaletteOutlinedIcon fontSize="small" />
   },
   {
     key: "terminal",
-    label: "Terminal",
-    description: "SSH mapping, telnet, and font defaults",
+    label: uiText("Terminal"),
+    description: uiText("SSH mapping, telnet, and font defaults"),
     icon: <TerminalIcon fontSize="small" />
   },
   {
     key: "capture",
-    label: "Capture",
-    description: "Edgeshark and packet capture helpers",
+    label: uiText("Capture"),
+    description: uiText("Edgeshark and packet capture helpers"),
     icon: <HubOutlinedIcon fontSize="small" />
   },
   {
     key: "about",
-    label: "About",
-    description: "Version and diagnostics entrypoints",
+    label: uiText("About"),
+    description: uiText("Version and diagnostics entrypoints"),
     icon: <InfoOutlinedIcon fontSize="small" />
   }
 ];
@@ -333,7 +335,7 @@ function CaptureSettingsSection(props: {
     <>
       <SectionCard
         title="Edgeshark"
-        description="Install or uninstall Edgeshark on the selected endpoint host."
+        description={uiText("Install or uninstall Edgeshark on the selected endpoint host.")}
         tone={props.captureEndpoint && props.captureStatus?.running ? "success" : "warning"}
       >
         {props.captureError ? (
@@ -343,16 +345,16 @@ function CaptureSettingsSection(props: {
         ) : null}
         <TextField
           select
-          label="Endpoint"
+          label={uiText("Endpoint")}
           value={props.captureEndpointId}
           onChange={(event) => props.setCaptureEndpointId(event.target.value)}
           fullWidth
           disabled={props.endpoints.length === 0}
-          helperText="Capture status/actions and defaults are scoped to this endpoint."
+          helperText={uiText("Capture status/actions and defaults are scoped to this endpoint.")}
           data-testid="standalone-settings-capture-endpoint"
         >
           {props.endpoints.length === 0 ? (
-            <MenuItem value="">No endpoints configured</MenuItem>
+            <MenuItem value="">{uiText("No endpoints configured")}</MenuItem>
           ) : (
             props.endpoints.map((endpoint) => (
               <MenuItem key={endpoint.id} value={endpoint.id}>
@@ -362,7 +364,7 @@ function CaptureSettingsSection(props: {
           )}
         </TextField>
         <TextField
-          label="Status"
+          label={uiText("Status")}
           value={formatCaptureStatus(
             Boolean(props.captureEndpoint),
             props.captureStatusLoading,
@@ -392,9 +394,7 @@ function CaptureSettingsSection(props: {
               props.captureActionLoading !== null
             }
             data-testid="standalone-settings-capture-refresh"
-          >
-            Refresh
-          </Button>
+          >{uiText("Refresh")}</Button>
           <Button
             variant="outlined"
             startIcon={<DownloadIcon />}
@@ -405,9 +405,7 @@ function CaptureSettingsSection(props: {
               props.captureActionLoading !== null
             }
             data-testid="standalone-settings-capture-install"
-          >
-            Install
-          </Button>
+          >{uiText("Install")}</Button>
           <Button
             variant="outlined"
             color="warning"
@@ -419,23 +417,18 @@ function CaptureSettingsSection(props: {
               props.captureActionLoading !== null
             }
             data-testid="standalone-settings-capture-uninstall"
-          >
-            Uninstall
-          </Button>
+          >{uiText("Uninstall")}</Button>
         </Stack>
         <Typography
           variant="caption"
           sx={{
             color: "text.secondary"
           }}
-        >
-          Capture defaults (image, pull policy, packetflix host/port) are controlled on the API
-          server via environment variables.
-        </Typography>
+        >{uiText("Capture defaults (image, pull policy, packetflix host/port) are controlled on the API server via environment variables.")}</Typography>
       </SectionCard>
       <SectionCard
-        title="Capture defaults"
-        description="Set per-endpoint defaults for generic capture commands and optional session hostname override."
+        title={uiText("Capture defaults")}
+        description={uiText("Set per-endpoint defaults for generic capture commands and optional session hostname override.")}
         tone="info"
       >
         <ToggleButtonGroup
@@ -457,12 +450,12 @@ function CaptureSettingsSection(props: {
           </ToggleButton>
         </ToggleButtonGroup>
         <TextField
-          label="Session Hostname Override"
+          label={uiText("Session Hostname Override")}
           value={props.captureSessionHostname}
           onChange={(event) => props.setCaptureSessionHostname(event.target.value)}
           fullWidth
-          placeholder="IPv4, IPv6, or DNS hostname"
-          helperText="Used for packetflix URI generation on the selected endpoint in this browser session only."
+          placeholder={uiText("IPv4, IPv6, or DNS hostname")}
+          helperText={uiText("Used for packetflix URI generation on the selected endpoint in this browser session only.")}
           data-testid="standalone-settings-capture-session-hostname"
         />
         <Stack
@@ -477,17 +470,13 @@ function CaptureSettingsSection(props: {
             onClick={props.applyCaptureSessionHostname}
             disabled={!props.captureEndpoint}
             data-testid="standalone-settings-capture-session-hostname-apply"
-          >
-            Apply Session Hostname
-          </Button>
+          >{uiText("Apply Session Hostname")}</Button>
           <Button
             variant="outlined"
             onClick={props.clearCaptureSessionHostname}
             disabled={!props.captureEndpoint}
             data-testid="standalone-settings-capture-session-hostname-clear"
-          >
-            Clear Override
-          </Button>
+          >{uiText("Clear Override")}</Button>
         </Stack>
       </SectionCard>
     </>
@@ -714,10 +703,11 @@ export function SettingsOverlay({
       case "general":
         return (
           <>
+            <LanguageSetting />
             {onTabOrientationChange ? (
               <SectionCard
-                title="Open tabs"
-                description="Horizontal tabs sit above the editor. Vertical tabs sit in the workspace rail."
+                title={uiText("Open tabs")}
+                description={uiText("Horizontal tabs sit above the editor. Vertical tabs sit in the workspace rail.")}
                 wide={false}
               >
                 <TextField
@@ -729,18 +719,14 @@ export function SettingsOverlay({
                     if (next === "horizontal" || next === "vertical") onTabOrientationChange(next);
                   }}
                 >
-                  <MenuItem value="horizontal" data-testid="standalone-settings-tabs-horizontal">
-                    Horizontal
-                  </MenuItem>
-                  <MenuItem value="vertical" data-testid="standalone-settings-tabs-vertical">
-                    Vertical
-                  </MenuItem>
+                  <MenuItem value="horizontal" data-testid="standalone-settings-tabs-horizontal">{uiText("Horizontal")}</MenuItem>
+                  <MenuItem value="vertical" data-testid="standalone-settings-tabs-vertical">{uiText("Vertical")}</MenuItem>
                 </TextField>
               </SectionCard>
             ) : null}
             <SectionCard
-              title="Automatically open palette"
-              description="Open the node palette when you open an empty lab."
+              title={uiText("Automatically open palette")}
+              description={uiText("Open the node palette when you open an empty lab.")}
               wide={false}
               compactControl
             >
@@ -752,12 +738,12 @@ export function SettingsOverlay({
                   setAutoOpenPalette(next);
                   persistAutoOpenPalette(next);
                 }}
-                slotProps={{ input: { "aria-label": "Automatically open palette" } }}
+                slotProps={{ input: { "aria-label": uiText("Automatically open palette") } }}
               />
             </SectionCard>
             <SectionCard
-              title="Open palette on node click"
-              description="Open the side panel when you click a node or link."
+              title={uiText("Open palette on node click")}
+              description={uiText("Open the side panel when you click a node or link.")}
               wide={false}
               compactControl
             >
@@ -769,12 +755,12 @@ export function SettingsOverlay({
                   setAutoOpenPaletteOnSelect(next);
                   persistAutoOpenPaletteOnSelect(next);
                 }}
-                slotProps={{ input: { "aria-label": "Open palette on node click" } }}
+                slotProps={{ input: { "aria-label": uiText("Open palette on node click") } }}
               />
             </SectionCard>
             <SectionCard
-              title="Lock labs by default"
-              description="Opened labs start locked until you unlock them."
+              title={uiText("Lock labs by default")}
+              description={uiText("Opened labs start locked until you unlock them.")}
               wide={false}
               compactControl
             >
@@ -786,7 +772,7 @@ export function SettingsOverlay({
                   setDefaultLabLocked(next);
                   persistDefaultLabLocked(next);
                 }}
-                slotProps={{ input: { "aria-label": "Lock labs by default" } }}
+                slotProps={{ input: { "aria-label": uiText("Lock labs by default") } }}
               />
             </SectionCard>
           </>
@@ -802,12 +788,12 @@ export function SettingsOverlay({
       case "terminal":
         return (
             <SectionCard
-              title="Terminal defaults"
-              description="Configure standalone defaults for SSH username resolution, telnet access, and font sizing."
+              title={uiText("Terminal defaults")}
+              description={uiText("Configure standalone defaults for SSH username resolution, telnet access, and font sizing.")}
               tone="info"
             >
               <TextField
-                label="SSH User Mapping JSON"
+                label={uiText("SSH User Mapping JSON")}
                 value={sshUserMappingText}
                 onChange={(event) => setSshUserMappingText(event.target.value)}
                 fullWidth
@@ -817,13 +803,13 @@ export function SettingsOverlay({
                 helperText={
                   terminalDraft.field === "ssh"
                     ? terminalDraft.error
-                    : "JSON object mapping container kinds to default SSH usernames."
+                    : uiText("JSON object mapping container kinds to default SSH usernames.")
                 }
                 data-testid="standalone-settings-ssh-mapping"
                 sx={{ "& textarea": { fontFamily: MONO_FONT_FAMILY, fontSize: 12 } }}
               />
               <TextField
-                label="Telnet Port"
+                label={uiText("Telnet Port")}
                 value={telnetPortText}
                 onChange={(event) => setTelnetPortText(event.target.value)}
                 fullWidth
@@ -831,7 +817,7 @@ export function SettingsOverlay({
                 helperText={
                   terminalDraft.field === "telnet"
                     ? terminalDraft.error
-                    : "Default telnet port used by standalone terminal actions."
+                    : uiText("Default telnet port used by standalone terminal actions.")
                 }
                 slotProps={{
                   htmlInput: { inputMode: "numeric", pattern: "[0-9]*" }
@@ -839,7 +825,7 @@ export function SettingsOverlay({
                 data-testid="standalone-settings-telnet-port"
               />
               <TextField
-                label="Terminal Font Size"
+                label={uiText("Terminal Font Size")}
                 value={fontSizeText}
                 onChange={(event) => setFontSizeText(event.target.value)}
                 fullWidth
@@ -847,7 +833,7 @@ export function SettingsOverlay({
                 helperText={
                   terminalDraft.field === "fontSize"
                     ? terminalDraft.error
-                    : `Global xterm font size applied to open/new windows (${MIN_TERMINAL_FONT_SIZE}-${MAX_TERMINAL_FONT_SIZE}).`
+                    : uiText("Global xterm font size applied to open/new windows ({0}-{1}).", { "0": (MIN_TERMINAL_FONT_SIZE), "1": (MAX_TERMINAL_FONT_SIZE) })
                 }
                 slotProps={{
                   htmlInput: {
@@ -884,22 +870,15 @@ export function SettingsOverlay({
                 sx={{
                   color: "text.secondary"
                 }}
-              >
-                Font size is global for all terminals. In terminal windows, use Actions or Alt+Up,
-                Alt+Down, Alt+0 for quick adjustment.
-              </Typography>
+              >{uiText("Font size is global for all terminals. In terminal windows, use Actions or Alt+Up, Alt+Down, Alt+0 for quick adjustment.")}</Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap" }}>
                 <Button
                   onClick={handleSaveTerminalSettings}
                   disabled={terminalDraft.error !== null}
                   data-testid="standalone-settings-save-terminal"
-                >
-                  Save Terminal Settings
-                </Button>
+                >{uiText("Save Terminal Settings")}</Button>
                 {terminalDraft.error === null ? (
-                  <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                    Saved in this browser.
-                  </Typography>
+                  <Typography variant="caption" sx={{ color: "text.secondary" }}>{uiText("Saved in this browser.")}</Typography>
                 ) : null}
               </Box>
             </SectionCard>
@@ -980,7 +959,7 @@ export function SettingsOverlay({
             size="small"
             onClick={handleCloseDialog}
             data-testid="standalone-settings-close"
-            aria-label="Close standalone settings"
+            aria-label={uiText("Close standalone settings")}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
@@ -993,15 +972,11 @@ export function SettingsOverlay({
                 color="error"
                 startIcon={<LogoutIcon />}
                 onClick={handleLogoutClick}
-              >
-                Disconnect Sessions
-              </Button>
+              >{uiText("Disconnect Sessions")}</Button>
             ) : (
               <span />
             )}
-            <Button variant="outlined" onClick={handleCloseDialog}>
-              Close
-            </Button>
+            <Button variant="outlined" onClick={handleCloseDialog}>{uiText("Close")}</Button>
           </>
         }
       >

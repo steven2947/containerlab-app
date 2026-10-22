@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 /* eslint-disable import-x/max-dependencies */
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -98,20 +99,20 @@ interface InspectGroupPanelProps {
 }
 
 const COLUMNS: ReadonlyArray<ColumnDefinition> = [
-  { id: "containerName", label: "Name", value: (row) => row.containerName },
-  { id: "kind", label: "Kind", value: (row) => row.kind },
-  { id: "type", label: "Type", value: (row) => row.type },
-  { id: "image", label: "Image", value: (row) => row.image, sx: { minWidth: 180, maxWidth: 240 } },
-  { id: "state", label: "State", value: (row) => row.state },
-  { id: "status", label: "Status", value: (row) => row.status },
+  { id: "containerName", label: uiText("Name"), value: (row) => row.containerName },
+  { id: "kind", label: uiText("Kind"), value: (row) => row.kind },
+  { id: "type", label: uiText("Type"), value: (row) => row.type },
+  { id: "image", label: uiText("Image"), value: (row) => row.image, sx: { minWidth: 180, maxWidth: 240 } },
+  { id: "state", label: uiText("State"), value: (row) => row.state },
+  { id: "status", label: uiText("Status"), value: (row) => row.status },
   { id: "pid", label: "PID", value: (row) => row.pid },
   { id: "ipv4", label: "IPv4", value: (row) => row.ipv4 },
   { id: "ipv6", label: "IPv6", value: (row) => row.ipv6 },
-  { id: "network", label: "Network", value: (row) => row.network },
-  { id: "owner", label: "Owner", value: (row) => row.owner },
+  { id: "network", label: uiText("Network"), value: (row) => row.network },
+  { id: "owner", label: uiText("Owner"), value: (row) => row.owner },
   {
     id: "ports",
-    label: "Ports",
+    label: uiText("Ports"),
     value: (row) => row.ports.map((port) => `${port.port}/${port.protocol}`).join(", ")
   }
 ];
@@ -391,8 +392,7 @@ function InspectGroupPanel({
       >
         <Typography variant="subtitle2">{group.labName}</Typography>
         <Typography variant="caption" sx={{ color: "text.secondary" }}>
-          {group.rows.length} containers
-        </Typography>
+          {group.rows.length}{uiText(" containers")}</Typography>
       </Box>
 
       <TableContainer
@@ -405,7 +405,7 @@ function InspectGroupPanel({
           "& tbody tr:last-of-type > td": { borderBottom: 0 }
         }}
       >
-        <Table stickyHeader size="small" aria-label={`Inspect table for ${group.labName}`}>
+        <Table stickyHeader size="small" aria-label={uiText("Inspect table for {0}", { "0": (group.labName) })}>
           <TableHead>
             <TableRow>
               {COLUMNS.map((column) => (
@@ -587,7 +587,7 @@ export function InspectApp(): React.JSX.Element {
             borderColor: "divider"
           }}
         >
-          <Typography variant="h6">Containerlab Inspect</Typography>
+          <Typography variant="h6">{uiText("Containerlab Inspect")}</Typography>
 
           <Stack
             direction="row"
@@ -603,7 +603,7 @@ export function InspectApp(): React.JSX.Element {
               onChange={(event) => {
                 setSearchText(event.target.value);
               }}
-              placeholder="Search labs or nodes"
+              placeholder={uiText("Search labs or nodes")}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -621,9 +621,7 @@ export function InspectApp(): React.JSX.Element {
               onClick={() => {
                 postMessage({ command: "refresh" });
               }}
-            >
-              Refresh
-            </Button>
+            >{uiText("Refresh")}</Button>
           </Stack>
         </Box>
 
@@ -633,8 +631,8 @@ export function InspectApp(): React.JSX.Element {
               <DnsOutlinedIcon sx={{ fontSize: 28, opacity: 0.8 }} />
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {containers.length > 0
-                  ? "No containers match your search."
-                  : "No containers found."}
+                  ? uiText("No containers match your search.")
+                  : uiText("No containers found.")}
               </Typography>
             </Stack>
           ) : null}

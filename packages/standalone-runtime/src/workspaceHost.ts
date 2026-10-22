@@ -1,3 +1,4 @@
+import { uiText } from "@containerlab/clab-ui/i18n";
 import type { WorkspaceHost } from "@containerlab/clab-ui/workspace";
 import { listFileExplorerDirectory, writeFileExplorerFile, fetchVersionInfo, fetchVersionCheck, fetchEdgeSharkStatus, installEdgeShark, uninstallEdgeShark, fetchNodeLogs, inspectAllLabs, inspectLab, setNetem, resetNetem, openTerminalSession, closeTerminalSession, connectTerminalSessionWebSocket } from "./runtimeApi";
 import { fetchEndpointHealthMetrics } from "./endpointHealth";
@@ -84,6 +85,6 @@ export const workspaceHost: WorkspaceHost = {
   openTerminalWindow(pane) {
     if (!getStandaloneBackend().capabilities.lifecycle) return;
     const popup = window.open(buildDetachedTerminalUrl(pane), "_blank", "noopener,noreferrer");
-    if (!popup) runtimeUiActions.notify("Browser blocked the terminal popup.", "warning");
+    if (!popup) runtimeUiActions.notify(uiText("Browser blocked the terminal popup."), "warning");
   }
 };

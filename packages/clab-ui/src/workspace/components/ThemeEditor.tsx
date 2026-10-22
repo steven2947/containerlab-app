@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React, { useMemo, useRef, useState } from "react";
 import {
   Box,
@@ -54,7 +55,7 @@ function CustomizedMark() {
   return (
     <Box
       component="span"
-      title="Customized"
+      title={uiText("Customized")}
       sx={{ width: 6, height: 6, flexShrink: 0, borderRadius: "50%", bgcolor: "primary.main" }}
     />
   );
@@ -62,8 +63,8 @@ function CustomizedMark() {
 
 function ResetButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <Tooltip title="Use the theme's color">
-      <IconButton size="small" aria-label={`Reset ${label}`} onClick={onClick}>
+    <Tooltip title={uiText("Use the theme's color")}>
+      <IconButton size="small" aria-label={uiText("Reset {0}", { "0": (label) })} onClick={onClick}>
         <RestartAltIcon fontSize="small" />
       </IconButton>
     </Tooltip>
@@ -168,12 +169,8 @@ function TerminalColors({
     <Box sx={{ ...ROW_SX, pb: 1.5 }}>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box sx={{ flex: 1 }}>
-          <Typography variant="body1" sx={LABEL_SX}>
-            Terminal colors
-          </Typography>
-          <Typography variant="body2" sx={HINT_SX}>
-            The 16 ANSI colors. Click a swatch to change it.
-          </Typography>
+          <Typography variant="body1" sx={LABEL_SX}>{uiText("Terminal colors")}</Typography>
+          <Typography variant="body2" sx={HINT_SX}>{uiText("The 16 ANSI colors. Click a swatch to change it.")}</Typography>
         </Box>
         {customized.length > 0 ? (
           <Button
@@ -183,9 +180,7 @@ function TerminalColors({
             onClick={() =>
               onChange(customized.reduce((next, role) => withRoleColor(next, role.key, undefined), theme))
             }
-          >
-            Reset
-          </Button>
+          >{uiText("Reset")}</Button>
         ) : null}
       </Box>
       {(["Normal", "Bright"] as const).map((row, rowIndex) => (
@@ -218,7 +213,7 @@ function TerminalColors({
                   <Box
                     component="input"
                     type="color"
-                    aria-label={`Terminal ${role.label.toLowerCase()}`}
+                    aria-label={uiText("Terminal {0}", { "0": (role.label.toLowerCase()) })}
                     value={color}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       onChange(withRoleColor(theme, role.key, event.target.value))
@@ -251,11 +246,11 @@ function TokenOverrides({
   const rows = THEME_COLOR_TOKENS.map(tokenColorId).filter((id) => id.toLowerCase().includes(needle));
   return (
     <EditorGroup
-      title="All tokens"
-      description={`Override any single color the app uses${overrides > 0 ? ` (${overrides} overridden)` : ""}. Accepts hex, #rrggbbaa and rgba().`}
+      title={uiText("All tokens")}
+      description={uiText("Override any single color the app uses{0}. Accepts hex, #rrggbbaa and rgba().", { "0": (overrides > 0 ? ` (${overrides} overridden)` : "") })}
       action={
         <Button size="small" variant="text" onClick={() => setOpen(!open)} data-testid="theme-editor-tokens-toggle">
-          {open ? "Hide" : `Show ${THEME_COLOR_TOKENS.length}`}
+          {open ? uiText("Hide") : uiText("Show {0}", { "0": (THEME_COLOR_TOKENS.length) })}
         </Button>
       }
     >
@@ -264,10 +259,10 @@ function TokenOverrides({
           <TextField
             size="small"
             fullWidth
-            placeholder="Filter tokens, e.g. button or terminal"
+            placeholder={uiText("Filter tokens, e.g. button or terminal")}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            slotProps={{ htmlInput: { "aria-label": "Filter tokens" } }}
+            slotProps={{ htmlInput: { "aria-label": uiText("Filter tokens") } }}
             sx={{ p: 1.5, pb: 1, borderBottom: 1, borderColor: "divider" }}
           />
           <Box sx={{ maxHeight: 420, overflow: "auto" }}>
@@ -303,9 +298,7 @@ function TokenOverrides({
               );
             })}
             {rows.length === 0 ? (
-              <Typography variant="body2" sx={{ ...HINT_SX, px: 1.5, py: 1.5 }}>
-                No token matches.
-              </Typography>
+              <Typography variant="body2" sx={{ ...HINT_SX, px: 1.5, py: 1.5 }}>{uiText("No token matches.")}</Typography>
             ) : null}
           </Box>
         </>
@@ -375,9 +368,7 @@ export function ThemeEditor({
           onClick={onBack}
           data-testid="theme-editor-back"
           sx={{ ml: -1.25 }}
-        >
-          All themes
-        </Button>
+        >{uiText("All themes")}</Button>
         <Box sx={{ flex: 1 }} />
         {inUse ? (
           <Typography
@@ -385,13 +376,9 @@ export function ThemeEditor({
             component="span"
             sx={{ display: "flex", alignItems: "center", gap: 0.75, mr: 0.5, color: "text.secondary" }}
           >
-            <CheckCircleIcon sx={{ fontSize: 16, color: "primary.main" }} />
-            In use for {theme.mode} mode
-          </Typography>
+            <CheckCircleIcon sx={{ fontSize: 16, color: "primary.main" }} />{uiText("In use for ")}{theme.mode}{uiText(" mode")}</Typography>
         ) : (
-          <Button variant="outlined" size="small" onClick={onUse} data-testid="theme-editor-use">
-            Use for {theme.mode} mode
-          </Button>
+          <Button variant="outlined" size="small" onClick={onUse} data-testid="theme-editor-use">{uiText("Use for ")}{theme.mode}{uiText(" mode")}</Button>
         )}
         <Button
           variant="outlined"
@@ -400,9 +387,7 @@ export function ThemeEditor({
           endIcon={<ArrowDropDownIcon />}
           onClick={(event) => setExportAnchor(event.currentTarget)}
           data-testid="theme-editor-export"
-        >
-          Export
-        </Button>
+        >{uiText("Export")}</Button>
         <Menu anchorEl={exportAnchor} open={exportAnchor !== null} onClose={() => setExportAnchor(null)}>
           <MenuItem
             onClick={() => {
@@ -412,9 +397,7 @@ export function ThemeEditor({
           >
             <ListItemIcon>
               <DownloadIcon fontSize="small" />
-            </ListItemIcon>
-            Download JSON file
-          </MenuItem>
+            </ListItemIcon>{uiText("Download JSON file")}</MenuItem>
           <MenuItem
             onClick={() => {
               setExportAnchor(null);
@@ -423,13 +406,11 @@ export function ThemeEditor({
           >
             <ListItemIcon>
               <ContentCopyIcon fontSize="small" />
-            </ListItemIcon>
-            Copy JSON
-          </MenuItem>
+            </ListItemIcon>{uiText("Copy JSON")}</MenuItem>
         </Menu>
-        <Tooltip title="Delete theme">
+        <Tooltip title={uiText("Delete theme")}>
           <IconButton
-            aria-label="Delete theme"
+            aria-label={uiText("Delete theme")}
             onClick={onDelete}
             data-testid="theme-editor-delete"
             sx={{ "&:hover": { color: "error.main" } }}
@@ -453,7 +434,7 @@ export function ThemeEditor({
           <Box sx={{ display: "grid", gap: 1.5, pt: 1, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
             <TextField
               size="small"
-              label="Name"
+              label={uiText("Name")}
               value={theme.name}
               onChange={(event) => onChange({ ...theme, name: event.target.value.slice(0, 60) })}
               onBlur={() => {
@@ -462,12 +443,12 @@ export function ThemeEditor({
               slotProps={{ htmlInput: { "data-testid": "theme-editor-name" } }}
             />
             {theme.baseline ? (
-              <TextField size="small" label="Starts from" value="Imported colors" disabled />
+              <TextField size="small" label={uiText("Starts from")} value="Imported colors" disabled />
             ) : (
               <TextField
                 select
                 size="small"
-                label="Starts from"
+                label={uiText("Starts from")}
                 value={theme.base}
                 onChange={(event) => onChange({ ...theme, base: event.target.value })}
               >
@@ -507,15 +488,12 @@ export function ThemeEditor({
           <Typography variant="body2" sx={{ ...HINT_SX, minHeight: 36 }} aria-live="polite">
             {hoveredLabel === undefined ? (
               <>
-                {caption} Click any part of the preview to edit its color.
-              </>
+                {caption}{uiText(" Click any part of the preview to edit its color.")}</>
             ) : (
               <>
                 <Box component="strong" sx={{ color: "text.primary" }}>
                   {hoveredLabel}
-                </Box>
-                : click to edit
-              </>
+                </Box>{uiText(": click to edit")}</>
             )}
           </Typography>
           {changes > 0 ? (
@@ -526,8 +504,7 @@ export function ThemeEditor({
               onClick={() => onChange({ ...theme, colors: {}, tokens: {} })}
               sx={{ justifySelf: "start" }}
               data-testid="theme-editor-reset"
-            >
-              Reset {changes} {changes === 1 ? "change" : "changes"}
+            >{uiText("Reset ")}{changes} {changes === 1 ? "change" : "changes"}
             </Button>
           ) : null}
         </Box>

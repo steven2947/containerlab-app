@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React from "react";
 import Box from "@mui/material/Box";
 
@@ -30,10 +31,10 @@ const NODES = [
 ] as const;
 
 const STATUS_LINES = [
-  { label: "Running", token: "testing-iconPassed", role: "success" },
-  { label: "1 warning", token: "editorWarning-foreground", role: "warning" },
-  { label: "Failed", token: "editorError-foreground", role: "error" },
-  { label: "Starting", token: "editorInfo-foreground", role: "info" }
+  { label: uiText("Running"), token: "testing-iconPassed", role: "success" },
+  { label: uiText("1 warning"), token: "editorWarning-foreground", role: "warning" },
+  { label: uiText("Failed"), token: "editorError-foreground", role: "error" },
+  { label: uiText("Starting"), token: "editorInfo-foreground", role: "info" }
 ] as const;
 
 function Dot({ token, role }: { token: string; role: string }) {
@@ -96,9 +97,7 @@ function Explorer() {
       <Box
         data-theme-role="muted"
         sx={{ px: 1.25, pb: 0.75, fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", color: v("descriptionForeground") }}
-      >
-        LABS
-      </Box>
+      >{uiText("LABS")}</Box>
       {EXPLORER_ROWS.map((row, index) => (
         <Box
           key={row.label}
@@ -261,7 +260,7 @@ function Terminal() {
         <Box component="span" data-theme-role="foreground">show version</Box>
       </Box>
       <Box>
-        <Box component="span" data-theme-role="foreground">Hostname</Box>{" "}
+        <Box component="span" data-theme-role="foreground">{uiText("Hostname")}</Box>{" "}
         <Box component="span" data-theme-role="editorSelection" sx={{ bgcolor: v("terminal-selectionBackground") }}>
           srl1
         </Box>{" "}
@@ -297,9 +296,7 @@ function SidePanel() {
         <Box
           data-theme-role="accent"
           sx={{ py: 0.625, color: v("tab-activeForeground"), borderBottom: `2px solid ${v("button-background")}`, fontWeight: 600 }}
-        >
-          Nodes
-        </Box>
+        >{uiText("Nodes")}</Box>
         <Box data-theme-role="muted" sx={{ py: 0.625, color: v("tab-inactiveForeground") }}>
           YAML
         </Box>
@@ -317,9 +314,7 @@ function SidePanel() {
             border: `1px solid ${v("input-border")}`,
             color: v("input-placeholderForeground")
           }}
-        >
-          Search nodes…
-        </Box>
+        >{uiText("Search nodes…")}</Box>
         <Box
           data-theme-role="border"
           sx={{ px: 0.875, py: 0.625, borderRadius: "4px", border: `1px solid ${v("panel-border")}`, whiteSpace: "nowrap", overflow: "hidden" }}
@@ -333,15 +328,11 @@ function SidePanel() {
           <Box
             data-theme-role="accent"
             sx={{ px: 1, py: 0.375, borderRadius: "4px", bgcolor: v("button-background"), color: v("button-foreground"), fontWeight: 600 }}
-          >
-            Deploy
-          </Box>
+          >{uiText("Deploy")}</Box>
           <Box
             data-theme-role="raised"
             sx={{ px: 1, py: 0.375, borderRadius: "4px", bgcolor: v("button-secondaryBackground"), color: v("button-secondaryForeground") }}
-          >
-            Edit
-          </Box>
+          >{uiText("Edit")}</Box>
         </Box>
         {STATUS_LINES.map((line) => (
           <Box
@@ -353,9 +344,7 @@ function SidePanel() {
             {line.label}
           </Box>
         ))}
-        <Box data-theme-role="link" sx={{ fontSize: 11, color: v("textLink-foreground"), textDecoration: "underline" }}>
-          View logs
-        </Box>
+        <Box data-theme-role="link" sx={{ fontSize: 11, color: v("textLink-foreground"), textDecoration: "underline" }}>{uiText("View logs")}</Box>
       </Box>
     </Box>
   );

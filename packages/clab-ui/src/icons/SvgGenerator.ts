@@ -1,3 +1,4 @@
+import { uiText } from "../i18n";
 // SvgGenerator.ts
 //
 // Built-in node icons: the containerlab rounded hex around a line symbol. The
@@ -16,22 +17,22 @@ export const ICON_INK = { light: "#001135", dark: "#ddf8ff" } as const;
 
 /** Display names for the icon pickers. */
 export const BUILT_IN_ICON_LABELS: Readonly<Record<NodeType, string>> = {
-  router: "Router",
-  switch: "Switch",
-  leaf: "Leaf",
-  spine: "Spine",
-  "super-spine": "Super Spine",
-  dcgw: "DC Gateway",
-  firewall: "Firewall",
-  container: "Container",
+  router: uiText("Router"),
+  switch: uiText("Switch"),
+  leaf: uiText("Leaf"),
+  spine: uiText("Spine"),
+  "super-spine": uiText("Super Spine"),
+  dcgw: uiText("DC Gateway"),
+  firewall: uiText("Firewall"),
+  container: uiText("Container"),
   vm: "VM",
-  server: "Server",
-  client: "Client",
-  controller: "Controller",
-  cloud: "Cloud",
+  server: uiText("Server"),
+  client: uiText("Client"),
+  controller: uiText("Controller"),
+  cloud: uiText("Cloud"),
   pon: "PON",
   rgw: "RGW",
-  ue: "User Equipment"
+  ue: uiText("User Equipment")
 };
 
 const FRAME =

@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 import type { TopoNode } from "../../../core/types/graph";
 import { searchNodes as searchNodesUtil } from "../../../utils/graphQueryUtils";
 
@@ -68,7 +69,7 @@ export function getCombinedMatches(nodes: TopoNode[], searchTerm: string): TopoN
 }
 
 export function formatMatchCountText(count: number): string {
-  if (count === 0) return "No nodes found";
+  if (count === 0) return uiText("No nodes found");
   const suffix = count === 1 ? "" : "s";
-  return `Found ${count} node${suffix}`;
+  return uiText("Found {0} node{1}", { "0": (count), "1": (suffix) });
 }

@@ -1,3 +1,4 @@
+import { uiText } from "../../i18n";
 import React from "react";
 import { Box, Button, ButtonBase, IconButton, Tooltip, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -174,18 +175,16 @@ export function ThemeCard({
             {theme.name}
           </Typography>
           {custom ? (
-            <Typography variant="caption" sx={{ color: "text.secondary", flexShrink: 0 }}>
-              Custom
-            </Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary", flexShrink: 0 }}>{uiText("Custom")}</Typography>
           ) : null}
           {selected ? <CheckCircleIcon sx={{ fontSize: 16, flexShrink: 0, color: "primary.main" }} /> : null}
         </Box>
       </ButtonBase>
-      <Tooltip title={custom ? "Edit" : "Customize"}>
+      <Tooltip title={custom ? uiText("Edit") : uiText("Customize")}>
         <IconButton
           className="theme-card-action"
           size="small"
-          aria-label={`${custom ? "Edit" : "Customize"} ${theme.name}`}
+          aria-label={`${custom ? uiText("Edit") : uiText("Customize")} ${theme.name}`}
           onClick={onCustomize}
           data-testid={`theme-card-customize-${theme.id}`}
           sx={{
@@ -226,8 +225,8 @@ export function CustomThemeRow({
 }) {
   const changes = customizedColorCount(theme);
   const details = [
-    theme.mode === "light" ? "Light" : "Dark",
-    theme.baseline ? "Imported" : `From ${resolveAppTheme(theme.mode, theme.base).name}`,
+    theme.mode === "light" ? uiText("Light") : uiText("Dark"),
+    theme.baseline ? uiText("Imported") : uiText("From {0}", { "0": (resolveAppTheme(theme.mode, theme.base).name) }),
     ...(changes > 0 ? [`${changes} ${changes === 1 ? "change" : "changes"}`] : []),
     ...(inUse ? ["In use"] : [])
   ];
@@ -252,12 +251,10 @@ export function CustomThemeRow({
           {details.join(" · ")}
         </Typography>
       </Box>
-      <Button variant="outlined" size="small" startIcon={<EditOutlinedIcon />} onClick={onEdit}>
-        Edit
-      </Button>
+      <Button variant="outlined" size="small" startIcon={<EditOutlinedIcon />} onClick={onEdit}>{uiText("Edit")}</Button>
       <IconButton
         size="small"
-        aria-label={`More actions for ${theme.name}`}
+        aria-label={uiText("More actions for {0}", { "0": (theme.name) })}
         onClick={(event) => onMenu(event.currentTarget)}
       >
         <MoreVertIcon sx={{ fontSize: 18 }} />

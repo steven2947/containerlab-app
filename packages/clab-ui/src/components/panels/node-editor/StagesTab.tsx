@@ -1,3 +1,4 @@
+import { uiText } from "../../../i18n";
 // Stages tab for node editor: wait-for dependencies and per-stage exec commands.
 import React, { useMemo, useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,37 +34,37 @@ import { withCurrentOption } from "./selectOptions";
 
 const STAGE_INFO: Record<StageName, { title: string; description: string }> = {
   create: {
-    title: "Create",
-    description: "The container is created."
+    title: uiText("Create"),
+    description: uiText("The container is created.")
   },
   "create-links": {
-    title: "Create Links",
-    description: "Links are attached to the node."
+    title: uiText("Create Links"),
+    description: uiText("Links are attached to the node.")
   },
   configure: {
-    title: "Configure",
-    description: "Post-deploy configuration runs."
+    title: uiText("Configure"),
+    description: uiText("Post-deploy configuration runs.")
   },
   healthy: {
-    title: "Healthy",
-    description: "The node passes its healthcheck."
+    title: uiText("Healthy"),
+    description: uiText("The node passes its healthcheck.")
   },
   exit: {
-    title: "Exit",
-    description: "The container has exited."
+    title: uiText("Exit"),
+    description: uiText("The container has exited.")
   }
 };
 
 const STAGE_OPTIONS = STAGE_NAMES.map((name) => ({ value: name, label: name }));
 
 const PHASE_OPTIONS = [
-  { value: "on-enter", label: "On enter" },
-  { value: "on-exit", label: "On exit" }
+  { value: "on-enter", label: uiText("On enter") },
+  { value: "on-exit", label: uiText("On exit") }
 ];
 
 const TARGET_OPTIONS = [
-  { value: "container", label: "Container" },
-  { value: STAGE_EXEC_TARGET_HOST, label: "Host" }
+  { value: "container", label: uiText("Container") },
+  { value: STAGE_EXEC_TARGET_HOST, label: uiText("Host") }
 ];
 
 const LEVEL_LABELS: Record<string, string> = {
@@ -131,11 +132,11 @@ function describeWaitForProblem(
   cycleNodes: Set<string>
 ): string | undefined {
   const target = entry.node.trim();
-  if (target === "") return "Pick a node";
-  if (target === nodeId) return "A node cannot wait for itself";
-  if (!nodeNames.has(target)) return `There is no node named ${target}`;
-  if (entry.stage === "") return "Pick the stage to wait for";
-  if (cycleNodes.has(target)) return "Nodes wait for each other in a loop";
+  if (target === "") return uiText("Pick a node");
+  if (target === nodeId) return uiText("A node cannot wait for itself");
+  if (!nodeNames.has(target)) return uiText("There is no node named {0}", { "0": (target) });
+  if (entry.stage === "") return uiText("Pick the stage to wait for");
+  if (cycleNodes.has(target)) return uiText("Nodes wait for each other in a loop");
   return undefined;
 }
 
@@ -160,11 +161,11 @@ const WaitForRow: React.FC<WaitForRowProps> = ({
     <Box sx={{ flex: 3, minWidth: 0 }}>
       <FilterableDropdown
         id={`${id}-node`}
-        label="Wait for node"
+        label={uiText("Wait for node")}
         value={entry.node}
         onChange={(node) => onChange({ ...entry, node })}
         options={nodeOptions}
-        placeholder="Node name"
+        placeholder={uiText("Node name")}
         allowFreeText
         error={problem !== undefined}
         helperText={problem}
@@ -173,7 +174,7 @@ const WaitForRow: React.FC<WaitForRowProps> = ({
     <Box sx={{ flex: 2, minWidth: 0 }}>
       <SelectField
         id={`${id}-stage`}
-        label="Until stage done"
+        label={uiText("Until stage done")}
         value={entry.stage}
         onChange={(stage) => onChange({ ...entry, stage })}
         options={withCurrentOption(STAGE_OPTIONS, entry.stage)}
@@ -198,10 +199,10 @@ const ExecRow: React.FC<ExecRowProps> = ({ id, entry, onChange, onRemove }) => (
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <InputField
           id={`${id}-command`}
-          label="Command"
+          label={uiText("Command")}
           value={entry.command}
           onChange={(command) => onChange({ ...entry, command })}
-          placeholder="e.g. ip link show"
+          placeholder={uiText("e.g. ip link show")}
         />
       </Box>
       <Box sx={{ pt: 0.5 }}>
@@ -212,7 +213,7 @@ const ExecRow: React.FC<ExecRowProps> = ({ id, entry, onChange, onRemove }) => (
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <SelectField
           id={`${id}-phase`}
-          label="Run"
+          label={uiText("Run")}
           value={entry.phase ?? "on-enter"}
           onChange={(phase) => onChange({ ...entry, phase })}
           options={withCurrentOption(PHASE_OPTIONS, entry.phase ?? "on-enter")}
@@ -221,7 +222,7 @@ const ExecRow: React.FC<ExecRowProps> = ({ id, entry, onChange, onRemove }) => (
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <SelectField
           id={`${id}-target`}
-          label="Run in"
+          label={uiText("Run in")}
           value={entry.target ?? "container"}
           onChange={(target) =>
             // Container is the default, so it is only written when the file already had it
@@ -246,10 +247,10 @@ function listInheritedEntries(inherited: InheritedStages[], name: StageName): In
   const result: InheritedEntry[] = [];
   for (const { level, stages } of inherited) {
     for (const entry of stages[name]?.waitFor ?? []) {
-      result.push({ level, text: `Waits for ${entry.node} (${entry.stage || "no stage"})` });
+      result.push({ level, text: uiText("Waits for {0} ({1})", { "0": (entry.node), "1": (entry.stage || "no stage") }) });
     }
     for (const entry of stages[name]?.exec ?? []) {
-      const where = entry.target === STAGE_EXEC_TARGET_HOST ? " on host" : "";
+      const where = entry.target === STAGE_EXEC_TARGET_HOST ? uiText(" on host") : "";
       result.push({ level, text: `${entry.phase ?? "on-enter"}${where}: ${entry.command}` });
     }
   }
@@ -327,9 +328,7 @@ const StageSection: React.FC<StageSectionProps> = ({
               onClick={addWaitFor}
               sx={HEADER_BUTTON_SX}
               data-testid={`stage-add-wait-for-${name}`}
-            >
-              Wait for
-            </Button>
+            >{uiText("Wait for")}</Button>
             <Button
               variant="text"
               size="small"
@@ -337,9 +336,7 @@ const StageSection: React.FC<StageSectionProps> = ({
               onClick={addExec}
               sx={HEADER_BUTTON_SX}
               data-testid={`stage-add-exec-${name}`}
-            >
-              Command
-            </Button>
+            >{uiText("Command")}</Button>
           </Box>
         }
       />
@@ -405,17 +402,14 @@ export const StagesTab: React.FC<TabProps> = ({ data, onChange }) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", pb: 1 }}>
-      <Typography variant="body2" sx={{ color: "text.secondary", px: 2, pt: 2 }}>
-        Hold back a stage until other nodes finish theirs, and run commands when the node
-        enters or leaves a stage.
-      </Typography>
+      <Typography variant="body2" sx={{ color: "text.secondary", px: 2, pt: 2 }}>{uiText("Hold back a stage until other nodes finish theirs, and run commands when the node enters or leaves a stage.")}</Typography>
       {cycle && (
         <Typography
           variant="body2"
           sx={{ color: "error.main", px: 2, pt: 1 }}
           data-testid="stage-cycle-error"
         >
-          {`Nodes wait for each other in a loop (${cycle.join(" → ")}). containerlab will not deploy the lab.`}
+          {uiText("Nodes wait for each other in a loop ({0}). containerlab will not deploy the lab.", { "0": (cycle.join(" → ")) })}
         </Typography>
       )}
       {STAGE_NAMES.map((name) => (
