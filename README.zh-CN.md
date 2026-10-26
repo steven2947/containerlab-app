@@ -1,4 +1,6 @@
-# Containerlab 中文图形界面
+# Containerlab 中文版安装与汉化说明
+
+[项目介绍](README.md) | **安装与汉化维护** | [English](README.en.md)
 
 基于 [srl-labs/containerlab-app](https://github.com/srl-labs/containerlab-app) 的社区汉化分支。网页默认使用简体中文，可在「设置 → 通用 → 界面语言」选择 English，再点击「重新加载并应用」。语言偏好保存在当前浏览器中。
 
@@ -20,7 +22,7 @@ pnpm web
 WEB_TLS_ENABLE=false CLAB_API_URL=https://localhost:8090 NODE_ENV=production node apps/web/dist/server/index.cjs
 ```
 
-打开 `http://127.0.0.1:3001`，在连接管理中填写已有 clab-api-server 的地址和 Linux 账户。上述 HTTP 启动方式用于本机访问；远程部署保留上游默认 HTTPS 配置，详见 [上游部署说明](README.md#configuration)。
+打开 `http://127.0.0.1:3001`，在连接管理中填写已有 clab-api-server 的地址和 Linux 账户。上述 HTTP 启动方式用于本机访问；远程部署保留上游默认 HTTPS 配置，详见 [完整部署配置](README.en.md#configuration)。
 
 Mac 上的网页负责显示界面，Containerlab、Docker 和 API 服务运行在 Linux 虚拟机或远程 Linux 主机中。Web 服务连接 API，所以连接地址中的 `localhost` 指 Web 服务所在的主机。汉化无需变更实验中的 SDK、Fleet Token 或业务后端。
 
