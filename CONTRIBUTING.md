@@ -78,7 +78,7 @@ Publishing is separate from building. See [RELEASING.md](RELEASING.md) for indep
 docker build -t containerlab-web .
 ```
 
-This builds the checked-out workspace for your current Docker platform. Follow the [web app setup](README.md#web-app), replacing `ghcr.io/srl-labs/containerlab-web:latest` with `containerlab-web`.
+This builds the checked-out workspace for your current Docker platform. Follow the [web app setup](README.en.md#web-app), replacing `ghcr.io/srl-labs/containerlab-web:latest` with `containerlab-web`.
 
 ## Testing
 
